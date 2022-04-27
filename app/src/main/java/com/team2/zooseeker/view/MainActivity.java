@@ -1,19 +1,12 @@
-package com.team2.zooseeker;
+package com.team2.zooseeker.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.SearchView;
 import android.widget.TextView;
 
-import java.security.Key;
+import com.team2.zooseeker.R;
+import com.team2.zooseeker.viewModel.SearchViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         TextView searchBar = findViewById(R.id.search_bar);
-        Search searchInstance = new Search(searchBar);
+        SearchViewModel searchInstance = new SearchViewModel(searchBar);
 
     }
 
