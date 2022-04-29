@@ -1,5 +1,8 @@
 package cse110;
 
+import android.content.Context;
+
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -37,8 +40,12 @@ public class ZooData {
         public String street;
     }
 
-    public static Map<String, ZooData.VertexInfo> loadVertexInfoJSON(String path, InputStream inputStream) {
-//        InputStream inputStream = App.class.getClassLoader().getResourceAsStream(path);
+
+    public static Map<String, ZooData.VertexInfo> loadVertexInfoJSON(Context context, String path) throws IOException {
+        return loadVertexInfoJSON(context.getAssets().open(path));
+    }
+
+    public static Map<String, ZooData.VertexInfo> loadVertexInfoJSON(InputStream inputStream) {
         Reader reader = new InputStreamReader(inputStream);
 
         Gson gson = new Gson();
@@ -59,8 +66,11 @@ public class ZooData {
         return indexedZooData;
     }
 
-    public static Map<String, ZooData.EdgeInfo> loadEdgeInfoJSON(String path, InputStream inputStream) {
-//        InputStream inputStream = App.class.getClassLoader().getResourceAsStream(path);
+    public static Map<String, ZooData.EdgeInfo> loadEdgeInfoJSON(Context context, String path) throws IOException {
+        return loadEdgeInfoJSON(context.getAssets().open(path));
+    }
+
+    public static Map<String, ZooData.EdgeInfo> loadEdgeInfoJSON(InputStream inputStream) {
         Reader reader = new InputStreamReader(inputStream);
 
         Gson gson = new Gson();
@@ -74,7 +84,11 @@ public class ZooData {
         return indexedZooData;
     }
 
-    public static Graph<String, IdentifiedWeightedEdge> loadZooGraphJSON(String path, InputStream inputStream) {
+    public static Graph<String, IdentifiedWeightedEdge> loadZooGraphJSON(Context context, String path) throws IOException{
+        return loadZooGraphJSON(context.getAssets().open(path));
+    }
+
+    public static Graph<String, IdentifiedWeightedEdge> loadZooGraphJSON(InputStream inputStream) {
         // Create an empty graph to populate.
         Graph<String, IdentifiedWeightedEdge> g = new DefaultUndirectedWeightedGraph<>(IdentifiedWeightedEdge.class);
 
