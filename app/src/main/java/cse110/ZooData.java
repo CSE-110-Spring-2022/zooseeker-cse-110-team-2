@@ -41,10 +41,22 @@ public class ZooData {
     }
 
 
+    /**
+     * Load Vertex Info from a json in the assets folder, use this method in the app itself
+     * @param context current android Activity
+     * @param path filename of json file, assuming it is in the assets folder
+     * @return a Map with the names of exhibits as keys and the VertexInfo as values
+     * @throws IOException
+     */
     public static Map<String, ZooData.VertexInfo> loadVertexInfoJSON(Context context, String path) throws IOException {
         return loadVertexInfoJSON(context.getAssets().open(path));
     }
 
+    /**
+     * Load vertex info from an arbitrary input stream, use this method for non-instrumented testing
+     * @param inputStream input stream representing the JSON, FileInputStream works well for this
+     * @return a Map with the names of exhibits as keys and the VertexInfo as values
+     */
     public static Map<String, ZooData.VertexInfo> loadVertexInfoJSON(InputStream inputStream) {
         Reader reader = new InputStreamReader(inputStream);
 
@@ -66,10 +78,22 @@ public class ZooData {
         return indexedZooData;
     }
 
+    /**
+     * Load Vertex Info from a json in the assets folder, use this method in the app itself
+     * @param context current android Activity
+     * @param path filename of json file, assuming it is in the assets folder
+     * @return a Map with the names of streets/paths as keys and the EdgeInfo as values
+     * @throws IOException
+     */
     public static Map<String, ZooData.EdgeInfo> loadEdgeInfoJSON(Context context, String path) throws IOException {
         return loadEdgeInfoJSON(context.getAssets().open(path));
     }
 
+    /**
+     * Load edge info from an arbitrary input stream, use this method for non-instrumented testing
+     * @param inputStream input stream representing the JSON, FileInputStream works well for this
+     * @return a Map with the names of streets/paths as keys and the EdgeInfo as values
+     */
     public static Map<String, ZooData.EdgeInfo> loadEdgeInfoJSON(InputStream inputStream) {
         Reader reader = new InputStreamReader(inputStream);
 
@@ -84,10 +108,22 @@ public class ZooData {
         return indexedZooData;
     }
 
+    /**
+     * Load ZooData as a Graph from a json in the assets folder, use this method in the app itself
+     * @param context current android Activity
+     * @param path filename of json file, assuming it is in the assets folder
+     * @return ZooData in Graph format
+     * @throws IOException
+     */
     public static Graph<String, IdentifiedWeightedEdge> loadZooGraphJSON(Context context, String path) throws IOException{
         return loadZooGraphJSON(context.getAssets().open(path));
     }
 
+    /**
+     * Load edge ZooData as a graph from an arbitrary input stream, use this method for non-instrumented testing
+     * @param inputStream input stream representing the JSON, FileInputStream works well for this
+     * @return ZooData in Graph format
+     */
     public static Graph<String, IdentifiedWeightedEdge> loadZooGraphJSON(InputStream inputStream) {
         // Create an empty graph to populate.
         Graph<String, IdentifiedWeightedEdge> g = new DefaultUndirectedWeightedGraph<>(IdentifiedWeightedEdge.class);
