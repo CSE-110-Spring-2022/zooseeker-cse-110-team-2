@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">zooseeker</string>
+    <string name="direction_item_list"></string>
 </resources>
