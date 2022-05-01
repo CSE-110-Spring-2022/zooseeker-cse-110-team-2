@@ -22,7 +22,7 @@ public class SearchModel {
     public List<String> search(String searchQuery, int size){
         ArrayList<String> result = new ArrayList<String>();
         for(String data: mockData){
-            if (searchQuery.substring(0, size).equals(data.substring(0, size))){
+            if (data.length() >= size && searchQuery.substring(0, size).equals(data.substring(0, size))){
                 result.add(data);
             }
         }
