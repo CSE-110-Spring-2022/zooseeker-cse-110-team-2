@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
 
         TextView searchBar = findViewById(R.id.search_bar);
         SearchViewModel searchInstance = new SearchViewModel(searchBar);
-
     }
 
 
