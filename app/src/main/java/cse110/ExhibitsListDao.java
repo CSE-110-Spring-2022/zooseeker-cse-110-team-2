@@ -23,6 +23,9 @@ public interface ExhibitsListDao {
     @Query("SELECT * FROM `exhibits_database` WHERE `id`=:id")
     LiveData<Exhibit> getLive(long id);
 
+    @Query("SELECT * FROM `exhibits_database` WHERE `selected`=:selected")
+    LiveData<Exhibit> getSelected(boolean selected);
+
     @Query("SELECT * FROM `exhibits_database` ORDER BY `name`")
     List<Exhibit> getAll();
 

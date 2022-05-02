@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,14 +18,19 @@ import com.team2.zooseeker.viewModel.SearchViewModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
+import cse110.Exhibit;
 import cse110.ExhibitListAdapter;
+import cse110.ZooData;
 
 public class MainActivity extends AppCompatActivity {
 
     public RecyclerView recyclerView;
     public ExhibitListViewModel viewModel;
     private Button showSelected;
+    public ExhibitListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,15 +43,22 @@ public class MainActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this)
                 .get(ExhibitListViewModel.class);
 
-        ExhibitListAdapter adapter = new ExhibitListAdapter();
+        adapter = new ExhibitListAdapter();
         adapter.setHasStableIds(true);
-        adapter.setOnCheckBoxClickedListener(viewModel::toggleSelected);
-        viewModel.getExhibitsList().observe(this, adapter::setExhibits);
+        Context context = getApplication().getApplicationContext();
+        try {
+            Map<String, ZooData.VertexInfo> map = ZooData.loadVertexInfoJSON(context, "src/main/assets/sample_node_info.json");
+            List<Exhibit> exhibits = Exhibit.convert(map);
+            adapter.setExhibits(exhibits);
+            adapter.setOnCheckBoxClickedListener(viewModel::toggleSelected);
+            viewModel.getExhibitsList().observe(this, adapter::setExhibits);
 
-        recyclerView = findViewById(R.id.exhibit_items);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
-
+            recyclerView = findViewById(R.id.exhibit_items);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setAdapter(adapter);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -69,5 +82,9 @@ public class MainActivity extends AppCompatActivity {
         }
         //currently plan is not being used, but can be accessed after here
         //System.out.println(plan);
+    }
+
+    public ExhibitListAdapter getAdapter(){
+        return adapter;
     }
 }
