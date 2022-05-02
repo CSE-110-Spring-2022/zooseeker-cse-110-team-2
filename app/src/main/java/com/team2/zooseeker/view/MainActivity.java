@@ -40,11 +40,13 @@ public class MainActivity extends AppCompatActivity {
         ExhibitListAdapter adapter = new ExhibitListAdapter();
         adapter.setHasStableIds(true);
         adapter.setOnCheckBoxClickedListener(viewModel::toggleSelected);
-        viewModel.getExhibitsList();//.observe(this, adapter::setExhibits);
+        viewModel.getExhibitsList().observe(this, adapter::setExhibits);
 
-        recyclerView = findViewById(R.id.exhibits);
+        recyclerView = findViewById(R.id.exhibit_items);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+
+
 
     }
 

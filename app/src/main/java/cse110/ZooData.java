@@ -89,8 +89,9 @@ public class ZooData {
             return loadEdgeInfoJSON(context.getAssets().open(path));
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
+
+        return null;
     }
 
     /**

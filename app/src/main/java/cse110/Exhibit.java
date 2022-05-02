@@ -2,6 +2,7 @@ package cse110;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -16,11 +17,17 @@ public class Exhibit {
     @PrimaryKey(autoGenerate = true)
     public long id;
 
+    @NonNull
     public boolean selected;
     public String name;
 
     public Exhibit(){
         name = null;
+    }
+
+    public Exhibit(boolean selected, String name){
+        this.selected = selected;
+        this.name = name;
     }
 
     public Exhibit(ZooData.VertexInfo vertexInfo){

@@ -50,6 +50,12 @@ public class ExhibitListAdapter extends RecyclerView.Adapter<ExhibitListAdapter.
         return this.exhibitList.size();
     }
 
+    @Override
+    public long getItemId(int position){
+        return exhibitList.get(position).id;
+    }
+
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         private Exhibit exhibit;
         private CheckBox checkBox;

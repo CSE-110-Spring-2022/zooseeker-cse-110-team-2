@@ -33,7 +33,15 @@ public class ExhibitListViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Exhibit>> getExhibitsList(){
+        if(exhibits == null){
+            loadUsers();
+        }
+
         return exhibits;
+    }
+
+    private void loadUsers(){
+        exhibits = exhibitsListDao.getAllLive();
     }
 
     public void toggleSelected(Exhibit exhibit){
@@ -41,5 +49,6 @@ public class ExhibitListViewModel extends AndroidViewModel {
         exhibitsListDao.update(exhibit);
 
     }
+
 
 }

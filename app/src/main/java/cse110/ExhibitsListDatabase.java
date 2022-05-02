@@ -1,6 +1,9 @@
 package cse110;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.VisibleForTesting;
 import androidx.room.Database;
@@ -39,12 +42,11 @@ public abstract class ExhibitsListDatabase extends RoomDatabase {
                             try {
                                 exhibits = ZooData
                                         .loadVertexInfoJSON(context, "src/main/assets/sample_node_info.json");
+                                List<Exhibit> exhibitsList = Exhibit.convert(exhibits);
+                                getSingleton(context).exhibitsListDao().insertAll(exhibitsList);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-
-                            List<Exhibit> exhibitsList = Exhibit.convert(exhibits);
-                            getSingleton(context).exhibitsListDao().insertAll(exhibitsList);
                         });
                     }
                 })
