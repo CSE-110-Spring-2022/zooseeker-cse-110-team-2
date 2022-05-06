@@ -83,10 +83,15 @@ public class ZooData {
      * @param context current android Activity
      * @param path filename of json file, assuming it is in the assets folder
      * @return a Map with the names of streets/paths as keys and the EdgeInfo as values
-     * @throws IOException
      */
-    public static Map<String, ZooData.EdgeInfo> loadEdgeInfoJSON(Context context, String path) throws IOException {
-        return loadEdgeInfoJSON(context.getAssets().open(path));
+    public static Map<String, ZooData.EdgeInfo> loadEdgeInfoJSON(Context context, String path) {
+        try {
+            return loadEdgeInfoJSON(context.getAssets().open(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     /**

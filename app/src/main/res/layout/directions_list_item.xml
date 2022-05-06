@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="100dp">
 
     <TextView
         android:id="@+id/direction_item_text"
@@ -12,11 +12,11 @@
         android:layout_marginStart="55dp"
         android:layout_marginTop="52dp"
         android:layout_marginEnd="55dp"
+        android:background="@android:color/holo_green_dark"
         android:gravity="center"
         android:hint="direction list item"
-        android:textSize="30sp"
-        android:background="@android:color/holo_green_dark"
         android:textColor="@color/black"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
