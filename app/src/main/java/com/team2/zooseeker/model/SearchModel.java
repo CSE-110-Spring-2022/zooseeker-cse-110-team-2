@@ -18,12 +18,11 @@ import cse110.ExhibitsListDatabase;
 import cse110.ZooData;
 
 public class SearchModel {
-    private final List<Exhibit> allExhbits;
+    private static List<Exhibit> allExhbits;
 //    Context context;
 
     public SearchModel(List<Exhibit> data) {
         allExhbits = data;
-//        context = appContext;
     }
 
     public List<Exhibit> search(String searchQuery, int size){
@@ -43,17 +42,12 @@ public class SearchModel {
         return result;
     }
 
-//    public List<Exhibit> getAllExhibits(){
-//        Map<String, ZooData.VertexInfo> exhibits = null;
-//
-//        try {
-//            exhibits = ZooData
-//                    .loadVertexInfoJSON(context, "sample_node_info.json");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        List<Exhibit> exhibitsList = Exhibit.convert(exhibits);
-//        return exhibitsList;
-//
-//    }
+    public static void setExhbitSelected(Exhibit exhibit){
+        for (Exhibit current: allExhbits){
+            if(exhibit.name.equals(current.name)){
+                current.selected = exhibit.selected;
+                return;
+            }
+        }
+    }
 }

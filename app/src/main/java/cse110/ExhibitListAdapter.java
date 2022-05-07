@@ -1,5 +1,6 @@
 package cse110;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.team2.zooseeker.R;
+import com.team2.zooseeker.model.SearchModel;
 
 import java.util.Collections;
 import java.util.List;
@@ -65,6 +67,7 @@ public class ExhibitListAdapter extends RecyclerView.Adapter<ExhibitListAdapter.
             this.checkBox.setOnClickListener(view -> {
                 if (onCheckBoxClicked == null) return;
                 onCheckBoxClicked.accept(exhibit);
+                SearchModel.setExhbitSelected(exhibit);
             });
         }
 
