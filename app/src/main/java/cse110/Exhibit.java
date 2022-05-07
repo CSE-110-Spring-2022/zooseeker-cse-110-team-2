@@ -28,11 +28,13 @@ public class Exhibit {
     public Exhibit(boolean selected, String name){
         this.selected = selected;
         this.name = name;
+//        this.hidden = hidden;
     }
 
     public Exhibit(ZooData.VertexInfo vertexInfo){
         this.selected = false;
         this.name = vertexInfo.name;
+//        this.hidden = false;
     }
 
     public static List<Exhibit> convert(Map<String, ZooData.VertexInfo> map){
