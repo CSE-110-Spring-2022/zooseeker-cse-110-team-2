@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
@@ -20,11 +21,17 @@ public class Exhibit {
     @NonNull
     public boolean selected;
     public String name;
+    public String dataId;
 
+//    @Ignore
     public Exhibit(){
         name = null;
+//        selected = false;
+        dataId = null;
+//        id = null;
     }
 
+//    @Ignore
     public Exhibit(boolean selected, String name){
         this.selected = selected;
         this.name = name;
@@ -35,6 +42,7 @@ public class Exhibit {
         this.selected = false;
         this.name = vertexInfo.name;
 //        this.hidden = false;
+        this.dataId = vertexInfo.id;
     }
 
     public static List<Exhibit> convert(Map<String, ZooData.VertexInfo> map){
@@ -48,8 +56,24 @@ public class Exhibit {
             Exhibit newExhibit = new Exhibit(map.get(current));
             list.add(newExhibit);
         }
-
-
         return list;
+    }
+
+    public static ArrayList<String> getExhibitNames(List<Exhibit> exhibits) {
+        ArrayList<String> exhibitNames = new ArrayList<>();
+        for (Exhibit e : exhibits) {
+            exhibitNames.add(e.dataId);
+        }
+        return exhibitNames;
+    }
+
+    @Override
+    public String toString() {
+//        return "Exhibit{" +
+//                "id=" + id +
+//                ", selected=" + selected +
+//                ", name='" + name + '\'' +
+//                '}';
+        return "Exhibit: " + name;
     }
 }

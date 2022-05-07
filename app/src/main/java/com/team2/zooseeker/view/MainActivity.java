@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     public RecyclerView recyclerView;
     public ExhibitListViewModel viewModel;
-    private Button showSelected;
+    private Button planButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,15 @@ public class MainActivity extends AppCompatActivity {
         SearchViewModel searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
         searchViewModel.setUpSearch(searchBar, adapter);
 
+        planButton = findViewById(R.id.plan_btn);
+        planButton.setOnClickListener(this::generatePlan);
+
+
+
+    }
+
+    private void generatePlan(View view) {
+        startActivity(new Intent(this, DirectionListActivity.class));
     }
 
 
