@@ -59,7 +59,6 @@ public class ExhibitListTest {
 
     @Test
     public void testDirectionListCheck() {
-//        Log.d(tag, Integer.toString(dao.getAll().size()));
         ActivityScenario<MainActivity> scenario = ActivityScenario.launch(MainActivity.class);
         scenario.moveToState(Lifecycle.State.CREATED);
         scenario.moveToState(Lifecycle.State.STARTED);
@@ -67,6 +66,12 @@ public class ExhibitListTest {
         scenario.onActivity( ((MainActivity activity) -> {
             List<Exhibit> exhibits = dao.getAll();
             RecyclerView.ViewHolder firstVH = activity.recyclerView.findViewHolderForAdapterPosition(0);
+            assertNotNull(firstVH);
+            long id = firstVH.getItemId();
+            CheckBox exhibitChecked = firstVH.itemView.findViewById(R.id.exhibit);
+            boolean checked = exhibitChecked.isChecked();
+            exhibitChecked.performClick();
+            assertEquals(!checked, dao.get(id).selected);
 
         }));
     }
