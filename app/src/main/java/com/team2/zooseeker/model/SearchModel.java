@@ -19,7 +19,6 @@ import cse110.ZooData;
 
 public class SearchModel {
     private static List<Exhibit> allExhbits;
-//    Context context;
 
     public SearchModel(List<Exhibit> data) {
         allExhbits = data;
@@ -42,7 +41,7 @@ public class SearchModel {
         return result;
     }
 
-    public static void setExhbitSelected(Exhibit exhibit){
+    public static void setExhibitSelected(Exhibit exhibit){
         for (Exhibit current: allExhbits){
             if(exhibit.name.equals(current.name)){
                 current.selected = exhibit.selected;

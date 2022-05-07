@@ -48,13 +48,8 @@ public class SearchViewModel extends AndroidViewModel {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int count) {
-                Log.i("search", "----");
                 List<Exhibit> searchResults = searchModel.search(String.valueOf(charSequence), count);
                 adapter.setExhibits(searchResults);
-                for (Exhibit result: searchResults) {
-                    Log.i("search", result.name);
-                }
-                Log.i("search", "----");
             }
 
             @Override

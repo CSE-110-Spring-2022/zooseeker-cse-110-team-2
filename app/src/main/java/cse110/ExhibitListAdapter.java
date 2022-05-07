@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.team2.zooseeker.R;
 import com.team2.zooseeker.model.SearchModel;
+import com.team2.zooseeker.viewModel.SearchViewModel;
 
 import java.util.Collections;
 import java.util.List;
@@ -67,7 +68,7 @@ public class ExhibitListAdapter extends RecyclerView.Adapter<ExhibitListAdapter.
             this.checkBox.setOnClickListener(view -> {
                 if (onCheckBoxClicked == null) return;
                 onCheckBoxClicked.accept(exhibit);
-                SearchModel.setExhbitSelected(exhibit);
+                SearchModel.setExhibitSelected(exhibit);
             });
         }
 
