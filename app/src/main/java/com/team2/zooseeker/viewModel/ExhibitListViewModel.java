@@ -2,6 +2,7 @@ package com.team2.zooseeker.viewModel;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -47,7 +48,6 @@ public class ExhibitListViewModel extends AndroidViewModel {
     public void toggleSelected(Exhibit exhibit){
         exhibit.selected = !exhibit.selected;
         exhibitsListDao.update(exhibit);
-
     }
 
 

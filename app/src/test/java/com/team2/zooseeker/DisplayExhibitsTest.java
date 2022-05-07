@@ -27,12 +27,15 @@ import java.util.Map;
 
 import cse110.Exhibit;
 import cse110.ExhibitsListDao;
+import cse110.ExhibitsListDatabase;
 import cse110.ZooData;
 
 @RunWith(AndroidJUnit4.class)
 public class DisplayExhibitsTest {
 
     public ExhibitsListDao exhibitsListDao;
+    public ExhibitsListDatabase exhibitsListDatabase;
+
     private static void forceLayout(RecyclerView recyclerView){
         recyclerView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         recyclerView.layout(0, 0, 1080, 2280);
@@ -55,8 +58,6 @@ public class DisplayExhibitsTest {
             }
 
         });
-
-
     }
 
     @Test
