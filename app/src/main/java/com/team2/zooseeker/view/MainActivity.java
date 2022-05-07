@@ -31,8 +31,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView searchBar = findViewById(R.id.search_bar);
-        SearchViewModel searchInstance = new SearchViewModel(searchBar);
+
 
         viewModel = new ViewModelProvider(this)
                 .get(ExhibitListViewModel.class);
@@ -46,7 +45,9 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-
+        TextView searchBar = findViewById(R.id.search_bar);
+        SearchViewModel searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
+        searchViewModel.setUpSearch(searchBar, adapter);
 
     }
 
