@@ -57,34 +57,7 @@ public class MainActivity extends AppCompatActivity {
         counter.setText(String.valueOf(SearchModel.getCount()));
         adapter.setCounter(counter);
 
-
-
-//        counter.listener
-//        int count = 0;
-//        List<Exhibit> exhibits = adapter.getExhibitList();
-//
-//        for(Exhibit e:  exhibits){
-//            if(e.selected){
-//                count ++;
-//            }
-//        }
-
-
     }
-
-//    public void counterListener(View view){
-//        TextView textView = view.findViewById(R.id.counter);
-//        int counter = 0;
-//        List<Exhibit> exhibitList = adapter.getExhibitList();
-//
-//        for(Exhibit e : exhibitList){
-//            if(e.selected){
-//                counter++;
-//            }
-//        }
-//
-//        textView.setText(((Integer)counter).toString());
-//    }
 
 
     public void planBtnOnClickListener(View view) {
