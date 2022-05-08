@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     public RecyclerView recyclerView;
     public ExhibitListViewModel viewModel;
+    private Button planButton;
     private TextView counter;
     ExhibitListAdapter adapter;
 
@@ -53,30 +55,14 @@ public class MainActivity extends AppCompatActivity {
         SearchViewModel searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
         searchViewModel.setUpSearch(searchBar, adapter);
 
+        planButton = findViewById(R.id.plan_btn);
         TextView counter = findViewById(R.id.counter);
         counter.setText(String.valueOf(SearchModel.getCount()));
         adapter.setCounter(counter);
-
     }
 
-
     public void planBtnOnClickListener(View view) {
-        ArrayList<String> list = new ArrayList<>();
-        String dataFile = "sample_zoo_graph.json";
-        ArrayList<String> plan = new ArrayList<>();
-
-        //Currently uses mock list
-        list.add("gators");
-        list.add("gorillas");
-        list.add("lions");
-
-        try {
-            RouteModel routeModel = new RouteModel(list, view.getContext().getAssets().open(dataFile));
-            plan = routeModel.genRoute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        //currently plan is not being used, but can be accessed after here
-        //System.out.println(plan);
+        Intent intent = new Intent(this, DirectionListActivity.class);
+        startActivity(intent);
     }
 }
