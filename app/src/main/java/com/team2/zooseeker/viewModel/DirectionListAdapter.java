@@ -48,7 +48,11 @@ public class DirectionListAdapter extends RecyclerView.Adapter<DirectionListAdap
 
     @Override
     public void onBindViewHolder(@NonNull DirectionListAdapter.ViewHolder holder, int position) {
-        holder.setTextView(directions.get(position));
+        if (directions.size() > 0) {
+            holder.setTextView(directions.get(position));
+        } else {
+            holder.setTextView("Please Select Exhibit to Visit");
+        }
     }
 
     @Override
