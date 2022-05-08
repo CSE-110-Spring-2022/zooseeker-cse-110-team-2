@@ -6,19 +6,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.team2.zooseeker.R;
-import com.team2.zooseeker.model.DirectionModel;
 import com.team2.zooseeker.viewModel.DirectionListAdapter;
 import com.team2.zooseeker.viewModel.DirectionListViewModel;
-
-import java.util.List;
 
 public class DirectionListActivity extends AppCompatActivity {
 
     public RecyclerView recyclerView;
     DirectionListViewModel directionListViewModel;
+    private Button nextButton;
+    private TextView directionText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,16 @@ public class DirectionListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
+        nextButton = findViewById(R.id.next_button);
+//        if(adapter.getItemCount() > 0) nextButton.setText("Next");
+//        else nextButton.setText("Finish");
+
         directionListViewModel = new ViewModelProvider(this).get(DirectionListViewModel.class);
         directionListViewModel.populateList(adapter);
     }
+
+    public void onNextButtonClicked(View view) {
+        finish();
+    }
+
 }

@@ -51,18 +51,12 @@ public class MainActivity extends AppCompatActivity {
         searchViewModel.setUpSearch(searchBar, adapter);
 
         planButton = findViewById(R.id.plan_btn);
-        planButton.setOnClickListener(this::generatePlan);
-
-
-
     }
-
-    private void generatePlan(View view) {
-        startActivity(new Intent(this, DirectionListActivity.class));
-    }
-
 
     public void planBtnOnClickListener(View view) {
+        Intent intent = new Intent(this, DirectionListActivity.class);
+        startActivity(intent);
+
         ArrayList<String> list = new ArrayList<>();
         String dataFile = "sample_zoo_graph.json";
         ArrayList<String> plan = new ArrayList<>();
