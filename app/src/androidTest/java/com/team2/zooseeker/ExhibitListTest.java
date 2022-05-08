@@ -72,7 +72,6 @@ public class ExhibitListTest {
             boolean checked = exhibitChecked.isChecked();
             exhibitChecked.performClick();
             assertEquals(!checked, dao.get(id).selected);
-
         }));
     }
 }
