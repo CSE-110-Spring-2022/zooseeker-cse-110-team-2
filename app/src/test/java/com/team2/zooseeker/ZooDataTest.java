@@ -35,5 +35,6 @@ public class ZooDataTest {
     public void testLoadZooGraph() throws FileNotFoundException {
         Graph<String, IdentifiedWeightedEdge> zooGraph = ZooData.loadZooGraphJSON(new FileInputStream("src/main/assets/sample_zoo_graph.json"));
         assertTrue(zooGraph.containsVertex("entrance_exit_gate"));
+        assertEquals(7, zooGraph.edgeSet().size());
     }
 }

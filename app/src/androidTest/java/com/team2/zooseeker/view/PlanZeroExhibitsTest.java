@@ -2,8 +2,7 @@ package com.team2.zooseeker.view;
 
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.replaceText;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -31,28 +30,28 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest {
+public class PlanZeroExhibitsTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void mainActivityTest() {
-        ViewInteraction appCompatEditText = onView(
-                allOf(withId(R.id.search_bar),
+    public void planZeroExhibitsTest() {
+        ViewInteraction materialButton = onView(
+                allOf(withId(R.id.plan_btn), withText("Plan"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                0),
+                                2),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("bear"), closeSoftKeyboard());
+        materialButton.perform(click());
 
-        ViewInteraction editText = onView(
-                allOf(withId(R.id.search_bar), withText("bear"),
-                        withParent(withParent(withId(android.R.id.content))),
+        ViewInteraction textView = onView(
+                allOf(withId(R.id.direction_item_text), withText("Please Select Exhibit to Visit"),
+                        withParent(withParent(withId(R.id.direction_items))),
                         isDisplayed()));
-        editText.check(matches(withText("bear")));
+        textView.check(matches(withText("Please Select Exhibit to Visit")));
     }
 
     private static Matcher<View> childAtPosition(
