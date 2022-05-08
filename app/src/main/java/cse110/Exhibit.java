@@ -3,6 +3,7 @@ package cse110;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -20,21 +21,37 @@ public class Exhibit {
     @NonNull
     public boolean selected;
     public String name;
+    public String kind;
+    public String tags;
 
     public Exhibit(){
         name = null;
+        this.selected = false;
+        this.kind = "exhibit";
+        this.tags = "[]";
     }
 
-    public Exhibit(boolean selected, String name){
+    public Exhibit(boolean selected, String name, String kind, List<String> tags){
         this.selected = selected;
         this.name = name;
-//        this.hidden = hidden;
+        this.kind = kind;
+        this.tags = tags.toString();
     }
 
     public Exhibit(ZooData.VertexInfo vertexInfo){
         this.selected = false;
         this.name = vertexInfo.name;
-//        this.hidden = false;
+//        this.kind = vertexInfo.kind.name();
+        if(vertexInfo.kind.equals(ZooData.VertexInfo.Kind.EXHIBIT)){
+            this.kind = "exhibit";
+        }
+        else if(vertexInfo.kind.equals(ZooData.VertexInfo.Kind.GATE)) {
+            this.kind = "gate";
+        }
+        else{
+            this.kind = "intersection";
+        }
+        this.tags = vertexInfo.tags.toString();
     }
 
     public static List<Exhibit> convert(Map<String, ZooData.VertexInfo> map){
