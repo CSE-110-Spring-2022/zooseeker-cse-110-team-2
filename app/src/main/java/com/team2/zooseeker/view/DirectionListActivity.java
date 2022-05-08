@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +18,8 @@ import com.team2.zooseeker.viewModel.DirectionListViewModel;
 public class DirectionListActivity extends AppCompatActivity {
 
     public RecyclerView recyclerView;
-    DirectionListViewModel directionListViewModel;
+    private DirectionListViewModel directionListViewModel;
+    private DirectionListAdapter adapter;
     private Button nextButton;
     private TextView directionText;
 
@@ -26,7 +28,7 @@ public class DirectionListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_direction_list);
 
-        DirectionListAdapter adapter = new DirectionListAdapter();
+        adapter = new DirectionListAdapter();
         adapter.setHasStableIds(true);
 
         recyclerView = findViewById(R.id.direction_items);
@@ -42,7 +44,12 @@ public class DirectionListActivity extends AppCompatActivity {
     }
 
     public void onNextButtonClicked(View view) {
-        finish();
+//        finish();
+        adapter.incrementNumToDisplay();
+//        Intent intent = new Intent(this, CurrentDirectionActivity.class);
+//        startActivity(intent);
+
+
     }
 
 }

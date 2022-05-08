@@ -18,7 +18,17 @@ import java.util.function.Consumer;
 
 public class DirectionListAdapter extends RecyclerView.Adapter<DirectionListAdapter.ViewHolder> {
     private ArrayList<String> directions = new ArrayList<>();
-//    private Consumer<String> onNextButtonClicked;
+    private int numToDisplay = 1;
+
+    public void incrementNumToDisplay() {
+        if (numToDisplay < directions.size()) {
+            numToDisplay++;
+        } else {
+            numToDisplay = 1;
+        }
+        Log.d("DEBUG", Integer.toString(numToDisplay));
+        notifyDataSetChanged();
+    }
 
     public void setDirections(ArrayList<String> directions) {
         this.directions.clear();
@@ -34,10 +44,6 @@ public class DirectionListAdapter extends RecyclerView.Adapter<DirectionListAdap
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.textView = itemView.findViewById(R.id.direction_item_text);
-//            this.nextButton.setOnClickListener(view -> {
-//                if(onNextButtonClicked == null) return;
-//                onNextButtonClicked.accept(direction);
-//            });
         }
 
         public void setTextView(String direction) {
@@ -57,16 +63,12 @@ public class DirectionListAdapter extends RecyclerView.Adapter<DirectionListAdap
 
     @Override
     public void onBindViewHolder(@NonNull DirectionListAdapter.ViewHolder holder, int position) {
-//        if (directions.size() == 0) {
-//            holder.setTextView("No directions available");
-//        } else {
             holder.setTextView(directions.get(position));
-//        }
     }
 
     @Override
     public int getItemCount() {
-        return directions.size();
+        return numToDisplay;
     }
 
     /**
