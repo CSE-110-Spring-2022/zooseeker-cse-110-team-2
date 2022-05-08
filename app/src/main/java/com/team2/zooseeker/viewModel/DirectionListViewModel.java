@@ -49,6 +49,7 @@ public class DirectionListViewModel extends AndroidViewModel {
         routeModel.setExhibits(exhibits);
         ArrayList<String> route = routeModel.genRoute();
         ArrayList<String> directions = routeModel.getDirections(route);
+        adapter.setDirections(directions);
         Log.d("DEBUG ROUTE", directions.toString());
 //        do stuff with list of directions
 

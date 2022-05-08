@@ -12,10 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.team2.zooseeker.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.function.Consumer;
 
 public class DirectionListAdapter extends RecyclerView.Adapter<DirectionListAdapter.ViewHolder> {
-    private ArrayList<String> directions;
+    private ArrayList<String> directions = new ArrayList<>();
 //    private Consumer<String> onNextButtonClicked;
 
     public void setDirections(ArrayList<String> directions) {
@@ -58,5 +59,8 @@ public class DirectionListAdapter extends RecyclerView.Adapter<DirectionListAdap
     }
 
     @Override
-    public int getItemCount() {return 1;}
+    public int getItemCount() {
+        return directions.size();
+    }
+
 }
