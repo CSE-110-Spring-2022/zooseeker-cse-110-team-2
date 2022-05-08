@@ -12,31 +12,35 @@ import android.widget.TextView;
 
 import com.team2.zooseeker.R;
 import com.team2.zooseeker.model.RouteModel;
+import com.team2.zooseeker.model.SearchModel;
 import com.team2.zooseeker.viewModel.ExhibitListViewModel;
 import com.team2.zooseeker.viewModel.SearchViewModel;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
+import cse110.Exhibit;
 import cse110.ExhibitListAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
     public RecyclerView recyclerView;
     public ExhibitListViewModel viewModel;
-    private Button showSelected;
+    private TextView counter;
+    ExhibitListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         viewModel = new ViewModelProvider(this)
                 .get(ExhibitListViewModel.class);
 
-        ExhibitListAdapter adapter = new ExhibitListAdapter();
+        adapter = new ExhibitListAdapter();
         adapter.setHasStableIds(true);
         adapter.setOnCheckBoxClickedListener(viewModel::toggleSelected);
         viewModel.getExhibitsList().observe(this, adapter::setExhibits);
@@ -49,7 +53,38 @@ public class MainActivity extends AppCompatActivity {
         SearchViewModel searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
         searchViewModel.setUpSearch(searchBar, adapter);
 
+        TextView counter = findViewById(R.id.counter);
+        counter.setText(String.valueOf(SearchModel.getCount()));
+        adapter.setCounter(counter);
+
+
+
+//        counter.listener
+//        int count = 0;
+//        List<Exhibit> exhibits = adapter.getExhibitList();
+//
+//        for(Exhibit e:  exhibits){
+//            if(e.selected){
+//                count ++;
+//            }
+//        }
+
+
     }
+
+//    public void counterListener(View view){
+//        TextView textView = view.findViewById(R.id.counter);
+//        int counter = 0;
+//        List<Exhibit> exhibitList = adapter.getExhibitList();
+//
+//        for(Exhibit e : exhibitList){
+//            if(e.selected){
+//                counter++;
+//            }
+//        }
+//
+//        textView.setText(((Integer)counter).toString());
+//    }
 
 
     public void planBtnOnClickListener(View view) {
