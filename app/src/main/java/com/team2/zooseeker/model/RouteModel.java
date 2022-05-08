@@ -92,43 +92,42 @@ public class RouteModel {
      */
     public ArrayList<String> getDirections(ArrayList<String> route) {
         ArrayList<String> directions = new ArrayList<>();
-//        System.out.println(route);
-//        Graph<String, IdentifiedWeightedEdge> g = ZooData.loadZooGraphJSON(fileIn);
         for (int i = 0; i < route.size() - 1; i++) {
             String edgeStartVertex = route.get(i);
             String edgeEndVertex = route.get(i + 1);
-            getDirections(edgeStartVertex, edgeEndVertex);
+            ArrayList<String> path = getDirections(edgeStartVertex, edgeEndVertex);
+            directions.addAll(path);
+        }
+        directions.set(0, "Proceed " + directions.get(0).substring(9));
+        for (int i = 0; i < directions.size(); i++) {
+            directions.set(i, (i + 1) + ". " + directions.get(i));
         }
         return directions;
     }
 
     public ArrayList<String> getDirections(String start, String end) {
-
         ArrayList<String> directions = new ArrayList<>();
         GraphPath<String, IdentifiedWeightedEdge> path = DijkstraShortestPath.findPathBetween(graph, start, end);
-        int i = 1;
-        String edgeStartVertex = start;
-            for (IdentifiedWeightedEdge e : path.getEdgeList()) {
-                if (!vertexInfo.get(graph.getEdgeSource(e).toString()).name.equals(edgeStartVertex)) {
-                    System.out.printf("  %d. Walk %.0f meters along %s from '%s' to '%s'.\n",
-                        i,
-                        graph.getEdgeWeight(e),
-                        edgeInfo.get(e.getId()).street,
-                        vertexInfo.get(graph.getEdgeSource(e).toString()).name,
-                        vertexInfo.get(graph.getEdgeTarget(e).toString()).name);
-                    i++;
-                    edgeStartVertex = vertexInfo.get(graph.getEdgeTarget(e).toString()).name;
-                } else {
-                    System.out.printf("  %d. Walk %.0f meters along %s from '%s' to '%s'.\n",
-                        i,
-                        graph.getEdgeWeight(e),
-                        edgeInfo.get(e.getId()).street,
-                        vertexInfo.get(graph.getEdgeTarget(e).toString()).name,
-                        vertexInfo.get(graph.getEdgeSource(e).toString()).name);
-                    i++;
-                    edgeStartVertex = vertexInfo.get(graph.getEdgeSource(e).toString()).name;
+        String startVertex = path.getStartVertex();
+        for (IdentifiedWeightedEdge e : path.getEdgeList()) {
+            String edge = "";
+            if (startVertex.equals(vertexInfo.get(graph.getEdgeSource(e).toString()).id)) {
+                edge = formatEdge(e) + vertexInfo.get(graph.getEdgeTarget(e).toString()).name;
+                startVertex = vertexInfo.get(graph.getEdgeTarget(e).toString()).id;
+            } else {
+                edge = formatEdge(e) + vertexInfo.get(graph.getEdgeSource(e).toString()).name;
+                startVertex = vertexInfo.get(graph.getEdgeSource(e).toString()).id;
             }
+            directions.add(edge);
         }
         return directions;
     }
+
+    public String formatEdge(IdentifiedWeightedEdge e) {
+        return "Continue on " +  edgeInfo.get(e.getId()).street + " " + (int) graph.getEdgeWeight(e) + " ft towards ";
+    }
+
+
+
+
 }

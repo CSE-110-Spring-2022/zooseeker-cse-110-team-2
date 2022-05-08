@@ -65,14 +65,11 @@ public class RouteTest {
     }
 
     @Test
-    public void testDirections() {
+    public void testRouteDirections() {
         ArrayList<String> mockList = new ArrayList<>();
         mockList.add("gators");
-//        mockList.add("lions");
-//        mockList.add("gorillas");
-//        mockList.add("arctic_foxes");
-//        mockList.add("elephant_odyssey");
-//        RouteModel routeModel = null;
+        mockList.add("lions");
+        mockList.add("gorillas");
         Graph<String, IdentifiedWeightedEdge> g = null;
         Map<String, ZooData.VertexInfo> vertexInfo = null;
         Map<String, ZooData.EdgeInfo> edgeInfo = null;
@@ -81,16 +78,35 @@ public class RouteTest {
             g = ZooData.loadZooGraphJSON(new FileInputStream("src/main/assets/sample_zoo_graph.json"));
             vertexInfo = ZooData.loadVertexInfoJSON(new FileInputStream("src/main/assets/sample_node_info.json"));
             edgeInfo = ZooData.loadEdgeInfoJSON(new FileInputStream("src/main/assets/sample_edge_info.json"));
-//            routeModel = new RouteModel(mockList, new FileInputStream("src/main/assets/sample_zoo_graph.json"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        RouteModel routeModel = new RouteModel(g, vertexInfo, edgeInfo);
+        assertNotNull(routeModel);
+        routeModel.setExhibits(mockList);
+        ArrayList<String> route = routeModel.genRoute();
+        ArrayList<String> directions = routeModel.getDirections(route);
+        System.out.println(directions);
+        assertEquals(6, directions.size());
+    }
+
+    @Test
+    public void testGetDirections() {
+        Graph<String, IdentifiedWeightedEdge> g = null;
+        Map<String, ZooData.VertexInfo> vertexInfo = null;
+        Map<String, ZooData.EdgeInfo> edgeInfo = null;
+
+        try {
+            g = ZooData.loadZooGraphJSON(new FileInputStream("src/main/assets/sample_zoo_graph.json"));
+            vertexInfo = ZooData.loadVertexInfoJSON(new FileInputStream("src/main/assets/sample_node_info.json"));
+            edgeInfo = ZooData.loadEdgeInfoJSON(new FileInputStream("src/main/assets/sample_edge_info.json"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
         RouteModel routeModel = new RouteModel(g, vertexInfo, edgeInfo);
         assertNotNull(routeModel);
-        routeModel.setExhibits(mockList);
-        ArrayList<String> route = routeModel.genRoute();
-        System.out.println(route);
-        routeModel.getDirections(route);
+        ArrayList<String> directions = routeModel.getDirections("entrance_exit_gate", "gorillas");
+        assertEquals(2, directions.size());
     }
 }
