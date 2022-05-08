@@ -1,5 +1,6 @@
 package com.team2.zooseeker.viewModel;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ public class DirectionListAdapter extends RecyclerView.Adapter<DirectionListAdap
     public void setDirections(ArrayList<String> directions) {
         this.directions.clear();
         this.directions = directions;
+        Log.d("DEBUG ROUTE ADAPTER", directions.toString());
         notifyDataSetChanged();
     }
 
@@ -61,6 +63,18 @@ public class DirectionListAdapter extends RecyclerView.Adapter<DirectionListAdap
     @Override
     public int getItemCount() {
         return directions.size();
+    }
+
+    /**
+     * @DylanB5402
+     * See: https://stackoverflow.com/questions/44932450/wrong-order-of-restored-items-in-recyclerview
+     * code here is used to force the RecyclerView to display directions in order
+     * @param position
+     * @return
+     */
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
 }
