@@ -8,45 +8,45 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/direction_items"
-        android:layout_width="411dp"
-        android:layout_height="589dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="6dp"
+        app:layout_constraintBottom_toTopOf="@+id/next_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/direction_title" />
 
     <Button
         android:id="@+id/next_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:layout_marginBottom="16dp"
         android:background="@android:color/holo_green_dark"
-        android:onClick="onNextButtonClicked"
         android:hint="Next or Finish"
+        android:onClick="onNextButtonClicked"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/direction_items" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976" />
 
     <TextView
         android:id="@+id/direction_title"
         android:layout_width="0dp"
-        android:layout_height="42dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="55dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="55dp"
-        android:layout_marginBottom="8dp"
         android:background="@android:color/holo_green_dark"
         android:gravity="center"
         android:text="Directions"
         android:textSize="35dp"
-        app:layout_constraintBottom_toTopOf="@+id/direction_items"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

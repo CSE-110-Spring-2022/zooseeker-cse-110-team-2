@@ -42,6 +42,7 @@ public class DirectionListActivity extends AppCompatActivity {
 
     public void onNextButtonClicked(View view) {
         adapter.incrementNumToDisplay();
+        recyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
     }
 
 }
