@@ -24,7 +24,14 @@ public interface ExhibitsListDao {
     LiveData<Exhibit> getLive(long id);
 
     @Query("SELECT * FROM `exhibits_database` WHERE `selected`=:selected")
-    LiveData<Exhibit> getSelected(boolean selected);
+    int getNumSelected(boolean selected);
+
+    @Query("SELECT * FROM `exhibits_database` WHERE `kind`=:kind ORDER BY `name`")
+    LiveData<List<Exhibit>> getAllExhibits(String kind);
+
+    @Query("SELECT * FROM `exhibits_database` WHERE `kind`=:kind ORDER BY `name`")
+    List<Exhibit> getExhibits(String kind);
+
 
     @Query("SELECT * FROM `exhibits_database` WHERE `selected`=:selected")
     List<Exhibit> getAllSelected(boolean selected);

@@ -3,18 +3,23 @@ package com.team2.zooseeker;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.team2.zooseeker.model.RouteModel;
 import com.team2.zooseeker.view.MainActivity;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -33,12 +38,30 @@ import cse110.ZooData;
 @RunWith(AndroidJUnit4.class)
 public class DisplayExhibitsTest {
 
-    public ExhibitsListDao exhibitsListDao;
-    public ExhibitsListDatabase exhibitsListDatabase;
+    public ExhibitsListDao testDao;
+    public ExhibitsListDatabase testDB;
 
     private static void forceLayout(RecyclerView recyclerView){
         recyclerView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         recyclerView.layout(0, 0, 1080, 2280);
+    }
+
+    @Before
+    public void resetDatabase(){
+        Context context = ApplicationProvider.getApplicationContext();
+        testDB = Room.inMemoryDatabaseBuilder(context, ExhibitsListDatabase.class)
+                .allowMainThreadQueries()
+                .build();
+        ExhibitsListDatabase.injectDatabase(testDB);
+
+        try {
+            Map<String, ZooData.VertexInfo> map = ZooData.loadVertexInfoJSON(new FileInputStream("src/main/assets/sample_node_info.json"));
+            List<Exhibit> exhibits = Exhibit.convert(map);
+            testDao = testDB.exhibitsListDao();
+            testDao.insertAll(exhibits);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -52,7 +75,14 @@ public class DisplayExhibitsTest {
         scenario.onActivity(activity -> {
             try {
                 Map<String, ZooData.VertexInfo> map = ZooData.loadVertexInfoJSON(new FileInputStream("src/main/assets/sample_node_info.json"));
-                assertEquals(map.size(), activity.recyclerView.getAdapter().getItemCount());
+                int count = 0;
+                for(Map.Entry<String, ZooData.VertexInfo> m : map.entrySet()){
+                    if(m.getValue().kind.equals(ZooData.VertexInfo.Kind.EXHIBIT)){
+                        count ++;
+                    }
+                }
+
+                assertEquals(count, activity.recyclerView.getAdapter().getItemCount());
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -62,7 +92,48 @@ public class DisplayExhibitsTest {
 
     @Test
     public void testAddToList(){
+        ActivityScenario<MainActivity> scenario
+                = ActivityScenario.launch(MainActivity.class);
+        scenario.moveToState(Lifecycle.State.CREATED);
+        scenario.moveToState(Lifecycle.State.STARTED);
+        scenario.moveToState(Lifecycle.State.RESUMED);
 
+        scenario.onActivity(activity -> {
+            try {
+                RecyclerView recyclerView = activity.recyclerView;
+                RecyclerView.ViewHolder firstVH = recyclerView.findViewHolderForAdapterPosition(0);
+                assertNotNull(firstVH);
+                long id = firstVH.getItemId();
+
+                CheckBox checkExhibit = firstVH.itemView.findViewById(R.id.exhibit);
+
+                Map<String, ZooData.VertexInfo> map = ZooData.loadVertexInfoJSON(new FileInputStream("src/main/assets/sample_node_info.json"));
+                List<Exhibit> exhibitsTest = Exhibit.convert(map);
+                int selected = 0;
+
+                for(Exhibit e : exhibitsTest){
+                    if(e.selected){
+                        selected++;
+                    }
+                }
+
+                //Checkbox check should be same as database selected
+                Exhibit exhibit = testDao.get(id);
+                assertEquals(checkExhibit.isChecked(), exhibit.selected);
+
+                //click checkbox
+                checkExhibit.performClick();
+
+                //When clicking performs, database should have changed
+                Exhibit afterClick = testDao.get(id);
+                assertEquals(!exhibit.selected, afterClick.selected);
+
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+        });
     }
 
 }

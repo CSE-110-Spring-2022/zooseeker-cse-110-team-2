@@ -42,7 +42,7 @@ public class ExhibitListViewModel extends AndroidViewModel {
     }
 
     private void loadUsers(){
-        exhibits = exhibitsListDao.getAllLive();
+        exhibits = exhibitsListDao.getAllExhibits("exhibit");
     }
 
     public void toggleSelected(Exhibit exhibit){

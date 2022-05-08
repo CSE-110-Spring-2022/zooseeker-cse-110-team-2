@@ -98,9 +98,11 @@ public class RouteModel {
             ArrayList<String> path = getDirections(edgeStartVertex, edgeEndVertex);
             directions.addAll(path);
         }
-        directions.set(0, "Proceed " + directions.get(0).substring(9));
-        for (int i = 0; i < directions.size(); i++) {
-            directions.set(i, (i + 1) + ". " + directions.get(i));
+        if (directions.size() > 0) {
+            directions.set(0, "Proceed " + directions.get(0).substring(9));
+            for (int i = 0; i < directions.size(); i++) {
+                directions.set(i, (i + 1) + ". " + directions.get(i));
+            }
         }
         return directions;
     }

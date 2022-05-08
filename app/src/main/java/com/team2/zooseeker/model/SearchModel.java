@@ -18,7 +18,7 @@ import cse110.ExhibitsListDatabase;
 import cse110.ZooData;
 
 public class SearchModel {
-    private static List<Exhibit> allExhbits;
+    public static List<Exhibit> allExhbits;
 
     public SearchModel(List<Exhibit> data) {
         allExhbits = data;
@@ -34,7 +34,8 @@ public class SearchModel {
 
         for(Exhibit data: allExhibitsCopy){
             String currentName = data.name.toLowerCase();
-            if (currentName.length() >= size && searchQueryLower.substring(0, size).equals(currentName.substring(0, size))){
+            String tags = data.tags.toLowerCase();
+            if (currentName.length() >= size && (searchQueryLower.substring(0, size).equals(currentName.substring(0, size)) || tags.indexOf(searchQueryLower.substring(0, size)) != -1)){
                 result.add(data);
             }
         }
@@ -48,5 +49,16 @@ public class SearchModel {
                 return;
             }
         }
+    }
+
+    public static int getCount(){
+        List<Exhibit> allExhibits = SearchModel.allExhbits;
+        int count = 0;
+        for(Exhibit exhibit: allExhibits){
+            if (exhibit.selected){
+                count++;
+            }
+        }
+        return count;
     }
 }

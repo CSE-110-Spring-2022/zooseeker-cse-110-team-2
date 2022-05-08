@@ -32,7 +32,7 @@ public class SearchViewModel extends AndroidViewModel {
         Context context = getApplication().getApplicationContext();
         ExhibitsListDatabase db = ExhibitsListDatabase.getSingleton(context);
         exhibitsListDao = db.exhibitsListDao();
-        List<Exhibit> exhibits = exhibitsListDao.getAll();
+        List<Exhibit> exhibits = exhibitsListDao.getExhibits("exhibit");
         searchModel = new SearchModel(exhibits);
 
     }
