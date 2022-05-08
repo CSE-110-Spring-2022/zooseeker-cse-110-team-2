@@ -52,16 +52,9 @@ public class RouteModel {
     public ArrayList<String> genRoute() {
         // "source" and "sink" are graph terms for the start and end
         String entrance_exit = "entrance_exit_gate";
-
-        // 1. Load the graph...
-//         graph = ZooData.loadZooGraphJSON(fileIn);
-
         String prev = entrance_exit;
         ArrayList<String> route = new ArrayList<>();
-//        route.add(0, entrance_exit);
-//        list.add(0, entrance_exit);
         route.add(entrance_exit);
-//        Log.d("DEBUG ROUTE", route.toString());
         while (!list.isEmpty()) {
             String closest = "";
             int closestDist = Integer.MAX_VALUE;

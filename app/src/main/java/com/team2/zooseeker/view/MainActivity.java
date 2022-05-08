@@ -64,23 +64,5 @@ public class MainActivity extends AppCompatActivity {
     public void planBtnOnClickListener(View view) {
         Intent intent = new Intent(this, DirectionListActivity.class);
         startActivity(intent);
-
-//        ArrayList<String> list = new ArrayList<>();
-//        String dataFile = "sample_zoo_graph.json";
-//        ArrayList<String> plan = new ArrayList<>();
-//
-//        //Currently uses mock list
-//        list.add("gators");
-//        list.add("gorillas");
-//        list.add("lions");
-//
-//        try {
-//            RouteModel routeModel = new RouteModel(list, view.getContext().getAssets().open(dataFile));
-//            plan = routeModel.genRoute();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        //currently plan is not being used, but can be accessed after here
-        //System.out.println(plan);
     }
 }

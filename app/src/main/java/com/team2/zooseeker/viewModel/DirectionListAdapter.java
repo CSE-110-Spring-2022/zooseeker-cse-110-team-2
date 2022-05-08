@@ -37,21 +37,6 @@ public class DirectionListAdapter extends RecyclerView.Adapter<DirectionListAdap
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView textView;
-        private String direction;
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            this.textView = itemView.findViewById(R.id.direction_item_text);
-        }
-
-        public void setTextView(String direction) {
-            this.direction = direction;
-            this.textView.setText(direction);
-        }
-    }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -63,7 +48,7 @@ public class DirectionListAdapter extends RecyclerView.Adapter<DirectionListAdap
 
     @Override
     public void onBindViewHolder(@NonNull DirectionListAdapter.ViewHolder holder, int position) {
-            holder.setTextView(directions.get(position));
+        holder.setTextView(directions.get(position));
     }
 
     @Override
@@ -83,4 +68,19 @@ public class DirectionListAdapter extends RecyclerView.Adapter<DirectionListAdap
         return position;
     }
 
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView textView;
+        private String direction;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            this.textView = itemView.findViewById(R.id.direction_item_text);
+        }
+
+        public void setTextView(String direction) {
+            this.direction = direction;
+            this.textView.setText(direction);
+        }
+    }
 }

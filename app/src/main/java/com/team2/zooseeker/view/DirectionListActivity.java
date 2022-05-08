@@ -36,20 +36,12 @@ public class DirectionListActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         nextButton = findViewById(R.id.next_button);
-//        if(adapter.getItemCount() > 0) nextButton.setText("Next");
-//        else nextButton.setText("Finish");
-
         directionListViewModel = new ViewModelProvider(this).get(DirectionListViewModel.class);
         directionListViewModel.populateList(adapter);
     }
 
     public void onNextButtonClicked(View view) {
-//        finish();
         adapter.incrementNumToDisplay();
-//        Intent intent = new Intent(this, CurrentDirectionActivity.class);
-//        startActivity(intent);
-
-
     }
 
 }

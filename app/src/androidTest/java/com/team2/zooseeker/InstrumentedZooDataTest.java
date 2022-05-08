@@ -22,7 +22,6 @@ public class InstrumentedZooDataTest {
 
     @Test
     public void testLoadVertexInfo() throws FileNotFoundException {
-//        Map<String, ZooData.VertexInfo> vertexInfo = ZooData.loadVertexInfoJSON(new FileInputStream("src/main/assets/sample_node_info.json"));
         Context c = ApplicationProvider.getApplicationContext();
         try {
             Map<String, ZooData.VertexInfo> vertexInfo = ZooData.loadVertexInfoJSON(c, "sample_node_info.json");
