@@ -52,7 +52,14 @@ public class DisplayExhibitsTest {
         scenario.onActivity(activity -> {
             try {
                 Map<String, ZooData.VertexInfo> map = ZooData.loadVertexInfoJSON(new FileInputStream("src/main/assets/sample_node_info.json"));
-                assertEquals(map.size(), activity.recyclerView.getAdapter().getItemCount());
+                int count = 0;
+                for(Map.Entry<String, ZooData.VertexInfo> m : map.entrySet()){
+                    if(m.getValue().kind.equals(ZooData.VertexInfo.Kind.EXHIBIT)){
+                        count ++;
+                    }
+                }
+
+                assertEquals(count, activity.recyclerView.getAdapter().getItemCount());
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
