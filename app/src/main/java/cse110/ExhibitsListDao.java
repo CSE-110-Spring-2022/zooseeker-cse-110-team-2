@@ -33,11 +33,17 @@ public interface ExhibitsListDao {
     List<Exhibit> getExhibits(String kind);
 
 
+    @Query("SELECT * FROM `exhibits_database` WHERE `selected`=:selected")
+    List<Exhibit> getAllSelected(boolean selected);
+
     @Query("SELECT * FROM `exhibits_database` ORDER BY `name`")
     List<Exhibit> getAll();
 
     @Query("SELECT * FROM `exhibits_database` ORDER BY `name`")
     LiveData<List<Exhibit>> getAllLive();
+
+    @Query("SELECT * FROM `exhibits_database`WHERE `dataId`=:dataId")
+    Exhibit getExhibitByStringID(String dataId);
 
     @Update
     int update(Exhibit exhibit);

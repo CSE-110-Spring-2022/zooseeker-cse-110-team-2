@@ -29,6 +29,7 @@ public class ExhibitListAdapter extends RecyclerView.Adapter<ExhibitListAdapter.
     public void setExhibits(List<Exhibit> newExhibit){
         this.exhibitList.clear();
         this.exhibitList = newExhibit;
+        Log.d("DEBUG", this.exhibitList.toString());
         notifyDataSetChanged();
     }
 
