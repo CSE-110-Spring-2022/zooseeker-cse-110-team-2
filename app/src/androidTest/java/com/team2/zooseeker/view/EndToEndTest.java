@@ -36,7 +36,7 @@ public class EndToEndTest {
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void mainActivityTest2() {
+    public void endToEndTest() {
         ViewInteraction materialCheckBox = onView(
                 allOf(withId(R.id.exhibit), withText("Alligators"),
                         childAtPosition(
@@ -48,16 +48,6 @@ public class EndToEndTest {
         materialCheckBox.perform(click());
 
         ViewInteraction materialCheckBox2 = onView(
-                allOf(withId(R.id.exhibit), withText("Alligators"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.exhibit_items),
-                                        0),
-                                0),
-                        isDisplayed()));
-        materialCheckBox2.perform(click());
-
-        ViewInteraction materialCheckBox3 = onView(
                 allOf(withId(R.id.exhibit), withText("Arctic Foxes"),
                         childAtPosition(
                                 childAtPosition(
@@ -65,19 +55,9 @@ public class EndToEndTest {
                                         1),
                                 0),
                         isDisplayed()));
-        materialCheckBox3.perform(click());
+        materialCheckBox2.perform(click());
 
-        ViewInteraction materialCheckBox4 = onView(
-                allOf(withId(R.id.exhibit), withText("Alligators"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.exhibit_items),
-                                        0),
-                                0),
-                        isDisplayed()));
-        materialCheckBox4.perform(click());
-
-        ViewInteraction materialCheckBox5 = onView(
+        ViewInteraction materialCheckBox3 = onView(
                 allOf(withId(R.id.exhibit), withText("Elephant Odyssey"),
                         childAtPosition(
                                 childAtPosition(
@@ -85,9 +65,9 @@ public class EndToEndTest {
                                         2),
                                 0),
                         isDisplayed()));
-        materialCheckBox5.perform(click());
+        materialCheckBox3.perform(click());
 
-        ViewInteraction materialCheckBox6 = onView(
+        ViewInteraction materialCheckBox4 = onView(
                 allOf(withId(R.id.exhibit), withText("Gorillas"),
                         childAtPosition(
                                 childAtPosition(
@@ -95,9 +75,9 @@ public class EndToEndTest {
                                         3),
                                 0),
                         isDisplayed()));
-        materialCheckBox6.perform(click());
+        materialCheckBox4.perform(click());
 
-        ViewInteraction materialCheckBox7 = onView(
+        ViewInteraction materialCheckBox5 = onView(
                 allOf(withId(R.id.exhibit), withText("Lions"),
                         childAtPosition(
                                 childAtPosition(
@@ -105,7 +85,7 @@ public class EndToEndTest {
                                         4),
                                 0),
                         isDisplayed()));
-        materialCheckBox7.perform(click());
+        materialCheckBox5.perform(click());
 
         ViewInteraction materialButton = onView(
                 allOf(withId(R.id.plan_btn), withText("Plan"),
