@@ -3,11 +3,9 @@ package com.team2.zooseeker.viewModel;
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 
 import com.team2.zooseeker.model.RouteModel;
 
@@ -15,7 +13,6 @@ import org.jgrapht.Graph;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import cse110.Exhibit;
@@ -44,6 +41,10 @@ public class DirectionListViewModel extends AndroidViewModel {
         }
     }
 
+    /**
+     * Exactly like a DefaultWeightedEdge, but has an id field we
+     * @param adapter adapter to connect UI and direction ArrayList of String
+     */
     public void populateList(DirectionListAdapter adapter) {
         ArrayList<String> exhibits = Exhibit.getExhibitNames(exhibitsListDao.getAllSelected(true));
         routeModel.setExhibits(exhibits);
@@ -51,6 +52,5 @@ public class DirectionListViewModel extends AndroidViewModel {
         ArrayList<String> directions = routeModel.getDirections(route);
         adapter.setDirections(directions);
         Log.d("DEBUG ROUTE", directions.toString());
-
     }
 }
