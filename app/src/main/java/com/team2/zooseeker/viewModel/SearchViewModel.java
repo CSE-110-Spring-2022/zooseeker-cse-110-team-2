@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,7 +11,6 @@ import androidx.lifecycle.AndroidViewModel;
 
 import com.team2.zooseeker.model.SearchModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cse110.Exhibit;
@@ -34,7 +32,6 @@ public class SearchViewModel extends AndroidViewModel {
         exhibitsListDao = db.exhibitsListDao();
         List<Exhibit> exhibits = exhibitsListDao.getExhibits("exhibit");
         searchModel = new SearchModel(exhibits);
-
     }
 
     public void setUpSearch(TextView search, ExhibitListAdapter exhibitAdapter){

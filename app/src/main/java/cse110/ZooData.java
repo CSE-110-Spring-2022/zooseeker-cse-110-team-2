@@ -40,7 +40,6 @@ public class ZooData {
         public String street;
     }
 
-
     /**
      * Load Vertex Info from a json in the assets folder, use this method in the app itself
      * @param context current android Activity
@@ -90,7 +89,6 @@ public class ZooData {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
@@ -145,7 +143,7 @@ public class ZooData {
         importer.addEdgeAttributeConsumer(IdentifiedWeightedEdge::attributeConsumer);
 
         // On Android, you would use context.getAssets().open(path) here like in Lab 5.
-//        InputStream inputStream = App.class.getClassLoader().getResourceAsStream(path);
+        // InputStream inputStream = App.class.getClassLoader().getResourceAsStream(path);
         Reader reader = new InputStreamReader(inputStream);
 
         // And now we just import it!

@@ -128,12 +128,9 @@ public class DisplayExhibitsTest {
                 Exhibit afterClick = testDao.get(id);
                 assertEquals(!exhibit.selected, afterClick.selected);
 
-
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-
         });
     }
-
 }

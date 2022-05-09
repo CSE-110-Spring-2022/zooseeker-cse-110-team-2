@@ -5,11 +5,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.team2.zooseeker.R;
 import com.team2.zooseeker.viewModel.DirectionListAdapter;
@@ -21,8 +19,10 @@ public class DirectionListActivity extends AppCompatActivity {
     private DirectionListViewModel directionListViewModel;
     private DirectionListAdapter adapter;
     private Button nextButton;
-    private TextView directionText;
 
+    /**
+     * Initialize DirectionListActivity with lists of strings and next button
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +36,7 @@ public class DirectionListActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         nextButton = findViewById(R.id.next_button);
+        nextButton.setText("NEXT");
         directionListViewModel = new ViewModelProvider(this).get(DirectionListViewModel.class);
         directionListViewModel.populateList(adapter);
     }

@@ -13,13 +13,10 @@ import org.junit.runner.RunWith;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import android.content.Context;
 import android.view.View;
@@ -68,7 +65,6 @@ public class SearchTest {
 
         output = model.search("a", 1);
         assertEquals(6, output.size());
-
     }
 
     @Test
@@ -81,7 +77,6 @@ public class SearchTest {
 
         output = model.search("A", 1);
         assertEquals(6, output.size());
-
     }
 
     @Test
@@ -91,7 +86,6 @@ public class SearchTest {
         output = model.search("reptile", 7);
         assertEquals("Alligators", output.get(0).name);
         assertEquals(1, output.size());
-
     }
 
     @Test
@@ -100,6 +94,5 @@ public class SearchTest {
         List<Exhibit> output;
         output = model.search("abcdef", 6);
         assertEquals(0, output.size());
-
     }
 }

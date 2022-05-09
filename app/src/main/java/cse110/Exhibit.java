@@ -1,11 +1,7 @@
 package cse110;
 
-import android.content.Context;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
@@ -16,6 +12,7 @@ import java.util.Set;
 
 @Entity(tableName = "exhibits_database")
 public class Exhibit {
+
     @PrimaryKey(autoGenerate = true)
     public long id;
 
