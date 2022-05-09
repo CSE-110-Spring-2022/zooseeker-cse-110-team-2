@@ -1,9 +1,6 @@
 package cse110;
 
-import static android.content.ContentValues.TAG;
-
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.VisibleForTesting;
 import androidx.room.Database;
@@ -26,7 +23,6 @@ public abstract class ExhibitsListDatabase extends RoomDatabase {
         if(singleton == null){
             singleton = ExhibitsListDatabase.makeDatabase(context);
         }
-
         return singleton;
     }
 
@@ -58,8 +54,6 @@ public abstract class ExhibitsListDatabase extends RoomDatabase {
         if(singleton != null){
             singleton.close();
         }
-
         singleton = database;
     }
-
 }

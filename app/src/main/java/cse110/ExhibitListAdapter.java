@@ -12,9 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.team2.zooseeker.R;
 import com.team2.zooseeker.model.SearchModel;
-import com.team2.zooseeker.viewModel.SearchViewModel;
-
-import org.w3c.dom.Text;
 
 import java.util.Collections;
 import java.util.List;
@@ -70,11 +67,9 @@ public class ExhibitListAdapter extends RecyclerView.Adapter<ExhibitListAdapter.
         return this.exhibitList;
     }
 
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         private Exhibit exhibit;
         private CheckBox checkBox;
-
 
         public ViewHolder(@NonNull View exhibitView){
             super(exhibitView);
@@ -87,7 +82,6 @@ public class ExhibitListAdapter extends RecyclerView.Adapter<ExhibitListAdapter.
                 int count = SearchModel.getCount();
 
                 counter.setText(String.valueOf(count));
-
             });
         }
 
@@ -100,9 +94,5 @@ public class ExhibitListAdapter extends RecyclerView.Adapter<ExhibitListAdapter.
             this.checkBox.setChecked(this.exhibit.selected);
             this.checkBox.setText(this.exhibit.name);
         }
-
-
     }
-
-
 }

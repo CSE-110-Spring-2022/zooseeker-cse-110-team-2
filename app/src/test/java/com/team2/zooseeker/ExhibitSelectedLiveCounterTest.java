@@ -34,6 +34,7 @@ import cse110.ZooData;
 
 @RunWith(AndroidJUnit4.class)
 public class ExhibitSelectedLiveCounterTest {
+
     public ExhibitsListDao testDao;
     public ExhibitsListDatabase testDB;
 
@@ -69,13 +70,10 @@ public class ExhibitSelectedLiveCounterTest {
         scenario.moveToState(Lifecycle.State.RESUMED);
 
         scenario.onActivity(activity -> {
-
             int numSelected = testDao.getNumSelected(true);
             TextView textView = activity.findViewById(R.id.counter);
 
             assertEquals(String.valueOf(numSelected), textView.getText());
-
-
         });
     }
 
@@ -92,28 +90,23 @@ public class ExhibitSelectedLiveCounterTest {
             RecyclerView.ViewHolder firstVH = recyclerView.findViewHolderForAdapterPosition(0);
             assertNotNull(firstVH);
             long id = firstVH.getItemId();
-
             CheckBox checkExhibit = firstVH.itemView.findViewById(R.id.exhibit);
-
             int numSelected = testDao.getNumSelected(true);
-            TextView textView = activity.findViewById(R.id.counter);
 
+            TextView textView = activity.findViewById(R.id.counter);
             assertEquals(String.valueOf(numSelected), textView.getText());
 
             checkExhibit.performClick();
 
             List<Exhibit> exhibits = testDao.getAll();
             int selectedAfterClick = 0;
-
             for(Exhibit e: exhibits){
                 if(e.selected){
                     selectedAfterClick++;
                 }
             }
-
             assertNotEquals(numSelected, selectedAfterClick);
             assertEquals(String.valueOf(selectedAfterClick), textView.getText());
-
         });
     }
 
@@ -165,8 +158,6 @@ public class ExhibitSelectedLiveCounterTest {
 
             assertEquals(numSelected, selectedAfterClick);
             assertEquals(String.valueOf(selectedAfterClick), textView.getText());
-
         });
     }
-
 }

@@ -35,6 +35,9 @@ public class DirectionUITest {
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
+    /**
+     * Espresso Test for Plan Button and DirectionActivity
+     */
     @Test
     public void directionUITest() {
         ViewInteraction materialCheckBox = onView(
