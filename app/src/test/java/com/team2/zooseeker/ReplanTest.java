@@ -33,7 +33,7 @@ public class ReplanTest {
     }
 
     @Test
-    public void testDistToNearestLandmark() {
+    public void testNearestLandmark() {
         try {
             Map<String, ZooData.VertexInfo> nodes = ZooData.loadVertexInfoJSON(new FileInputStream("src/main/assets/zoo_node_info.json"));
             ReplanModel replan = new ReplanModel(nodes);
@@ -42,11 +42,13 @@ public class ReplanTest {
             double[] lats = new double[]{32.748983757472594, 32.73561, 32.73551, 32.73551};
             double[] lngs = new double[]{-117.16951754140803, -117.14936, -117.14936, -117.14926};
             double[] dists = new double[]{0, 0, 0.0001, Math.pow(2, 0.5)*0.0001};
+            String[] ids = new String[]{"intxn_hippo_monkey_trails", "entrance_exit_gate", "entrance_exit_gate", "entrance_exit_gate"};
 
             for (int i = 0; i < lats.length; i++) {
                 mockLoc.setLatitude(lats[i]);
                 mockLoc.setLongitude(lngs[i]);
                 assertEquals((float) dists[i], (float) replan.distToNearestLandmark(mockLoc));
+                assertEquals(ids[i], replan.getNearestLandmark(mockLoc).id);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

@@ -32,7 +32,7 @@ public class ReplanModel {
      */
     public boolean offTrack(Location currentLoc, ZooData.VertexInfo node1, ZooData.VertexInfo node2) {
         return distToNearestLandmark(currentLoc) < distToEdge(currentLoc, node1, node2);
-    } //Use to calculate off path, then calculate if it needs to adjust or re-route based on nearest node
+    }
 
     /**
      * Returns the distance from the given location to the nearest landmark
@@ -40,16 +40,30 @@ public class ReplanModel {
      * @return distance to the nearest landmark
      */
     public double distToNearestLandmark(Location currentLoc) {
+        ZooData.VertexInfo nearest = getNearestLandmark(currentLoc);
+        return getDist(currentLoc.getLatitude(), currentLoc.getLongitude(), nearest.lat, nearest.lng);
+    }
+
+    /**
+     * Returns the nearest landmark from the current position
+     * @param currentLoc current location
+     * @return VertexInfo of nearest landmark
+     */
+    public ZooData.VertexInfo getNearestLandmark(Location currentLoc) {
         double smallestDist = Double.MAX_VALUE;
+        ZooData.VertexInfo currentNode = new ZooData.VertexInfo();
 
         //Iterate through all nodes, set distance to be min distance to any node
         for (ZooData.VertexInfo node : nodeMap.values()) {
-            smallestDist = Math.min(getDist(currentLoc.getLatitude(),
+            double compDist = getDist(currentLoc.getLatitude(),
                     currentLoc.getLongitude(),
-                    node.lat, node.lng), smallestDist);
+                    node.lat, node.lng);
+            if (compDist < smallestDist) {
+                smallestDist = compDist;
+                currentNode = node;
+            }
         }
-
-        return smallestDist;
+        return currentNode;
     }
 
     /**
