@@ -17,8 +17,8 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Map;
 
-import cse110.IdentifiedWeightedEdge;
-import cse110.ZooData;
+import com.team2.zooseeker.model.IdentifiedWeightedEdge;
+import com.team2.zooseeker.model.ZooData;
 
 @RunWith(AndroidJUnit4.class)
 public class RouteTest {

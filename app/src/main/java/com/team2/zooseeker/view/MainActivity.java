@@ -16,7 +16,7 @@ import com.team2.zooseeker.model.SearchModel;
 import com.team2.zooseeker.viewModel.ExhibitListViewModel;
 import com.team2.zooseeker.viewModel.SearchViewModel;
 
-import cse110.ExhibitListAdapter;
+import com.team2.zooseeker.viewModel.ExhibitListAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
