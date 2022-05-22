@@ -6,8 +6,6 @@ import android.location.Location;
 import java.io.IOException;
 import java.util.Map;
 
-import cse110.ZooData;
-
 public class ReplanModel {
     Map<String, ZooData.VertexInfo> nodeMap;
 
