@@ -23,10 +23,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import cse110.Exhibit;
-import cse110.ExhibitsListDao;
-import cse110.ExhibitsListDatabase;
-import cse110.ZooData;
+import com.team2.zooseeker.model.ExhibitModel;
+import com.team2.zooseeker.model.ExhibitsListDao;
+import com.team2.zooseeker.model.ExhibitsListDatabase;
+import com.team2.zooseeker.model.ZooData;
 
 @RunWith(AndroidJUnit4.class)
 public class ExhibitListDatabaseTest {
@@ -46,7 +46,7 @@ public class ExhibitListDatabaseTest {
             e.printStackTrace();
         }
 
-        List<Exhibit> exhibitsList = Exhibit.convert(exhibits);
+        List<ExhibitModel> exhibitsList = ExhibitModel.convert(exhibits);
         dao.insertAll(exhibitsList);
     }
 
@@ -62,10 +62,10 @@ public class ExhibitListDatabaseTest {
 
     @Test
     public void testUpdate() {
-        Exhibit exhibit = dao.getAll().get(0);
-        boolean exhibitSelected = exhibit.selected;
-        exhibit.selected = !exhibit.selected;
-        dao.update(exhibit);
+        ExhibitModel exhibitModel = dao.getAll().get(0);
+        boolean exhibitSelected = exhibitModel.selected;
+        exhibitModel.selected = !exhibitModel.selected;
+        dao.update(exhibitModel);
         assertEquals(!exhibitSelected, dao.getAll().get(0).selected);
     }
 }

@@ -15,11 +15,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
-import cse110.Exhibit;
-import cse110.ExhibitsListDao;
-import cse110.ExhibitsListDatabase;
-import cse110.IdentifiedWeightedEdge;
-import cse110.ZooData;
+import com.team2.zooseeker.model.ExhibitModel;
+import com.team2.zooseeker.model.ExhibitsListDao;
+import com.team2.zooseeker.model.ExhibitsListDatabase;
+import com.team2.zooseeker.model.IdentifiedWeightedEdge;
+import com.team2.zooseeker.model.ZooData;
 
 public class DirectionListViewModel extends AndroidViewModel {
 
@@ -32,9 +32,12 @@ public class DirectionListViewModel extends AndroidViewModel {
         ExhibitsListDatabase db = ExhibitsListDatabase.getSingleton(context);
         exhibitsListDao = db.exhibitsListDao();
         try {
-            Map<String, ZooData.VertexInfo> vertexInfo = ZooData.loadVertexInfoJSON(application, "sample_node_info.json");
-            Map<String, ZooData.EdgeInfo> edgeInfo = ZooData.loadEdgeInfoJSON(application, "sample_edge_info.json");
-            Graph<String, IdentifiedWeightedEdge> graph = ZooData.loadZooGraphJSON(application, "sample_zoo_graph.json");
+            Map<String, ZooData.VertexInfo> vertexInfo = ZooData
+                    .loadVertexInfoJSON(application, "sample_node_info.json");
+            Map<String, ZooData.EdgeInfo> edgeInfo = ZooData
+                    .loadEdgeInfoJSON(application, "sample_edge_info.json");
+            Graph<String, IdentifiedWeightedEdge> graph = ZooData
+                    .loadZooGraphJSON(application, "sample_zoo_graph.json");
             routeModel = new RouteModel(graph, vertexInfo, edgeInfo);
         } catch (IOException e) {
             e.printStackTrace();
@@ -46,7 +49,8 @@ public class DirectionListViewModel extends AndroidViewModel {
      * @param adapter adapter to connect UI and direction ArrayList of String
      */
     public void populateList(DirectionListAdapter adapter) {
-        ArrayList<String> exhibits = Exhibit.getExhibitNames(exhibitsListDao.getAllSelected(true));
+        ArrayList<String> exhibits = ExhibitModel
+                .getExhibitNames(exhibitsListDao.getAllSelected(true));
         routeModel.setExhibits(exhibits);
         ArrayList<String> route = routeModel.genRoute();
         ArrayList<String> directions = routeModel.getDirections(route);

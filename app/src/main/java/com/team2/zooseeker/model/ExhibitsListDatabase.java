@@ -1,4 +1,4 @@
-package cse110;
+package com.team2.zooseeker.model;
 
 import android.content.Context;
 
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Exhibit.class}, version = 1)
+@Database(entities = {ExhibitModel.class}, version = 1)
 public abstract class ExhibitsListDatabase extends RoomDatabase {
     private static ExhibitsListDatabase singleton = null;
 
@@ -38,7 +38,7 @@ public abstract class ExhibitsListDatabase extends RoomDatabase {
                             try {
                                 exhibits = ZooData
                                         .loadVertexInfoJSON(context, "sample_node_info.json");
-                                List<Exhibit> exhibitsList = Exhibit.convert(exhibits);
+                                List<ExhibitModel> exhibitsList = ExhibitModel.convert(exhibits);
                                 getSingleton(context).exhibitsListDao().insertAll(exhibitsList);
                             } catch (IOException e) {
                                 e.printStackTrace();

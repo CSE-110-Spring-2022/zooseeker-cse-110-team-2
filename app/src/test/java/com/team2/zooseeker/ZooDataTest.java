@@ -11,8 +11,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Map;
 
-import cse110.IdentifiedWeightedEdge;
-import cse110.ZooData;
+import com.team2.zooseeker.model.IdentifiedWeightedEdge;
+import com.team2.zooseeker.model.ZooData;
 
 public class ZooDataTest {
 

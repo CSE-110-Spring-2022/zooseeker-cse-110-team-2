@@ -25,7 +25,7 @@
         android:layout_marginStart="18dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="57dp"
-        android:hint="Find an exhibit..."
+        android:hint="Find an exhibitModel..."
         android:imeOptions="actionDone"
         android:inputType="text"
         android:maxLines="1"
@@ -66,7 +66,7 @@
         tools:ignore="OnClick" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/selected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
@@ -74,7 +74,7 @@
         android:layout_marginEnd="2dp"
         android:layout_marginBottom="39dp"
         android:text="Selected: "
-        android:textSize="18dp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/exhibit_items"
         app:layout_constraintEnd_toStartOf="@+id/counter"
         app:layout_constraintStart_toEndOf="@+id/search_bar"

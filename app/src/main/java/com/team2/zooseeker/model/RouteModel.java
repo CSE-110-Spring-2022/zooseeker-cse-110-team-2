@@ -1,22 +1,13 @@
 package com.team2.zooseeker.model;
 
-import android.content.Context;
-import android.util.Log;
-
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
-
-import cse110.IdentifiedWeightedEdge;
-import cse110.ZooData;
 
 public class RouteModel {
     ArrayList<String> list;

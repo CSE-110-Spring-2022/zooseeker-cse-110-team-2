@@ -5,9 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 
 import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,24 +14,21 @@ import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.team2.zooseeker.model.RouteModel;
 import com.team2.zooseeker.view.MainActivity;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import cse110.Exhibit;
-import cse110.ExhibitsListDao;
-import cse110.ExhibitsListDatabase;
-import cse110.ZooData;
+import com.team2.zooseeker.model.ExhibitModel;
+import com.team2.zooseeker.model.ExhibitsListDao;
+import com.team2.zooseeker.model.ExhibitsListDatabase;
+import com.team2.zooseeker.model.ZooData;
 
 @RunWith(AndroidJUnit4.class)
 public class DisplayExhibitsTest {
@@ -56,9 +51,9 @@ public class DisplayExhibitsTest {
 
         try {
             Map<String, ZooData.VertexInfo> map = ZooData.loadVertexInfoJSON(new FileInputStream("src/main/assets/sample_node_info.json"));
-            List<Exhibit> exhibits = Exhibit.convert(map);
+            List<ExhibitModel> exhibitModels = ExhibitModel.convert(map);
             testDao = testDB.exhibitsListDao();
-            testDao.insertAll(exhibits);
+            testDao.insertAll(exhibitModels);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -105,28 +100,28 @@ public class DisplayExhibitsTest {
                 assertNotNull(firstVH);
                 long id = firstVH.getItemId();
 
-                CheckBox checkExhibit = firstVH.itemView.findViewById(R.id.exhibit);
+                CheckBox checkExhibit = firstVH.itemView.findViewById(R.id.exhibitModel);
 
                 Map<String, ZooData.VertexInfo> map = ZooData.loadVertexInfoJSON(new FileInputStream("src/main/assets/sample_node_info.json"));
-                List<Exhibit> exhibitsTest = Exhibit.convert(map);
+                List<ExhibitModel> exhibitsTest = ExhibitModel.convert(map);
                 int selected = 0;
 
-                for(Exhibit e : exhibitsTest){
+                for(ExhibitModel e : exhibitsTest){
                     if(e.selected){
                         selected++;
                     }
                 }
 
                 //Checkbox check should be same as database selected
-                Exhibit exhibit = testDao.get(id);
-                assertEquals(checkExhibit.isChecked(), exhibit.selected);
+                ExhibitModel exhibitModel = testDao.get(id);
+                assertEquals(checkExhibit.isChecked(), exhibitModel.selected);
 
                 //click checkbox
                 checkExhibit.performClick();
 
                 //When clicking performs, database should have changed
-                Exhibit afterClick = testDao.get(id);
-                assertEquals(!exhibit.selected, afterClick.selected);
+                ExhibitModel afterClick = testDao.get(id);
+                assertEquals(!exhibitModel.selected, afterClick.selected);
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
