@@ -4,6 +4,7 @@ import android.content.Context;
 import android.location.Location;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class ReplanModel {
@@ -26,11 +27,16 @@ public class ReplanModel {
      * Returns true if the current location is not on the current route, in which case
      * the user should be prompted to re-plan the route
      * @param currentLoc current location of user
-     * @param node1 node at either side of current edge in route
-     * @param node2 node at other side of current edge in route
+     * @param path all nodes in current path to next exhibit
      * @return true if location is off-route, false if on-route
      */
-    public boolean offTrack(Location currentLoc, ZooData.VertexInfo node1, ZooData.VertexInfo node2) {
+    public boolean offTrack(Location currentLoc, Map<String, ZooData.VertexInfo> path) {
+        // Currently uses two nearest nodes in given path as the 'current edge'
+        ZooData.VertexInfo node1 = getNearestLandmark(currentLoc, path);
+        path.remove(node1.name, node1);
+        ZooData.VertexInfo node2 = getNearestLandmark(currentLoc, path);
+
+        // Then compares distance to nearest landmark with distance to 'current edge'
         return distToNearestLandmark(currentLoc) < distToEdge(currentLoc, node1, node2);
     }
 
@@ -50,11 +56,21 @@ public class ReplanModel {
      * @return VertexInfo of nearest landmark
      */
     public ZooData.VertexInfo getNearestLandmark(Location currentLoc) {
+        return getNearestLandmark(currentLoc, nodeMap);
+    }
+
+    /**
+     * Returns the nearest landmark from the current position
+     * @param currentLoc current location
+     * @param nodes list of landmarks to include in the search
+     * @return VertexInfo of nearest landmark
+     */
+    public ZooData.VertexInfo getNearestLandmark(Location currentLoc, Map<String, ZooData.VertexInfo> nodes) {
         double smallestDist = Double.MAX_VALUE;
         ZooData.VertexInfo currentNode = new ZooData.VertexInfo();
 
         //Iterate through all nodes, set distance to be min distance to any node
-        for (ZooData.VertexInfo node : nodeMap.values()) {
+        for (ZooData.VertexInfo node : nodes.values()) {
             double compDist = getDist(currentLoc.getLatitude(),
                     currentLoc.getLongitude(),
                     node.lat, node.lng);

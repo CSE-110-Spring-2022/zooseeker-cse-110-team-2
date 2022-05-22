@@ -90,7 +90,7 @@ public class DirectionListViewModel extends AndroidViewModel {
         LocationManager locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = location -> {
             Log.d("DEBUG", String.format("Location changed: %s", location));
-                /*if (replan.offTrack(location)) { // TODO: needs nodes at each end of current edge to pass in
+                /*if (replan.offTrack(location)) { // TODO: needs nodes in current path (to next exhibit)
                     replan.getNearestLandmark(location); // use to get current location for route
                     if (generate route from position != current route remaining) {
                         prompt to replan (check that user hasn't been prompted recently)
