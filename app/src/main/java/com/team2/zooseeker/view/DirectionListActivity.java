@@ -35,7 +35,6 @@ public class DirectionListActivity extends AppCompatActivity {
     /**
      * Initialize DirectionListActivity with lists of strings and next button
      */
-    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,27 +52,7 @@ public class DirectionListActivity extends AppCompatActivity {
         directionListViewModel = new ViewModelProvider(this).get(DirectionListViewModel.class);
         directionListViewModel.populateList(adapter);
 
-        ReplanModel replan = new ReplanModel(this, "zoo_node_info.json");
-
-        // Get Location Permissions
-        PermissionChecker perms = new PermissionChecker(this);
-        if (perms.ensurePermissions()) {
-            return;
-        }; // TODO: Account for user denying permissions
-        //TODO: move to viewmodel?
-
-        // Listen for Location Updates
-        {
-            String provider = LocationManager.GPS_PROVIDER;
-            LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-            LocationListener locationListener = location -> {
-                Log.d("DEBUG", String.format("Location changed: %s", location));
-//                if (replan.offTrack(location)) { //TODO: needs nodes at each end of current edge to pass in
-//                    //TODO: Prompt user (once) to re-plan route
-//                }
-            };
-            locationManager.requestLocationUpdates(provider, 0, 0f, locationListener);
-        }
+        directionListViewModel.autoUpdateRoute(this);
     }
 
     public void onNextButtonClicked(View view) {
