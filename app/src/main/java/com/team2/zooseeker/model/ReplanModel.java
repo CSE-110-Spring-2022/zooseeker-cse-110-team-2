@@ -16,7 +16,10 @@ public class ReplanModel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //TODO: only consider other exhibits currently in the plan?
+    }
+
+    public ReplanModel(Map<String, ZooData.VertexInfo> nodeMap) {
+        this.nodeMap = nodeMap;
     }
 
     /**
@@ -43,8 +46,7 @@ public class ReplanModel {
         for (ZooData.VertexInfo node : nodeMap.values()) {
             smallestDist = Math.min(getDist(currentLoc.getLatitude(),
                     currentLoc.getLongitude(),
-                    getVertexLatitude(node),
-                    getVertexLongitude(node)), smallestDist);
+                    node.lat, node.lng), smallestDist);
         }
 
         return smallestDist;
@@ -59,8 +61,8 @@ public class ReplanModel {
      */
     public double distToEdge(Location currentLoc, ZooData.VertexInfo node1, ZooData.VertexInfo node2) {
         return distToEdge(
-                getVertexLatitude(node1), getVertexLongitude(node1),
-                getVertexLatitude(node2), getVertexLongitude(node2),
+                node1.lat, node1.lng,
+                node2.lat, node2.lng,
                 currentLoc.getLatitude(), currentLoc.getLongitude());
     }
 
@@ -81,14 +83,5 @@ public class ReplanModel {
     //Helper static method used for nearestLandmark
     private static double getDist(double ax, double ay, double bx, double by) {
         return Math.pow(Math.pow(ax - bx, 2) + Math.pow(ay - by, 2), 0.5);
-    }
-
-    //TODO: set up vertex long/lat
-    private static double getVertexLatitude(ZooData.VertexInfo node) {
-        return 0; //Not set up. Also doesn't belong here, just a placeholder method
-    }
-
-    private static double getVertexLongitude(ZooData.VertexInfo node) {
-        return 0; //Not set up. Also doesn't belong here, just a placeholder method
     }
 }
