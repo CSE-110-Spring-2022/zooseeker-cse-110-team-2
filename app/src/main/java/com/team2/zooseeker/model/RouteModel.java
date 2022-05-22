@@ -16,26 +16,26 @@ public class RouteModel {
     Map<String, ZooData.VertexInfo> vertexInfo;
     Map<String, ZooData.EdgeInfo> edgeInfo;
 
-    /**
-     * Creates a RouteModel for generating routes
-     * @param list list of exhibits in the route, excluding start and endpoints
-     * @param fileIn file containing the graph with all exhibits
-     */
-    public RouteModel(ArrayList<String> list, InputStream fileIn) {
-        this.list = new ArrayList<>(list);
-        this.fileIn = fileIn;
-        graph = ZooData.loadZooGraphJSON(fileIn);
-    }
-
-    /**
-     * Creates a RouteModel for generating routes, starting with an empty exhibit list
-     * @param fileIn file containing the graph with all exhibits
-     */
-    public RouteModel(InputStream fileIn) {
-        this.list = new ArrayList<>();
-        this.fileIn = fileIn;
-        graph = ZooData.loadZooGraphJSON(fileIn);
-    }
+//    /**
+//     * Creates a RouteModel for generating routes
+//     * @param list list of exhibits in the route, excluding start and endpoints
+//     * @param fileIn file containing the graph with all exhibits
+//     */
+//    public RouteModel(ArrayList<String> list, InputStream fileIn) {
+//        this.list = new ArrayList<>(list);
+//        this.fileIn = fileIn;
+//        graph = ZooData.loadZooGraphJSON(fileIn);
+//    }
+//
+//    /**
+//     * Creates a RouteModel for generating routes, starting with an empty exhibit list
+//     * @param fileIn file containing the graph with all exhibits
+//     */
+//    public RouteModel(InputStream fileIn) {
+//        this.list = new ArrayList<>();
+//        this.fileIn = fileIn;
+//        graph = ZooData.loadZooGraphJSON(fileIn);
+//    }
 
     /**
      * Creates a RouteModel with pre-generated graph and vertex/edge maps
@@ -53,12 +53,22 @@ public class RouteModel {
 
     /**
      * Sets the list of exhibits for generating the plan, excluding start and endpoints
-     * @param exhibitsList list of all exhibits to include in plan
+     * @param exhibitsList list of all exhibits to include in plan, cannot include any child exhibits
      */
     public void setExhibits(ArrayList<String> exhibitsList) {
         this.list = exhibitsList;
     }
 
+
+    /**
+     * Combines setExhibits() and genRoutes() into one function call
+     * @param exhibitsList the given exhibit list cannot have any child exhibits
+     * @return
+     */
+    public ArrayList<String> genRoute(ArrayList<String> exhibitsList) {
+        setExhibits(exhibitsList);
+        return genRoute();
+    }
 
     /**
      * Generates the order of exhibits to go through with included start and endpoints
@@ -146,6 +156,32 @@ public class RouteModel {
      */
     public String formatEdge(IdentifiedWeightedEdge e) {
         return "Continue on " +  Objects.requireNonNull(edgeInfo.get(e.getId())).street + " " + (int) graph.getEdgeWeight(e) + " ft towards ";
+    }
+
+    /**
+     * Get an exhibits parent's id
+     * @param exhibit an exhibit's id
+     * @return the exhibit's parent's if it the given exhibit has a parent, return the given id otherwise
+     */
+    public String getExhibitParent(String exhibit) {
+        var parentId = vertexInfo.get(exhibit).parent_id;
+        if (parentId != null) {
+            return parentId;
+        } else {
+            return exhibit;
+        }
+    }
+
+    public ArrayList<String> validateExhibitList(ArrayList<String> exhibits) {
+        ArrayList<String> validatedExhibits = new ArrayList<>();
+        for (String e : exhibits) {
+//            validatedExhibits.add(getExhibitParent(e));
+            var parentExhibit = getExhibitParent(e);
+            if (!validatedExhibits.contains(parentExhibit)) {
+                validatedExhibits.add(parentExhibit);
+            }
+        }
+        return validatedExhibits;
     }
 
 }

@@ -37,7 +37,8 @@ public abstract class ExhibitsListDatabase extends RoomDatabase {
                             Map<String, ZooData.VertexInfo> exhibits = null;
                             try {
                                 exhibits = ZooData
-                                        .loadVertexInfoJSON(context, "sample_node_info.json");
+//                                        .loadVertexInfoJSON(context, "sample_node_info.json");
+                                        .loadVertexInfoJSON(context, "zoo_node_info.json");
                                 List<ExhibitModel> exhibitsList = ExhibitModel.convert(exhibits);
                                 getSingleton(context).exhibitsListDao().insertAll(exhibitsList);
                             } catch (IOException e) {
