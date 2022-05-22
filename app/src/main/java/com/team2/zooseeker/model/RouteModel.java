@@ -172,10 +172,15 @@ public class RouteModel {
         }
     }
 
+    /**
+     * Validate a list of exhibits, making sure there are no exhibits which have parents and making sure there are no duplciate parent exhibits
+     *
+     * @param exhibits
+     * @return a validated list of exhibits
+     */
     public ArrayList<String> validateExhibitList(ArrayList<String> exhibits) {
         ArrayList<String> validatedExhibits = new ArrayList<>();
         for (String e : exhibits) {
-//            validatedExhibits.add(getExhibitParent(e));
             var parentExhibit = getExhibitParent(e);
             if (!validatedExhibits.contains(parentExhibit)) {
                 validatedExhibits.add(parentExhibit);

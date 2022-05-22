@@ -33,11 +33,11 @@ public class DirectionListViewModel extends AndroidViewModel {
         exhibitsListDao = db.exhibitsListDao();
         try {
             Map<String, ZooData.VertexInfo> vertexInfo = ZooData
-                    .loadVertexInfoJSON(application, "sample_node_info.json");
+                    .loadVertexInfoJSON(application, "zoo_node_info.json");
             Map<String, ZooData.EdgeInfo> edgeInfo = ZooData
-                    .loadEdgeInfoJSON(application, "sample_edge_info.json");
+                    .loadEdgeInfoJSON(application, "zoo_edge_info.json");
             Graph<String, IdentifiedWeightedEdge> graph = ZooData
-                    .loadZooGraphJSON(application, "sample_zoo_graph.json");
+                    .loadZooGraphJSON(application, "zoo_graph.json");
             routeModel = new RouteModel(graph, vertexInfo, edgeInfo);
         } catch (IOException e) {
             e.printStackTrace();
@@ -51,9 +51,11 @@ public class DirectionListViewModel extends AndroidViewModel {
     public void populateList(DirectionListAdapter adapter) {
         ArrayList<String> exhibits = ExhibitModel
                 .getExhibitNames(exhibitsListDao.getAllSelected(true));
-        Log.d("DEBUG", exhibits.toString());
-        routeModel.setExhibits(exhibits);
-        ArrayList<String> route = routeModel.genRoute();
+
+//        routeModel.setExhibits(exhibits);
+        ArrayList<String> validatedExhibits = routeModel.validateExhibitList(exhibits);
+        Log.d("DEBUG", validatedExhibits.toString());
+        ArrayList<String> route = routeModel.genRoute(validatedExhibits);
         ArrayList<String> directions = routeModel.getDirections(route);
         adapter.setDirections(directions);
         Log.d("DEBUG ROUTE", directions.toString());

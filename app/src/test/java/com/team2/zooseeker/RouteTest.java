@@ -185,7 +185,7 @@ public class RouteTest {
         mockList.add("crocodile");
         mockList.add("toucan");
         mockList.add("motmot");
-
+        mockList.add("mynah");
         RouteModel routeModel = null;
         try {
             var g = ZooData.loadZooGraphJSON(new FileInputStream("src/main/assets/zoo_graph.json"));
@@ -198,7 +198,8 @@ public class RouteTest {
         assertNotNull(routeModel);
         ArrayList<String> validatedMockList = routeModel.validateExhibitList(mockList);
         ArrayList<String> route = routeModel.genRoute(validatedMockList);
-        assertEquals(route.size(), 4);
+        System.out.println(validatedMockList);
+        assertEquals(route.size(), 5);
         assertEquals(route.get(0), "entrance_exit_gate");
         assertEquals(route.get(route.size() - 1), "entrance_exit_gate");
     }
