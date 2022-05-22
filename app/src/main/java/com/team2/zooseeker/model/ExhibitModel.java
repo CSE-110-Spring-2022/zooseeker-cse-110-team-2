@@ -52,6 +52,9 @@ public class ExhibitModel {
         else if(vertexInfo.kind.equals(ZooData.VertexInfo.Kind.GATE)) {
             this.kind = "gate";
         }
+        else if (vertexInfo.kind.equals(ZooData.VertexInfo.Kind.EXHIBIT_GROUP)) {
+            this.kind = "exhibit_group";
+        }
         else{
             this.kind = "intersection";
         }

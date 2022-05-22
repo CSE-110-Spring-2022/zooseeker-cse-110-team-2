@@ -32,12 +32,15 @@ public class RouteTest {
 
         RouteModel routeModel = null;
         try {
-            routeModel = new RouteModel(mockList, new FileInputStream("src/main/assets/sample_zoo_graph.json"));
+            var g = ZooData.loadZooGraphJSON(new FileInputStream("src/main/assets/sample_zoo_graph.json"));
+            var vertexInfo = ZooData.loadVertexInfoJSON(new FileInputStream("src/main/assets/sample_node_info.json"));
+            var edgeInfo = ZooData.loadEdgeInfoJSON(new FileInputStream("src/main/assets/sample_edge_info.json"));
+            routeModel = new RouteModel(g, vertexInfo, edgeInfo);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         assertNotNull(routeModel);
-        ArrayList<String> route = routeModel.genRoute();
+        ArrayList<String> route = routeModel.genRoute(mockList);
         assertEquals(route.size(), 5);
         assertEquals(route.get(0), "entrance_exit_gate");
         assertEquals(route.get(route.size() - 1), "entrance_exit_gate");
@@ -54,12 +57,15 @@ public class RouteTest {
 
         RouteModel routeModel = null;
         try {
-            routeModel = new RouteModel(mockList, new FileInputStream("src/main/assets/sample_zoo_graph.json"));
+            var g = ZooData.loadZooGraphJSON(new FileInputStream("src/main/assets/sample_zoo_graph.json"));
+            var vertexInfo = ZooData.loadVertexInfoJSON(new FileInputStream("src/main/assets/sample_node_info.json"));
+            var edgeInfo = ZooData.loadEdgeInfoJSON(new FileInputStream("src/main/assets/sample_edge_info.json"));
+            routeModel = new RouteModel(g, vertexInfo, edgeInfo);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         assertNotNull(routeModel);
-        ArrayList<String> route = routeModel.genRoute();
+        ArrayList<String> route = routeModel.genRoute(mockList);
         assertNotEquals(route.get(0), "lions");
         assertNotEquals(route.get(0), "elephant_odyssey");
     }
@@ -108,5 +114,67 @@ public class RouteTest {
         assertNotNull(routeModel);
         ArrayList<String> directions = routeModel.getDirections("entrance_exit_gate", "gorillas");
         assertEquals(2, directions.size());
+    }
+
+    @Test
+    public void testGenRouteLargeGraph() {
+        ArrayList<String> mockList = new ArrayList<>();
+        mockList.add("crocodile");
+        mockList.add("hippo");
+
+        RouteModel routeModel = null;
+        try {
+            var g = ZooData.loadZooGraphJSON(new FileInputStream("src/main/assets/zoo_graph.json"));
+            var vertexInfo = ZooData.loadVertexInfoJSON(new FileInputStream("src/main/assets/zoo_node_info.json"));
+            var edgeInfo = ZooData.loadEdgeInfoJSON(new FileInputStream("src/main/assets/zoo_edge_info.json"));
+            routeModel = new RouteModel(g, vertexInfo, edgeInfo);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        assertNotNull(routeModel);
+        ArrayList<String> route = routeModel.genRoute(mockList);
+        assertEquals(route.size(), 4);
+        assertEquals(route.get(0), "entrance_exit_gate");
+        assertEquals(route.get(route.size() - 1), "entrance_exit_gate");
+    }
+
+    @Test
+    public void testGenRouteWithExhibitGroup() {
+        ArrayList<String> mockList = new ArrayList<>();
+        mockList.add("crocodile");
+        mockList.add("toucan");
+
+        RouteModel routeModel = null;
+        try {
+            var g = ZooData.loadZooGraphJSON(new FileInputStream("src/main/assets/zoo_graph.json"));
+            var vertexInfo = ZooData.loadVertexInfoJSON(new FileInputStream("src/main/assets/zoo_node_info.json"));
+            var edgeInfo = ZooData.loadEdgeInfoJSON(new FileInputStream("src/main/assets/zoo_edge_info.json"));
+            routeModel = new RouteModel(g, vertexInfo, edgeInfo);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        assertNotNull(routeModel);
+        ArrayList<String> validatedMockList = routeModel.validateExhibitList(mockList);
+        System.out.println(validatedMockList);
+        ArrayList<String> route = routeModel.genRoute(validatedMockList);
+//        assertEquals(route.size(), 4);
+//        assertEquals(route.get(0), "entrance_exit_gate");
+//        assertEquals(route.get(route.size() - 1), "entrance_exit_gate");
+    }
+
+    @Test
+    public void testGetExhibitParent() {
+        RouteModel routeModel = null;
+        try {
+            var g = ZooData.loadZooGraphJSON(new FileInputStream("src/main/assets/zoo_graph.json"));
+            var vertexInfo = ZooData.loadVertexInfoJSON(new FileInputStream("src/main/assets/zoo_node_info.json"));
+            var edgeInfo = ZooData.loadEdgeInfoJSON(new FileInputStream("src/main/assets/zoo_edge_info.json"));
+            routeModel = new RouteModel(g, vertexInfo, edgeInfo);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        assertNotNull(routeModel);
+        assertEquals("parker_aviary", routeModel.getExhibitParent("toucan"));
+        assertEquals("crocodile", routeModel.getExhibitParent("crocodile"));
     }
 }
