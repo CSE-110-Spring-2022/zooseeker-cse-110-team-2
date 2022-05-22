@@ -13,10 +13,10 @@ import com.team2.zooseeker.model.SearchModel;
 
 import java.util.List;
 
-import cse110.Exhibit;
-import cse110.ExhibitListAdapter;
-import cse110.ExhibitsListDao;
-import cse110.ExhibitsListDatabase;
+import com.team2.zooseeker.model.ExhibitModel;
+
+import com.team2.zooseeker.model.ExhibitsListDao;
+import com.team2.zooseeker.model.ExhibitsListDatabase;
 
 public class SearchViewModel extends AndroidViewModel {
 
@@ -30,8 +30,8 @@ public class SearchViewModel extends AndroidViewModel {
         Context context = getApplication().getApplicationContext();
         ExhibitsListDatabase db = ExhibitsListDatabase.getSingleton(context);
         exhibitsListDao = db.exhibitsListDao();
-        List<Exhibit> exhibits = exhibitsListDao.getExhibits("exhibit");
-        searchModel = new SearchModel(exhibits);
+        List<ExhibitModel> exhibitModels = exhibitsListDao.getExhibits("exhibit");
+        searchModel = new SearchModel(exhibitModels);
     }
 
     public void setUpSearch(TextView search, ExhibitListAdapter exhibitAdapter){
@@ -39,20 +39,17 @@ public class SearchViewModel extends AndroidViewModel {
         adapter = exhibitAdapter;
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int count) {
-                List<Exhibit> searchResults = searchModel.search(String.valueOf(charSequence), count);
+                List<ExhibitModel> searchResults = searchModel
+                        .search(String.valueOf(charSequence), count);
                 adapter.setExhibits(searchResults);
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
+            public void afterTextChanged(Editable editable) { }
         });
     }
 

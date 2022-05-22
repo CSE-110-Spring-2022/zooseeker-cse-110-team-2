@@ -27,10 +27,10 @@ import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Map;
 
-import cse110.Exhibit;
-import cse110.ExhibitsListDao;
-import cse110.ExhibitsListDatabase;
-import cse110.ZooData;
+import com.team2.zooseeker.model.ExhibitModel;
+import com.team2.zooseeker.model.ExhibitsListDao;
+import com.team2.zooseeker.model.ExhibitsListDatabase;
+import com.team2.zooseeker.model.ZooData;
 
 @RunWith(AndroidJUnit4.class)
 public class ExhibitSelectedLiveCounterTest {
@@ -53,9 +53,9 @@ public class ExhibitSelectedLiveCounterTest {
 
         try {
             Map<String, ZooData.VertexInfo> map = ZooData.loadVertexInfoJSON(new FileInputStream("src/main/assets/sample_node_info.json"));
-            List<Exhibit> exhibits = Exhibit.convert(map);
+            List<ExhibitModel> exhibitModels = ExhibitModel.convert(map);
             testDao = testDB.exhibitsListDao();
-            testDao.insertAll(exhibits);
+            testDao.insertAll(exhibitModels);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -90,7 +90,7 @@ public class ExhibitSelectedLiveCounterTest {
             RecyclerView.ViewHolder firstVH = recyclerView.findViewHolderForAdapterPosition(0);
             assertNotNull(firstVH);
             long id = firstVH.getItemId();
-            CheckBox checkExhibit = firstVH.itemView.findViewById(R.id.exhibit);
+            CheckBox checkExhibit = firstVH.itemView.findViewById(R.id.exhibitModel);
             int numSelected = testDao.getNumSelected(true);
 
             TextView textView = activity.findViewById(R.id.counter);
@@ -98,9 +98,9 @@ public class ExhibitSelectedLiveCounterTest {
 
             checkExhibit.performClick();
 
-            List<Exhibit> exhibits = testDao.getAll();
+            List<ExhibitModel> exhibitModels = testDao.getAll();
             int selectedAfterClick = 0;
-            for(Exhibit e: exhibits){
+            for(ExhibitModel e: exhibitModels){
                 if(e.selected){
                     selectedAfterClick++;
                 }
@@ -124,7 +124,7 @@ public class ExhibitSelectedLiveCounterTest {
             assertNotNull(firstVH);
             long id = firstVH.getItemId();
 
-            CheckBox checkExhibit = firstVH.itemView.findViewById(R.id.exhibit);
+            CheckBox checkExhibit = firstVH.itemView.findViewById(R.id.exhibitModel);
 
             int numSelected = testDao.getNumSelected(true);
             TextView textView = activity.findViewById(R.id.counter);
@@ -133,10 +133,10 @@ public class ExhibitSelectedLiveCounterTest {
 
             checkExhibit.performClick();
 
-            List<Exhibit> exhibits = testDao.getAll();
+            List<ExhibitModel> exhibitModels = testDao.getAll();
             int selectedAfterClick = 0;
 
-            for(Exhibit e: exhibits){
+            for(ExhibitModel e: exhibitModels){
                 if(e.selected){
                     selectedAfterClick++;
                 }
@@ -147,10 +147,10 @@ public class ExhibitSelectedLiveCounterTest {
 
             checkExhibit.performClick();
 
-            exhibits = testDao.getAll();
+            exhibitModels = testDao.getAll();
             selectedAfterClick = 0;
 
-            for(Exhibit e: exhibits){
+            for(ExhibitModel e: exhibitModels){
                 if(e.selected){
                     selectedAfterClick++;
                 }

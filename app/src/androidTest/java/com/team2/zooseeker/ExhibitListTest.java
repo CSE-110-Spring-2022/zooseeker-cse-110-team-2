@@ -22,10 +22,10 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 import java.util.List;
 
-import cse110.Exhibit;
-import cse110.ExhibitsListDao;
-import cse110.ExhibitsListDatabase;
-import cse110.ZooData;
+import com.team2.zooseeker.model.ExhibitModel;
+import com.team2.zooseeker.model.ExhibitsListDao;
+import com.team2.zooseeker.model.ExhibitsListDatabase;
+import com.team2.zooseeker.model.ZooData;
 
 @RunWith(AndroidJUnit4.class)
 public class ExhibitListTest {
@@ -42,7 +42,7 @@ public class ExhibitListTest {
 
         dao = db.exhibitsListDao();
         try {
-            dao.insertAll(Exhibit.convert(ZooData.loadVertexInfoJSON(c, "sample_node_info.json")));
+            dao.insertAll(ExhibitModel.convert(ZooData.loadVertexInfoJSON(c, "sample_node_info.json")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -55,11 +55,11 @@ public class ExhibitListTest {
         scenario.moveToState(Lifecycle.State.STARTED);
         scenario.moveToState(Lifecycle.State.RESUMED);
         scenario.onActivity(((MainActivity activity) -> {
-            List<Exhibit> exhibits = dao.getAll();
+            List<ExhibitModel> exhibitModels = dao.getAll();
             RecyclerView.ViewHolder firstVH = activity.recyclerView.findViewHolderForAdapterPosition(0);
             assertNotNull(firstVH);
             long id = firstVH.getItemId();
-            CheckBox exhibitChecked = firstVH.itemView.findViewById(R.id.exhibit);
+            CheckBox exhibitChecked = firstVH.itemView.findViewById(R.id.exhibitModel);
             boolean checked = exhibitChecked.isChecked();
             exhibitChecked.performClick();
             assertEquals(!checked, dao.get(id).selected);

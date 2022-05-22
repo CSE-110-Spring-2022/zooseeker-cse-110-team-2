@@ -9,13 +9,13 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-import cse110.Exhibit;
-import cse110.ExhibitsListDao;
-import cse110.ExhibitsListDatabase;
+import com.team2.zooseeker.model.ExhibitModel;
+import com.team2.zooseeker.model.ExhibitsListDao;
+import com.team2.zooseeker.model.ExhibitsListDatabase;
 
 public class ExhibitListViewModel extends AndroidViewModel {
 
-    private LiveData<List<Exhibit>> exhibits;
+    private LiveData<List<ExhibitModel>> exhibits;
     private final ExhibitsListDao exhibitsListDao;
 
     public ExhibitListViewModel(@NonNull Application application){
@@ -25,7 +25,7 @@ public class ExhibitListViewModel extends AndroidViewModel {
         exhibitsListDao = db.exhibitsListDao();
     }
 
-    public LiveData<List<Exhibit>> getExhibitsList(){
+    public LiveData<List<ExhibitModel>> getExhibitsList(){
         if(exhibits == null){
             loadUsers();
         }
@@ -36,8 +36,8 @@ public class ExhibitListViewModel extends AndroidViewModel {
         exhibits = exhibitsListDao.getAllExhibits("exhibit");
     }
 
-    public void toggleSelected(Exhibit exhibit){
-        exhibit.selected = !exhibit.selected;
-        exhibitsListDao.update(exhibit);
+    public void toggleSelected(ExhibitModel exhibitModel){
+        exhibitModel.selected = !exhibitModel.selected;
+        exhibitsListDao.update(exhibitModel);
     }
 }

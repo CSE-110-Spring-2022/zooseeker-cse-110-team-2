@@ -1,4 +1,4 @@
-package cse110;
+package com.team2.zooseeker.model;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -6,46 +6,48 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.team2.zooseeker.model.ExhibitModel;
+
 import java.util.List;
 
 @Dao
 public interface ExhibitsListDao {
 
     @Insert
-    long insert(Exhibit exhibit);
+    long insert(ExhibitModel exhibitModel);
 
     @Insert
-    List<Long> insertAll(List<Exhibit> exhibits);
+    List<Long> insertAll(List<ExhibitModel> exhibitModels);
 
     @Query("SELECT * FROM `exhibits_database` WHERE `id`=:id")
-    Exhibit get(long id);
+    ExhibitModel get(long id);
 
     @Query("SELECT * FROM `exhibits_database` WHERE `id`=:id")
-    LiveData<Exhibit> getLive(long id);
+    LiveData<ExhibitModel> getLive(long id);
 
     @Query("SELECT * FROM `exhibits_database` WHERE `selected`=:selected")
     int getNumSelected(boolean selected);
 
     @Query("SELECT * FROM `exhibits_database` WHERE `kind`=:kind ORDER BY `name`")
-    LiveData<List<Exhibit>> getAllExhibits(String kind);
+    LiveData<List<ExhibitModel>> getAllExhibits(String kind);
 
     @Query("SELECT * FROM `exhibits_database` WHERE `kind`=:kind ORDER BY `name`")
-    List<Exhibit> getExhibits(String kind);
+    List<ExhibitModel> getExhibits(String kind);
 
 
     @Query("SELECT * FROM `exhibits_database` WHERE `selected`=:selected")
-    List<Exhibit> getAllSelected(boolean selected);
+    List<ExhibitModel> getAllSelected(boolean selected);
 
     @Query("SELECT * FROM `exhibits_database` ORDER BY `name`")
-    List<Exhibit> getAll();
+    List<ExhibitModel> getAll();
 
     @Query("SELECT * FROM `exhibits_database` ORDER BY `name`")
-    LiveData<List<Exhibit>> getAllLive();
+    LiveData<List<ExhibitModel>> getAllLive();
 
     @Query("SELECT * FROM `exhibits_database`WHERE `dataId`=:dataId")
-    Exhibit getExhibitByStringID(String dataId);
+    ExhibitModel getExhibitByStringID(String dataId);
 
     @Update
-    int update(Exhibit exhibit);
+    int update(ExhibitModel exhibitModel);
 
 }
