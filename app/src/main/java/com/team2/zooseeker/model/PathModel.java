@@ -1,11 +1,15 @@
 package com.team2.zooseeker.model;
 
 import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import java.util.List;
 
 @Entity(tableName = "paths_database")
 public class PathModel {
+
+    @PrimaryKey
+    public long numericId;
 
     public String id;
     public ZooData.VertexInfo.Kind kind;
@@ -21,5 +25,9 @@ public class PathModel {
         this.lat = v.lat;
         this.lng = v.lng;
         this.position = pos;
+    }
+
+    public PathModel() {
+
     }
 }
