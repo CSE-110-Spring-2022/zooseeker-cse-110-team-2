@@ -16,6 +16,9 @@ public interface PathDao {
     @Query("SELECT * FROM `paths_database`")
     List<PathModel> getAll();
 
+    @Query("DELETE FROM `paths_database`")
+    void deleteAll();
+
 
 
 

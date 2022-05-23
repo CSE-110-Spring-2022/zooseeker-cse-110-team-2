@@ -8,7 +8,7 @@ import java.util.List;
 @Entity(tableName = "paths_database")
 public class PathModel {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public long numericId;
 
     public String id;
@@ -17,6 +17,7 @@ public class PathModel {
     public double lat;
     public double lng;
     public int position;
+    public String parent_id;
 
     public PathModel(ZooData.VertexInfo v, int pos) {
         this.id = v.id;
@@ -24,10 +25,26 @@ public class PathModel {
         this.name = v.name;
         this.lat = v.lat;
         this.lng = v.lng;
+        this.parent_id = v.parent_id;
         this.position = pos;
+
     }
 
     public PathModel() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "PathModel{" +
+//                "numericId=" + numericId +
+                ", id='" + id + '\'' +
+//                ", kind=" + kind +
+//                ", name='" + name + '\'' +
+//                ", lat=" + lat +
+//                ", lng=" + lng +
+                ", position=" + position +
+//                ", parent_id='" + parent_id + '\'' +
+                '}';
     }
 }
