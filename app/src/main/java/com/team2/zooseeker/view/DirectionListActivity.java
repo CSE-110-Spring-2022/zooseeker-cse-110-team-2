@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -19,6 +20,7 @@ public class DirectionListActivity extends AppCompatActivity {
     private DirectionListViewModel directionListViewModel;
     private DirectionListAdapter adapter;
     private Button nextButton;
+    private Button previousButton;
 
     /**
      * Initialize DirectionListActivity with lists of strings and next button
@@ -37,13 +39,36 @@ public class DirectionListActivity extends AppCompatActivity {
 
         nextButton = findViewById(R.id.next_button);
         nextButton.setText("NEXT");
+
+        previousButton = findViewById(R.id.backButton);
+        previousButton.setText("BACK");
         directionListViewModel = new ViewModelProvider(this).get(DirectionListViewModel.class);
         directionListViewModel.populateList(adapter);
     }
 
     public void onNextButtonClicked(View view) {
-        adapter.incrementNumToDisplay();
+        if (String.valueOf(nextButton.getText()).equals("Finish")){
+            finish();
+        }
+
+        int result = adapter.incrementNumToDisplay();
         recyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
+
+        if (result >= adapter.directions.size()){
+            nextButton.setText("Finish");
+        }
+
+    }
+
+    public void onPreviousButtonClicked(View view){
+        boolean result = adapter.decrementNumToDisplay();
+        if (result){
+            recyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
+        } else {
+            finish();
+        }
+
+
     }
 
 }
