@@ -2,17 +2,20 @@ package com.team2.zooseeker.viewModel;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
-import androidx.activity.ComponentActivity;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.team2.zooseeker.model.PermissionChecker;
+import com.team2.zooseeker.R;
 import com.team2.zooseeker.model.ReplanModel;
 import com.team2.zooseeker.model.PathDao;
 import com.team2.zooseeker.model.PathDatabase;
@@ -22,7 +25,6 @@ import com.team2.zooseeker.model.RouteModel;
 import org.jgrapht.Graph;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +45,7 @@ public class DirectionListViewModel extends AndroidViewModel {
     private Map<String, ZooData.VertexInfo> vertexInfo;
     private List<String> pathToNext;
     private int currentExhibit = 0;
+    private boolean reroute = true;
 
     public DirectionListViewModel(@NonNull Application application) {
         super(application);
@@ -50,6 +53,7 @@ public class DirectionListViewModel extends AndroidViewModel {
         ExhibitsListDatabase db = ExhibitsListDatabase.getSingleton(context);
         exhibitsListDao = db.exhibitsListDao();
         pathDao = PathDatabase.getSingleton(context).pathDao();
+
         try {
              vertexInfo = ZooData
                     .loadVertexInfoJSON(application, "zoo_node_info.json");
@@ -67,7 +71,7 @@ public class DirectionListViewModel extends AndroidViewModel {
      * Exactly like a DefaultWeightedEdge, but has an id field we
      * @param adapter adapter to connect UI and direction ArrayList of String
      */
-    public void populateList(DirectionListAdapter adapter) {
+    public void populateList(DirectionListAdapter adapter, TextView prev, TextView next) {
         ArrayList<String> exhibits = ExhibitModel
                 .getExhibitNames(exhibitsListDao.getAllSelected(true));
         ArrayList<String> validatedExhibits = routeModel.validateExhibitList(exhibits);
@@ -75,35 +79,38 @@ public class DirectionListViewModel extends AndroidViewModel {
         populatePathDatabase(route);
 
         updatePath();
-        updateDirections(adapter);
+        updateDirections(adapter, prev, next);
     }
 
-    public void updateDirections(DirectionListAdapter adapter) {
+    public void updateDirections(DirectionListAdapter adapter, TextView prev, TextView next) {
         ArrayList<String> directions = routeModel.getDirections(pathToNext.get(0), pathToNext.get(pathToNext.size() - 1));
         adapter.setDirections(directions);
         for (int i = 0; i < directions.size() - 1; i++) {
             adapter.incrementNumToDisplay();
         }
+        updatePrevNext(prev, next);
     }
 
-    public void nextExhibit(DirectionListAdapter adapter) {
+    public void nextExhibit(DirectionListAdapter adapter, TextView prev, TextView next) {
         if (currentExhibit == pathDao.getAll().size() - 2) {
             Log.d("DEBUG", "max size");
             return;
         }
+        reroute = true;
         currentExhibit++;
         updatePath();
-        updateDirections(adapter);
+        updateDirections(adapter, prev, next);
     }
 
-    public boolean prevExhibit(DirectionListAdapter adapter) {
+    public boolean prevExhibit(DirectionListAdapter adapter, TextView prev, TextView next) {
         if (currentExhibit == 0) {
             Log.d("DEBUG", "min size");
             return false;
         }
+        reroute = true;
         currentExhibit--;
         updatePath();
-        updateDirections(adapter);
+        updateDirections(adapter, prev, next);
         return true;
     }
 
@@ -130,7 +137,7 @@ public class DirectionListViewModel extends AndroidViewModel {
     public void populatePathDatabase(ArrayList<String> exhibitIds) {
         pathDao.deleteAll();
         for (int i = 0; i < exhibitIds.size(); i++) {
-            pathDao.insert(new PathModel(vertexInfo.get(exhibitIds.get(i)), i));
+            pathDao.insert(new PathModel(Objects.requireNonNull(vertexInfo.get(exhibitIds.get(i))), i));
         }
         Log.d("DEBUG PATH DAO", pathDao.getAll().toString());
         Log.d("DEBUG PATH DAO", Long.toString(pathDao.getAll().size()));
@@ -142,48 +149,81 @@ public class DirectionListViewModel extends AndroidViewModel {
      * @param activity DirectionListActivity
      */
     @SuppressLint("MissingPermission")
-    public void autoUpdateRoute(Activity activity) {
+    public void autoUpdateRoute(Activity activity, DirectionListAdapter adapter, TextView prev, TextView next) {
 
         ReplanModel replan = new ReplanModel(activity, "zoo_node_info.json");
-
-        // Get Location Permissions
-        PermissionChecker perms = new PermissionChecker((ComponentActivity) activity);
-        if (perms.ensurePermissions()) {
-            return;
-        }
-        ; // TODO: Account for user denying permissions
-        // TODO: Also we want to reload this once anyways to actually enable permissions
 
         // Set up location listener
         String provider = LocationManager.GPS_PROVIDER;
         LocationManager locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = location -> {
-            Log.d("DEBUG", String.format("Location changed: %s", location));
+            Log.d("DEBUG REPLAN", String.format("Location changed: %s", location));
             if (replan.offTrack(location, pathToNext)) {
                 ZooData.VertexInfo currentNode = replan.getNearestLandmark(location);
-                Log.d("DEBUG", String.format("Nearest landmark is now %s", currentNode.name));
+                Log.d("DEBUG REPLAN", String.format("Nearest landmark is now %s", currentNode.name));
 
                 // Generate route from current position for comparison
-                ArrayList<String> routeRemaining = new ArrayList<>();
                 List<PathModel> fullPath = pathDao.getAll();
-                for (int i = currentExhibit + 1; i < fullPath.size() - 1; i++) {
-                    routeRemaining.add(fullPath.get(i).id);
-                }
-                routeModel.setExhibits(routeRemaining);
-                ArrayList<String> newRoute = routeModel.genSubRoute(currentNode.id, "entrance_exit_gate");
+                ArrayList<String> newRoute = genRemainingRoute(currentNode);
+
+                Log.d("DEBUG REPLAN", String.format("Current next exhibit is %s, nearest next exhibit is %s",
+                        fullPath.get(currentExhibit + 1).id, newRoute.get(1)));
 
                 if (!newRoute.get(1).equals(fullPath.get(currentExhibit + 1).id)) {
-                    Log.d("DEBUG NEW ROUTE", String.format("Current next exhibit is %s, nearest next exhibit is %s",
-                            fullPath.get(currentExhibit + 1).id, newRoute.get(1)));
-                    // TODO: Prompt user (once) to re-plan route, then replan and re-fill databases
-
+                    attemptReroute(activity, currentNode, adapter, prev, next);
                 }
-                // TODO: update directions either way from current position, since user is likely not on path yet
-
+                updatePath(currentNode.id, getNextExhibit().id);
+                updateDirections(adapter, prev, next);
             }
 
         };
         locationManager.requestLocationUpdates(provider, 0, 0f, locationListener);
+    }
+
+    public ArrayList<String> genRemainingRoute(ZooData.VertexInfo currentNode) {
+        ArrayList<String> routeRemaining = new ArrayList<>();
+        List<PathModel> fullPath = pathDao.getAll();
+        for (int i = currentExhibit + 1; i < fullPath.size() - 1; i++) {
+            routeRemaining.add(fullPath.get(i).id);
+        }
+        routeModel.setExhibits(routeRemaining);
+        return routeModel.genSubRoute(currentNode.id, "entrance_exit_gate");
+    }
+
+    public void attemptReroute(Activity activity, ZooData.VertexInfo currentNode, DirectionListAdapter adapter, TextView prevDisplay, TextView nextDisplay) {
+        if (!reroute) {
+            return;
+        }
+        AlertDialog prompt = new AlertDialog.Builder(activity).setMessage("Off Track. Replan?").setPositiveButton("Yes",
+                (DialogInterface dialog, int which) -> {
+            reRoute(currentNode);
+            updatePath();
+            updateDirections(adapter, prevDisplay, nextDisplay);
+            reroute = true;
+            dialog.dismiss();
+        }).setNegativeButton("No",
+                (DialogInterface dialog, int which) -> {
+            dialog.dismiss();
+                }).create();
+        reroute = false;
+        prompt.create();
+        prompt.show();
+    }
+
+    public void reRoute(ZooData.VertexInfo currentNode) {
+        ArrayList<String> remainingRoute = genRemainingRoute(currentNode);
+        List<PathModel> currentRoute = pathDao.getAll();
+
+        ArrayList<String> newPathIds = new ArrayList<>();
+        for (int i = 0; i <= currentExhibit; i++) {
+            newPathIds.add(currentRoute.get(i).id);
+        }
+        for (int i = 1; i < remainingRoute.size(); i++) {
+            newPathIds.add(remainingRoute.get(i));
+        }
+        Log.d("DEBUG REPLAN", newPathIds.toString());
+
+        populatePathDatabase(newPathIds);
     }
 
     public PathModel getNextExhibit() {
@@ -192,6 +232,12 @@ public class DirectionListViewModel extends AndroidViewModel {
 
     public PathModel getPrevExhibit() {
         return pathDao.getAll().get(currentExhibit);
+    }
 
+    public void updatePrevNext(TextView prevDisplay, TextView nextDisplay) {
+        String prev = getPrevExhibit().name;
+        String next = getNextExhibit().name;
+        prevDisplay.setText(String.format("From: %s", prev));
+        nextDisplay.setText(String.format("To: %s", next));
     }
 }
