@@ -95,6 +95,21 @@ public class DirectionListViewModel extends AndroidViewModel {
         updateDirections(adapter);
     }
 
+    public boolean prevExhibit(DirectionListAdapter adapter) {
+        if (currentExhibit == 0) {
+            Log.d("DEBUG", "min size");
+            return false;
+        }
+        currentExhibit--;
+        updatePath();
+        updateDirections(adapter);
+        return true;
+    }
+
+    public boolean exhibitsRemaining() {
+        return currentExhibit != pathDao.getAll().size() - 2;
+    }
+
     /**
      * Updates the current path with starting and ending positions
      * @param start name of starting exhibit/vertex
