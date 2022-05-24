@@ -134,4 +134,12 @@ public class DirectionListViewModel extends AndroidViewModel {
         Log.d("DEBUG PATH DAO", pathDao.getAll().toString());
         Log.d("DEBUG PATH DAO", Long.toString(pathDao.getAll().size()));
     }
+
+    public PathModel getNextExhibit() {
+        return pathDao.getAll().get(currentExhibit + 1);
+    }
+
+    public PathModel getPrevExhibit() {
+        return pathDao.getAll().get(currentExhibit);
+    }
 }
