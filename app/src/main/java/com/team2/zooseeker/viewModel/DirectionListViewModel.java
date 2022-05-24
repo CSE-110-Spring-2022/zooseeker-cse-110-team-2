@@ -26,6 +26,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import com.team2.zooseeker.model.ExhibitModel;
 import com.team2.zooseeker.model.ExhibitsListDao;
@@ -150,6 +151,7 @@ public class DirectionListViewModel extends AndroidViewModel {
         if (perms.ensurePermissions()) {
             return;
         }; // TODO: Account for user denying permissions
+        // TODO: Also we want to reload this once anyways to actually enable permissions
 
         // Set up location listener
         String provider = LocationManager.GPS_PROVIDER;
@@ -160,12 +162,23 @@ public class DirectionListViewModel extends AndroidViewModel {
                 ZooData.VertexInfo currentNode = replan.getNearestLandmark(location);
                 Log.d("DEBUG", String.format("Nearest landmark is now %s", currentNode.name));
 
-                /*if (generate route from position != current route remaining) {
-                        prompt to replan (check that user hasn't been prompted recently)
-                    }
-                    auto-update directions
-                    // TODO: Prompt user (once) to re-plan route
-                        */
+                // Generate route from current position for comparison
+                ArrayList<String> routeRemaining = new ArrayList<>();
+                List<PathModel> fullPath = pathDao.getAll();
+                for (int i = currentExhibit + 1; i < fullPath.size() - 1; i++) {
+                    routeRemaining.add(fullPath.get(i).id);
+                }
+                routeModel.setExhibits(routeRemaining);
+                ArrayList<String> newRoute = routeModel.genSubRoute(currentNode.id, "entrance_exit_gate");
+
+                if (!newRoute.get(1).equals(fullPath.get(currentExhibit + 1).id)) {
+                    Log.d("DEBUG NEW ROUTE", String.format("Current next exhibit is %s, nearest next exhibit is %s",
+                            fullPath.get(currentExhibit + 1).id, newRoute.get(1)));
+                    // TODO: Prompt user (once) to re-plan route, then replan and re-fill databases
+
+                }
+                // TODO: update directions either way from current position, since user is likely not on path yet
+                
             }
 
         };
