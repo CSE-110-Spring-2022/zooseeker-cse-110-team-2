@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -67,8 +68,11 @@ public class DirectionListActivity extends AppCompatActivity {
         } else {
             finish();
         }
+    }
 
-
+    public void onSummaryButtonClicked(View view) {
+        Intent intent = new Intent(this, RouteSummaryActivity.class);
+        startActivity(intent);
     }
 
 }
