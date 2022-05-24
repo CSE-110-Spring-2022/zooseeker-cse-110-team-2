@@ -6,6 +6,7 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -187,6 +188,10 @@ public class RouteModel {
             }
         }
         return validatedExhibits;
+    }
+
+    public List<String> getPath(String source, String sink) {
+        return DijkstraShortestPath.findPathBetween(graph, source, sink).getVertexList();
     }
 
 }

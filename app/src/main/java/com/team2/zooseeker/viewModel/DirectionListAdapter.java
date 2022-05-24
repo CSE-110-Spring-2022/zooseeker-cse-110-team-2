@@ -32,6 +32,7 @@ public class DirectionListAdapter extends RecyclerView.Adapter<DirectionListAdap
 
     public void setDirections(ArrayList<String> directions) {
         this.directions.clear();
+        this.numToDisplay = 1;
         this.directions = directions;
         Log.d("DEBUG ROUTE ADAPTER", directions.toString());
         notifyDataSetChanged();
