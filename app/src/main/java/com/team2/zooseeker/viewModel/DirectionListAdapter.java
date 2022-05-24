@@ -30,13 +30,15 @@ public class DirectionListAdapter extends RecyclerView.Adapter<DirectionListAdap
 
     }
 
-    public int decrementNumToDisplay() {
-        if (numToDisplay > 0) {
+    public boolean decrementNumToDisplay() {
+        if (numToDisplay > 1) {
             numToDisplay--;
+            Log.d("DEBUG", Integer.toString(numToDisplay));
+            notifyDataSetChanged();
+            return true;
         }
-        Log.d("DEBUG", Integer.toString(numToDisplay));
-        notifyDataSetChanged();
-        return numToDisplay;
+
+        return false;
 
     }
 

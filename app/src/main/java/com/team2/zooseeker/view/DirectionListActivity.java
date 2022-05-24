@@ -42,28 +42,32 @@ public class DirectionListActivity extends AppCompatActivity {
 
         previousButton = findViewById(R.id.backButton);
         previousButton.setText("BACK");
-        previousButton.setVisibility(View.INVISIBLE);
         directionListViewModel = new ViewModelProvider(this).get(DirectionListViewModel.class);
         directionListViewModel.populateList(adapter);
     }
 
     public void onNextButtonClicked(View view) {
-        int result = adapter.incrementNumToDisplay();
-        Log.d("direction", String.valueOf(adapter.directions.size()));
-        recyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
-        if (result >= adapter.directions.size()){
-            nextButton.setText("Finish");
+        if (String.valueOf(nextButton.getText()).equals("Finish")){
+            finish();
         }
 
-        if (result > 0){
-            previousButton.setVisibility(View.VISIBLE);
+        int result = adapter.incrementNumToDisplay();
+        recyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
+
+        if (result >= adapter.directions.size()){
+            nextButton.setText("Finish");
         }
 
     }
 
     public void onPreviousButtonClicked(View view){
-        int result = adapter.decrementNumToDisplay();
-        recyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
+        boolean result = adapter.decrementNumToDisplay();
+        if (result){
+            recyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
+        } else {
+            finish();
+        }
+
 
     }
 
