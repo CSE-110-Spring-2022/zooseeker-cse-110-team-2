@@ -150,7 +150,8 @@ public class DirectionListViewModel extends AndroidViewModel {
         PermissionChecker perms = new PermissionChecker((ComponentActivity) activity);
         if (perms.ensurePermissions()) {
             return;
-        }; // TODO: Account for user denying permissions
+        }
+        ; // TODO: Account for user denying permissions
         // TODO: Also we want to reload this once anyways to actually enable permissions
 
         // Set up location listener
@@ -178,10 +179,19 @@ public class DirectionListViewModel extends AndroidViewModel {
 
                 }
                 // TODO: update directions either way from current position, since user is likely not on path yet
-                
+
             }
 
         };
         locationManager.requestLocationUpdates(provider, 0, 0f, locationListener);
+    }
+
+    public PathModel getNextExhibit() {
+        return pathDao.getAll().get(currentExhibit + 1);
+    }
+
+    public PathModel getPrevExhibit() {
+        return pathDao.getAll().get(currentExhibit);
+
     }
 }

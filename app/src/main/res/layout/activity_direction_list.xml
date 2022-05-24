@@ -29,8 +29,10 @@
         android:layout_marginBottom="6dp"
         app:layout_constraintBottom_toTopOf="@+id/next_button"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/direction_title" />
+        app:layout_constraintTop_toBottomOf="@+id/next_display"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/next_button"
@@ -62,5 +64,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.023" />
+
+    <TextView
+        android:id="@+id/prev_display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Previous Exhibit: "
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/direction_title" />
+
+    <TextView
+        android:id="@+id/next_display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next Exhibit: "
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/prev_display" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
