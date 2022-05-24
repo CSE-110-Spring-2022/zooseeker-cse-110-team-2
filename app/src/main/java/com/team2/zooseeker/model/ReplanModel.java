@@ -5,6 +5,7 @@ import android.location.Location;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class ReplanModel {
@@ -30,10 +31,10 @@ public class ReplanModel {
      * @param path all nodes in current path to next exhibit
      * @return true if location is off-route, false if on-route
      */
-    public boolean offTrack(Location currentLoc, Map<String, ZooData.VertexInfo> path) {
+    public boolean offTrack(Location currentLoc, List<String> path) {
         // Currently uses two nearest nodes in given path as the 'current edge'
         ZooData.VertexInfo node1 = getNearestLandmark(currentLoc, path);
-        path.remove(node1.name, node1);
+        path.remove(node1.id);
         ZooData.VertexInfo node2 = getNearestLandmark(currentLoc, path);
 
         // Then compares distance to nearest landmark with distance to 'current edge'
@@ -56,21 +57,11 @@ public class ReplanModel {
      * @return VertexInfo of nearest landmark
      */
     public ZooData.VertexInfo getNearestLandmark(Location currentLoc) {
-        return getNearestLandmark(currentLoc, nodeMap);
-    }
-
-    /**
-     * Returns the nearest landmark from the current position
-     * @param currentLoc current location
-     * @param nodes list of landmarks to include in the search
-     * @return VertexInfo of nearest landmark
-     */
-    public ZooData.VertexInfo getNearestLandmark(Location currentLoc, Map<String, ZooData.VertexInfo> nodes) {
         double smallestDist = Double.MAX_VALUE;
         ZooData.VertexInfo currentNode = new ZooData.VertexInfo();
 
         //Iterate through all nodes, set distance to be min distance to any node
-        for (ZooData.VertexInfo node : nodes.values()) {
+        for (ZooData.VertexInfo node : nodeMap.values()) {
             double compDist = getDist(currentLoc.getLatitude(),
                     currentLoc.getLongitude(),
                     node.lat, node.lng);
@@ -80,6 +71,29 @@ public class ReplanModel {
             }
         }
         return currentNode;
+    }
+
+    /**
+     * Returns the nearest landmark from the current position
+     * @param currentLoc current location
+     * @param nodes list of landmarks to include in the search
+     * @return VertexInfo of nearest landmark
+     */
+    public ZooData.VertexInfo getNearestLandmark(Location currentLoc, List<String> nodes) {
+        double smallestDist = Double.MAX_VALUE;
+        String currentNode = "";
+
+        //Iterate through all nodes, set distance to be min distance to any node
+        for (String node : nodes) {
+            double compDist = getDist(currentLoc.getLatitude(),
+                    currentLoc.getLongitude(),
+                    nodeMap.get(node).lat, nodeMap.get(node).lng);
+            if (compDist < smallestDist) {
+                smallestDist = compDist;
+                currentNode = node;
+            }
+        }
+        return nodeMap.get(currentNode);
     }
 
     /**

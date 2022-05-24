@@ -75,17 +75,9 @@ public class DirectionListViewModel extends AndroidViewModel {
 
         updatePath();
         updateDirections(adapter);
-//        ArrayList<String> directions = routeModel.getDirections(route);
-//        adapter.setDirections(directions);
     }
 
     public void updateDirections(DirectionListAdapter adapter) {
-//        ArrayList<String> exhibits = new ArrayList<>();
-//        List<PathModel> pathModels = pathDao.getAll();
-//        for (PathModel path : pathModels) {
-//            exhibits.add(path.name);
-//        }
-//        ArrayList<String> route = routeModel.genRoute(exhibits);
         ArrayList<String> directions = routeModel.getDirections(pathToNext.get(0), pathToNext.get(pathToNext.size() - 1));
         adapter.setDirections(directions);
         for (int i = 0; i < directions.size() - 1; i++) {
@@ -164,14 +156,18 @@ public class DirectionListViewModel extends AndroidViewModel {
         LocationManager locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = location -> {
             Log.d("DEBUG", String.format("Location changed: %s", location));
-                /*if (replan.offTrack(location)) { // TODO: needs nodes in current path (to next exhibit)
-                    replan.getNearestLandmark(location); // use to get current location for route
-                    if (generate route from position != current route remaining) {
+            if (replan.offTrack(location, pathToNext)) {
+                ZooData.VertexInfo currentNode = replan.getNearestLandmark(location);
+                Log.d("DEBUG", String.format("Nearest landmark is now %s", currentNode.name));
+
+                /*if (generate route from position != current route remaining) {
                         prompt to replan (check that user hasn't been prompted recently)
                     }
                     auto-update directions
                     // TODO: Prompt user (once) to re-plan route
-                }*/
+                        */
+            }
+
         };
         locationManager.requestLocationUpdates(provider, 0, 0f, locationListener);
     }
