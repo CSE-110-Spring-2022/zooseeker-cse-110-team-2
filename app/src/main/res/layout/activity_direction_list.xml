@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".view.DirectionListActivity">
 
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="6dp"
+        android:background="@android:color/holo_green_dark"
+        android:hint="Back"
+        android:onClick="onPreviousButtonClicked"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/direction_items"
         android:layout_width="0dp"
@@ -23,12 +37,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
+        android:layout_marginEnd="44dp"
         android:background="@android:color/holo_green_dark"
         android:hint="Next or Finish"
         android:onClick="onNextButtonClicked"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.976" />
 
