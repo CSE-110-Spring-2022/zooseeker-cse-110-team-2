@@ -1,6 +1,8 @@
 package com.team2.zooseeker.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -24,6 +26,12 @@ public class RouteSummaryActivity extends AppCompatActivity {
         routeSummaryAdapter = new RouteSummaryAdapter();
         routeSummaryAdapter.setHasStableIds(true);
 
-        recyclerView = getI
+        recyclerView = findViewById(R.id.route_summary_recyler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(routeSummaryAdapter);
+
+        routeSummaryViewModel = new ViewModelProvider(this).get(RouteSummaryViewModel.class);
+        routeSummaryViewModel.populateExhibits(routeSummaryAdapter);
+
     }
 }
