@@ -33,9 +33,10 @@ public class ReplanModel {
      */
     public boolean offTrack(Location currentLoc, List<String> path) {
         // Currently uses two nearest nodes in given path as the 'current edge'
-        ZooData.VertexInfo node1 = getNearestLandmark(currentLoc, path);
-        path.remove(node1.id);
-        ZooData.VertexInfo node2 = getNearestLandmark(currentLoc, path);
+        List<String> tempPath = new ArrayList<>(path);
+        ZooData.VertexInfo node1 = getNearestLandmark(currentLoc, tempPath);
+        tempPath.remove(node1.id);
+        ZooData.VertexInfo node2 = getNearestLandmark(currentLoc, tempPath);
 
         // Then compares distance to nearest landmark with distance to 'current edge'
         return distToNearestLandmark(currentLoc) < distToEdge(currentLoc, node1, node2);
