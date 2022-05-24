@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.team2.zooseeker.R;
 import com.team2.zooseeker.model.ExhibitModel;
 import com.team2.zooseeker.model.SearchModel;
+import com.team2.zooseeker.view.MainActivity;
 
 import java.util.Collections;
 import java.util.List;
@@ -83,7 +84,9 @@ public class ExhibitListAdapter extends RecyclerView.Adapter<ExhibitListAdapter.
                 int count = SearchModel.getCount();
 
                 counter.setText(String.valueOf(count));
+
             });
+
         }
 
         public ExhibitModel getExhibit(){

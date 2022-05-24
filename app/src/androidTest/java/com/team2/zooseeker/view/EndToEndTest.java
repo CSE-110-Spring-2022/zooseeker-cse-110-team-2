@@ -38,7 +38,7 @@ public class EndToEndTest {
     @Test
     public void endToEndTest() {
         ViewInteraction materialCheckBox = onView(
-                allOf(withId(R.id.exhibit), withText("Alligators"),
+                allOf(withId(R.id.exhibit_items), withText("Alligators"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.exhibit_items),
@@ -48,7 +48,7 @@ public class EndToEndTest {
         materialCheckBox.perform(click());
 
         ViewInteraction materialCheckBox2 = onView(
-                allOf(withId(R.id.exhibit), withText("Arctic Foxes"),
+                allOf(withId(R.id.exhibit_items), withText("Arctic Foxes"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.exhibit_items),
@@ -58,7 +58,7 @@ public class EndToEndTest {
         materialCheckBox2.perform(click());
 
         ViewInteraction materialCheckBox3 = onView(
-                allOf(withId(R.id.exhibit), withText("Elephant Odyssey"),
+                allOf(withId(R.id.exhibit_items), withText("Elephant Odyssey"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.exhibit_items),
@@ -68,7 +68,7 @@ public class EndToEndTest {
         materialCheckBox3.perform(click());
 
         ViewInteraction materialCheckBox4 = onView(
-                allOf(withId(R.id.exhibit), withText("Gorillas"),
+                allOf(withId(R.id.exhibit_items), withText("Gorillas"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.exhibit_items),
@@ -78,7 +78,7 @@ public class EndToEndTest {
         materialCheckBox4.perform(click());
 
         ViewInteraction materialCheckBox5 = onView(
-                allOf(withId(R.id.exhibit), withText("Lions"),
+                allOf(withId(R.id.exhibit_items), withText("Lions"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.exhibit_items),
