@@ -23,6 +23,7 @@ import com.team2.zooseeker.model.PathModel;
 import com.team2.zooseeker.model.RouteModel;
 
 import org.jgrapht.Graph;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -98,6 +99,17 @@ public class DirectionListViewModel extends AndroidViewModel {
         }
         reroute = true;
         currentExhibit++;
+        updatePath();
+        updateDirections(adapter, prev, next);
+    }
+
+    public void skipExhibit(DirectionListAdapter adapter, TextView prev, TextView next) {
+        if (currentExhibit == pathDao.getAll().size() - 2) {
+            Log.d("DEBUG", "max size");
+            return;
+        }
+        reroute = true;
+        currentExhibit += 2;
         updatePath();
         updateDirections(adapter, prev, next);
     }
