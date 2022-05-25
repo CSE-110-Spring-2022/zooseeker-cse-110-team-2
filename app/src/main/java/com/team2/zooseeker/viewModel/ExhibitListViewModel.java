@@ -2,6 +2,8 @@ package com.team2.zooseeker.viewModel;
 
 import android.app.Application;
 import android.content.Context;
+import android.view.View;
+import android.widget.CheckBox;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -25,16 +27,26 @@ public class ExhibitListViewModel extends AndroidViewModel {
         exhibitsListDao = db.exhibitsListDao();
     }
 
-    public LiveData<List<ExhibitModel>> getExhibitsList(){
+    public LiveData<List<ExhibitModel>> getExhibitsList(boolean selected){
         if(exhibits == null){
-            loadUsers();
+            loadUsers(selected);
         }
         return exhibits;
     }
 
-    private void loadUsers(){
-        exhibits = exhibitsListDao.getAllExhibits("exhibit");
+    private void loadUsers(boolean selected){
+        if(selected){
+            exhibits = exhibitsListDao.getShowSelected(true);
+        }
+        else{
+            exhibits = exhibitsListDao.getAllExhibits("exhibit");
+        }
     }
+
+    public ExhibitsListDao getExhibitsListDao(){
+        return this.exhibitsListDao;
+    }
+
 
     public void toggleSelected(ExhibitModel exhibitModel){
         exhibitModel.selected = !exhibitModel.selected;
