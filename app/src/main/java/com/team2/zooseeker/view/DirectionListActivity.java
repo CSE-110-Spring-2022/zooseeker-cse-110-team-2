@@ -91,4 +91,13 @@ public class DirectionListActivity extends AppCompatActivity {
         }
     }
 
+    public void onSkipButtonClicked(View view) {
+        directionListViewModel.skipExhibit(adapter, previousDisplay, nextDisplay);
+        if (String.valueOf(nextButton.getText()).equals("Finish")){
+            finish();
+        }
+        if (!directionListViewModel.exhibitsRemaining()){
+            nextButton.setText("Finish");
+        }
+    }
 }
