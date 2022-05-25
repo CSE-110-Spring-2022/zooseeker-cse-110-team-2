@@ -15,7 +15,9 @@ import com.team2.zooseeker.model.RouteModel;
 import org.jgrapht.Graph;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.team2.zooseeker.model.ExhibitModel;
@@ -28,8 +30,10 @@ public class DirectionListViewModel extends AndroidViewModel {
 
     private final ExhibitsListDao exhibitsListDao;
     private RouteModel routeModel;
-    private PathDao pathDao;
+    private final PathDao pathDao;
     private Map<String, ZooData.VertexInfo> vertexInfo;
+    private List<String> pathToNext;
+    private int currentExhibit = 0;
 
     public DirectionListViewModel(@NonNull Application application) {
         super(application);
@@ -58,10 +62,68 @@ public class DirectionListViewModel extends AndroidViewModel {
         ArrayList<String> exhibits = ExhibitModel
                 .getExhibitNames(exhibitsListDao.getAllSelected(true));
         ArrayList<String> validatedExhibits = routeModel.validateExhibitList(exhibits);
-        populatePathDatabase(exhibits);
         ArrayList<String> route = routeModel.genRoute(validatedExhibits);
-        ArrayList<String> directions = routeModel.getDirections(route);
+        populatePathDatabase(route);
+
+        updatePath();
+        updateDirections(adapter);
+//        ArrayList<String> directions = routeModel.getDirections(route);
+//        adapter.setDirections(directions);
+    }
+
+    public void updateDirections(DirectionListAdapter adapter) {
+//        ArrayList<String> exhibits = new ArrayList<>();
+//        List<PathModel> pathModels = pathDao.getAll();
+//        for (PathModel path : pathModels) {
+//            exhibits.add(path.name);
+//        }
+//        ArrayList<String> route = routeModel.genRoute(exhibits);
+        ArrayList<String> directions = routeModel.getDirections(pathToNext.get(0), pathToNext.get(pathToNext.size() - 1));
         adapter.setDirections(directions);
+        for (int i = 0; i < directions.size() - 1; i++) {
+            adapter.incrementNumToDisplay();
+        }
+    }
+
+    public void nextExhibit(DirectionListAdapter adapter) {
+        if (currentExhibit == pathDao.getAll().size() - 2) {
+            Log.d("DEBUG", "max size");
+            return;
+        }
+        currentExhibit++;
+        updatePath();
+        updateDirections(adapter);
+    }
+
+    public boolean prevExhibit(DirectionListAdapter adapter) {
+        if (currentExhibit == 0) {
+            Log.d("DEBUG", "min size");
+            return false;
+        }
+        currentExhibit--;
+        updatePath();
+        updateDirections(adapter);
+        return true;
+    }
+
+    public boolean exhibitsRemaining() {
+        return currentExhibit != pathDao.getAll().size() - 2;
+    }
+
+    /**
+     * Updates the current path with starting and ending positions
+     * @param start name of starting exhibit/vertex
+     * @param end name of ending exhibit
+     */
+    public void updatePath(String start, String end) {
+        pathToNext = routeModel.getPath(start, end);
+    }
+
+    /**
+     * Updates the current path based on pathDao and currentExhibit
+     */
+    public void updatePath() {
+        pathToNext = routeModel.getPath(pathDao.getAll().get(currentExhibit).id, pathDao.getAll().get(currentExhibit + 1).id);
     }
 
     public void populatePathDatabase(ArrayList<String> exhibitIds) {
@@ -71,5 +133,13 @@ public class DirectionListViewModel extends AndroidViewModel {
         }
         Log.d("DEBUG PATH DAO", pathDao.getAll().toString());
         Log.d("DEBUG PATH DAO", Long.toString(pathDao.getAll().size()));
+    }
+
+    public PathModel getNextExhibit() {
+        return pathDao.getAll().get(currentExhibit + 1);
+    }
+
+    public PathModel getPrevExhibit() {
+        return pathDao.getAll().get(currentExhibit);
     }
 }
