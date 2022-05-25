@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -19,6 +20,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.team2.zooseeker.R;
@@ -36,6 +38,7 @@ public class DirectionListActivity extends AppCompatActivity {
     private DirectionListAdapter adapter;
     private Button nextButton;
     private Button previousButton;
+    private ImageButton settingButton;
     private TextView previousDisplay;
     private TextView nextDisplay;
 
@@ -57,6 +60,7 @@ public class DirectionListActivity extends AppCompatActivity {
         nextButton = findViewById(R.id.next_button);
         nextButton.setText("NEXT");
 
+        settingButton = findViewById(R.id.setting_button);
         previousDisplay = findViewById(R.id.prev_display);
         nextDisplay = findViewById(R.id.next_display);
 
@@ -99,5 +103,10 @@ public class DirectionListActivity extends AppCompatActivity {
         if (!directionListViewModel.exhibitsRemaining()){
             nextButton.setText("Finish");
         }
+    }
+
+    public void onSettingButtonClicked(View view) {
+        Intent intent = new Intent(this, SettingActivity.class);
+        startActivity(intent);
     }
 }

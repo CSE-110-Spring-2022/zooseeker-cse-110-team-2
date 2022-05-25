@@ -103,4 +103,18 @@
         app:layout_constraintStart_toEndOf="@+id/next_button"
         app:layout_constraintTop_toBottomOf="@+id/direction_items" />
 
+    <ImageButton
+        android:id="@+id/setting_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="36dp"
+        android:onClick="onSettingButtonClicked"
+        app:layout_constraintBottom_toTopOf="@+id/direction_items"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/direction_title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_manage" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
