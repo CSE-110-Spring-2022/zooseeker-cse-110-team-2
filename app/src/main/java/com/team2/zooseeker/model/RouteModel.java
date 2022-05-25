@@ -73,14 +73,25 @@ public class RouteModel {
 
     /**
      * Generates the order of exhibits to go through with included start and endpoints
-     * @return list of names of all exhibits in plan in a semi-optimal route, including start and endpoints
+     * @return list of names of all exhibits in plan in a semi-optimal route, including default start and endpoints
      */
     public ArrayList<String> genRoute() {
         // "source" and "sink" are graph terms for the start and end
         String entrance_exit = "entrance_exit_gate";
-        String prev = entrance_exit;
+        return genSubRoute(entrance_exit, entrance_exit);
+    }
+
+    /**
+     * Version of genRoute used for a given start and end point
+     * @param start exhibit to start route from, default should be entrance_exit_gate
+     * @param end exhibit to end at, presumably entrance_exit_gate
+     * @return list of names of all exhibits in plan in a semi-optimal route
+     */
+    public ArrayList<String> genSubRoute(String start, String end) {
+        // "source" and "sink" are graph terms for the start and end
+        String prev = start;
         ArrayList<String> route = new ArrayList<>();
-        route.add(entrance_exit);
+        route.add(start);
         while (!list.isEmpty()) {
             String closest = "";
             int closestDist = Integer.MAX_VALUE;
@@ -100,7 +111,7 @@ public class RouteModel {
             route.add(closest);
             prev = closest;
         }
-        route.add(entrance_exit);
+        route.add(end);
         return route;
     }
 

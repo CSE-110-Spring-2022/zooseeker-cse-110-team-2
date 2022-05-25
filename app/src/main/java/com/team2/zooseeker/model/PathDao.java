@@ -20,7 +20,4 @@ public interface PathDao {
     @Query("DELETE FROM `paths_database`")
     void deleteAll();
 
-
-
-
 }
