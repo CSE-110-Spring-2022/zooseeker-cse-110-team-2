@@ -21,6 +21,9 @@
             android:name=".view.DirectionListActivity"
             android:exported="false" />
         <activity
+            android:name=".view.RouteSummaryActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.MainActivity"
             android:exported="true">
             <intent-filter>
@@ -30,5 +33,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

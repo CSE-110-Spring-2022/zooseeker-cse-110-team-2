@@ -20,11 +20,11 @@ public class ZooDataTest {
     public void testLoadVertexInfoWithLocation() throws FileNotFoundException {
         Map<String, ZooData.VertexInfo> vertexInfo = ZooData.loadVertexInfoJSON(new FileInputStream("src/main/assets/zoo_node_info.json"));
         assertEquals("Entrance and Exit Gate", vertexInfo.get("entrance_exit_gate").name);
-        assertEquals(32.73561, vertexInfo.get("entrance_exit_gate").lat, 0.00005);
+        assertEquals(32.73459618734685, vertexInfo.get("entrance_exit_gate").lat, 0.00005);
         assertEquals(-117.14936, vertexInfo.get("entrance_exit_gate").lng, 0.00005);
         assertEquals(27, vertexInfo.size());
         assertEquals(ZooData.VertexInfo.Kind.EXHIBIT_GROUP, vertexInfo.get("parker_aviary").kind);
-        assertEquals("parker_aviary", vertexInfo.get("toucan").parent_id);
+        assertEquals("parker_aviary", vertexInfo.get("toucan").group_id);
 
     }
 

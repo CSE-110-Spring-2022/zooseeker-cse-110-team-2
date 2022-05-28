@@ -1,35 +1,21 @@
 package com.team2.zooseeker.view;
 
-import androidx.activity.ComponentActivity;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.team2.zooseeker.R;
 import com.team2.zooseeker.model.PermissionChecker;
-import com.team2.zooseeker.model.ReplanModel;
 import com.team2.zooseeker.viewModel.DirectionListAdapter;
 import com.team2.zooseeker.viewModel.DirectionListViewModel;
-
-import org.w3c.dom.Text;
 
 public class DirectionListActivity extends AppCompatActivity {
 
@@ -77,8 +63,6 @@ public class DirectionListActivity extends AppCompatActivity {
 
     public void onNextButtonClicked(View view) {
         directionListViewModel.nextExhibit(adapter, previousDisplay, nextDisplay);
-//        adapter.incrementNumToDisplay();
-//        recyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
         if (String.valueOf(nextButton.getText()).equals("Finish")){
             finish();
         }

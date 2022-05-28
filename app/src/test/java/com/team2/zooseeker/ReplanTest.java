@@ -39,15 +39,15 @@ public class ReplanTest {
             ReplanModel replan = new ReplanModel(nodes);
             Location mockLoc = new Location("");
 
-            double[] lats = new double[]{32.748983757472594, 32.73561, 32.73551, 32.73551};
-            double[] lngs = new double[]{-117.16951754140803, -117.14936, -117.14936, -117.14926};
+            double[] lats = new double[]{32.747975694699484, 32.73459618734685, 32.73459618734685, 32.73459618734685};
+            double[] lngs = new double[]{-117.17322008208536, -117.14936, -117.14936, -117.14936};
             double[] dists = new double[]{0, 0, 0.0001, Math.pow(2, 0.5)*0.0001};
             String[] ids = new String[]{"intxn_hippo_monkey_trails", "entrance_exit_gate", "entrance_exit_gate", "entrance_exit_gate"};
 
             for (int i = 0; i < lats.length; i++) {
                 mockLoc.setLatitude(lats[i]);
                 mockLoc.setLongitude(lngs[i]);
-                assertEquals((float) dists[i], (float) replan.distToNearestLandmark(mockLoc));
+                assertEquals((float) dists[i], (float) replan.distToNearestLandmark(mockLoc), 0.001);
                 assertEquals(ids[i], replan.getNearestLandmark(mockLoc).id);
             }
         } catch (FileNotFoundException e) {

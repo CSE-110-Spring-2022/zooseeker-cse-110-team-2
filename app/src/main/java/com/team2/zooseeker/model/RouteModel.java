@@ -176,7 +176,8 @@ public class RouteModel {
      * @return the exhibit's parent's if it the given exhibit has a parent, return the given id otherwise
      */
     public String getExhibitParent(String exhibit) {
-        var parentId = vertexInfo.get(exhibit).parent_id;
+        var parentId = vertexInfo.get(exhibit).group_id;
+        System.out.println(parentId);
         if (parentId != null) {
             return parentId;
         } else {
@@ -203,6 +204,10 @@ public class RouteModel {
 
     public List<String> getPath(String source, String sink) {
         return DijkstraShortestPath.findPathBetween(graph, source, sink).getVertexList();
+    }
+
+    public double getDistanceBetween(String source, String sink) {
+        return DijkstraShortestPath.findPathBetween(graph, source, sink).getWeight();
     }
 
 }
