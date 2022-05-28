@@ -3,8 +3,6 @@ package com.team2.zooseeker.model;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.util.List;
-
 @Entity(tableName = "paths_database")
 public class PathModel {
 
@@ -25,7 +23,7 @@ public class PathModel {
         this.name = v.name;
         this.lat = v.lat;
         this.lng = v.lng;
-        this.parent_id = v.parent_id;
+        this.parent_id = v.group_id;
         this.position = pos;
 
     }

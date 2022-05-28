@@ -47,7 +47,7 @@ public class ReplanTest {
             for (int i = 0; i < lats.length; i++) {
                 mockLoc.setLatitude(lats[i]);
                 mockLoc.setLongitude(lngs[i]);
-                assertEquals((float) dists[i], (float) replan.distToNearestLandmark(mockLoc));
+                assertEquals((float) dists[i], (float) replan.distToNearestLandmark(mockLoc), 0.01);
                 assertEquals(ids[i], replan.getNearestLandmark(mockLoc).id);
             }
         } catch (FileNotFoundException e) {
