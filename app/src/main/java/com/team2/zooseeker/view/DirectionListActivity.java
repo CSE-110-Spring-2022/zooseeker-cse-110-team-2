@@ -79,11 +79,6 @@ public class DirectionListActivity extends AppCompatActivity {
         }
     }
 
-    public void onSummaryButtonClicked(View view) {
-        Intent intent = new Intent(this, RouteSummaryActivity.class);
-        startActivity(intent);
-    }
-
     public void onSkipButtonClicked(View view) {
         directionListViewModel.skipExhibit(adapter, previousDisplay, nextDisplay);
         if (String.valueOf(nextButton.getText()).equals("Finish")){
