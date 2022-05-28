@@ -64,12 +64,7 @@ public class DirectionListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        startActivity(getIntent());
-//        recreate();
-//        finish();
-//        overridePendingTransition(0, 0);
-//        startActivity(getIntent());
-//        overridePendingTransition(0, 0);
+        directionListViewModel.reloadDirections(adapter);
     }
 
     public void onNextButtonClicked(View view) {
@@ -101,7 +96,6 @@ public class DirectionListActivity extends AppCompatActivity {
     }
 
     public void onSettingButtonClicked(View view) {
-        finish();
         onPause();
         Intent intent = new Intent(this, SettingActivity.class);
         startActivity(intent);

@@ -29,16 +29,11 @@ public class SettingActivity extends AppCompatActivity {
     public void onDetailedDirectionButton(View view) {
         DirectionModeManager.getSingleton().setDetailedMode();
         finish();
-        Intent intent = new Intent(this, DirectionListActivity.class);
-        startActivity(intent);
     }
 
     public void onBriefDirectionButton(View view) {
         DirectionModeManager.getSingleton().setBriefMode();
         finish();
-        Intent intent = new Intent(this, DirectionListActivity.class);
-        startActivity(intent);
-
     }
 
     public void onSummaryButton(View view) {

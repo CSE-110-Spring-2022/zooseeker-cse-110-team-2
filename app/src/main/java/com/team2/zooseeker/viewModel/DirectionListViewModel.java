@@ -47,6 +47,7 @@ public class DirectionListViewModel extends AndroidViewModel {
     private List<String> pathToNext;
     private int currentExhibit = 0;
     private boolean reroute = true;
+    private TextView prev, next;
 
     public DirectionListViewModel(@NonNull Application application) {
         super(application);
@@ -84,6 +85,8 @@ public class DirectionListViewModel extends AndroidViewModel {
     }
 
     public void updateDirections(DirectionListAdapter adapter, TextView prev, TextView next) {
+        this.prev = prev;
+        this.next = next;
         ArrayList<String> directions;
         if (DirectionModeManager.getSingleton().getIsInDetailedMode()) {
             directions = routeModel.getDirections(pathToNext.get(0), pathToNext.get(pathToNext.size() - 1));
@@ -95,6 +98,10 @@ public class DirectionListViewModel extends AndroidViewModel {
             adapter.incrementNumToDisplay();
         }
         updatePrevNext(prev, next);
+    }
+
+    public void reloadDirections(DirectionListAdapter adapter) {
+        updateDirections(adapter, prev, next);
     }
 
     public void nextExhibit(DirectionListAdapter adapter, TextView prev, TextView next) {
