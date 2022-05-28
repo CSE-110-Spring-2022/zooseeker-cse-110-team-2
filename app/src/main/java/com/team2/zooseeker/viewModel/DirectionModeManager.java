@@ -25,4 +25,12 @@ public class DirectionModeManager {
     public boolean getIsInBriefMode() {
         return !inDetailedDirectionMode;
     }
+
+    public void setDetailedMode() {
+        inDetailedDirectionMode = true;
+    }
+
+    public void setBriefMode() {
+        inDetailedDirectionMode = false;
+    }
 }
