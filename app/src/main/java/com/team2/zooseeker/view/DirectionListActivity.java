@@ -1,17 +1,19 @@
 package com.team2.zooseeker.view;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-
 import com.team2.zooseeker.R;
+import com.team2.zooseeker.model.PermissionChecker;
 import com.team2.zooseeker.viewModel.DirectionListAdapter;
 import com.team2.zooseeker.viewModel.DirectionListViewModel;
 
@@ -22,6 +24,9 @@ public class DirectionListActivity extends AppCompatActivity {
     private DirectionListAdapter adapter;
     private Button nextButton;
     private Button previousButton;
+    private ImageButton settingButton;
+    private TextView previousDisplay;
+    private TextView nextDisplay;
 
     /**
      * Initialize DirectionListActivity with lists of strings and next button
@@ -41,31 +46,35 @@ public class DirectionListActivity extends AppCompatActivity {
         nextButton = findViewById(R.id.next_button);
         nextButton.setText("NEXT");
 
+        settingButton = findViewById(R.id.setting_button);
+        previousDisplay = findViewById(R.id.prev_display);
+        nextDisplay = findViewById(R.id.next_display);
+
         previousButton = findViewById(R.id.backButton);
         previousButton.setText("BACK");
         directionListViewModel = new ViewModelProvider(this).get(DirectionListViewModel.class);
-        directionListViewModel.populateList(adapter);
+        directionListViewModel.populateList(adapter, previousDisplay, nextDisplay);
+
+        PermissionChecker perms = new PermissionChecker(this);
+        if (!perms.ensurePermissions()) {
+            directionListViewModel.autoUpdateRoute(this, adapter, previousDisplay, nextDisplay);
+        }
     }
 
     public void onNextButtonClicked(View view) {
+        directionListViewModel.nextExhibit(adapter, previousDisplay, nextDisplay);
         if (String.valueOf(nextButton.getText()).equals("Finish")){
             finish();
         }
 
-        int result = adapter.incrementNumToDisplay();
-        recyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
-
-        if (result >= adapter.directions.size()){
+        if (!directionListViewModel.exhibitsRemaining()){
             nextButton.setText("Finish");
         }
-
     }
 
     public void onPreviousButtonClicked(View view){
-        boolean result = adapter.decrementNumToDisplay();
-        if (result){
-            recyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
-        } else {
+        boolean result = directionListViewModel.prevExhibit(adapter, previousDisplay, nextDisplay);
+        if (!result) {
             finish();
         }
     }
@@ -75,4 +84,18 @@ public class DirectionListActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void onSkipButtonClicked(View view) {
+        directionListViewModel.skipExhibit(adapter, previousDisplay, nextDisplay);
+        if (String.valueOf(nextButton.getText()).equals("Finish")){
+            finish();
+        }
+        if (!directionListViewModel.exhibitsRemaining()){
+            nextButton.setText("Finish");
+        }
+    }
+
+    public void onSettingButtonClicked(View view) {
+        Intent intent = new Intent(this, SettingActivity.class);
+        startActivity(intent);
+    }
 }
