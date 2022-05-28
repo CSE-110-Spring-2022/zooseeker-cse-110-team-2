@@ -85,6 +85,9 @@ public class DirectionListViewModel extends AndroidViewModel {
 
     public void updateDirections(DirectionListAdapter adapter, TextView prev, TextView next) {
         ArrayList<String> directions = routeModel.getDirections(pathToNext.get(0), pathToNext.get(pathToNext.size() - 1));
+        if (DirectionModeManager.getSingleton().getIsInBriefMode()) {
+
+        }
         adapter.setDirections(directions);
         for (int i = 0; i < directions.size() - 1; i++) {
             adapter.incrementNumToDisplay();
