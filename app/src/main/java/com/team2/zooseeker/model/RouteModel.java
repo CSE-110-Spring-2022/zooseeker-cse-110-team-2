@@ -205,4 +205,8 @@ public class RouteModel {
         return DijkstraShortestPath.findPathBetween(graph, source, sink).getVertexList();
     }
 
+    public double getDistanceBetween(String source, String sink) {
+        return DijkstraShortestPath.findPathBetween(graph, source, sink).getWeight();
+    }
+
 }
