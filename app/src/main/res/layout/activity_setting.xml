@@ -27,7 +27,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp"
         android:onClick="onBriefDirectionButton"
-        android:text="Breif Direction"
+        android:text="Brief Direction"
         app:layout_constraintBottom_toTopOf="@+id/summary_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -47,4 +47,17 @@
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/brief_direction_button" />
+
+    <Button
+        android:id="@+id/deletePlan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="137dp"
+        android:layout_marginTop="39dp"
+        android:layout_marginEnd="138dp"
+        android:text="Delete Plan"
+        android:onClick="onDeletePlan"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/summary_button" />
 </androidx.constraintlayout.widget.ConstraintLayout>
