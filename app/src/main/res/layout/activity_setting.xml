@@ -64,8 +64,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="35dp"
         android:ems="10"
-        android:hint="Mock Latitude|numberSigned"
-        android:inputType="numberDecimal"
+        android:hint="Mock Latitude"
+        android:inputType="numberDecimal|numberSigned"
         app:layout_constraintBottom_toTopOf="@+id/longitude_input"
         app:layout_constraintStart_toStartOf="@+id/longitude_input" />
 
