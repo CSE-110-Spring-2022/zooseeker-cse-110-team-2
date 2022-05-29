@@ -64,7 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="35dp"
         android:ems="10"
-        android:hint="Mock Latitude"
+        android:hint="Mock Latitude|numberSigned"
         android:inputType="numberDecimal"
         app:layout_constraintBottom_toTopOf="@+id/longitude_input"
         app:layout_constraintStart_toStartOf="@+id/longitude_input" />
@@ -76,7 +76,7 @@
         android:layout_marginBottom="24dp"
         android:ems="10"
         android:hint="Mock Longitude"
-        android:inputType="numberDecimal"
+        android:inputType="numberDecimal|numberSigned"
         app:layout_constraintBottom_toTopOf="@+id/gps_switch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
