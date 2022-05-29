@@ -61,8 +61,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="35dp"
         android:ems="10"
-        android:inputType="numberDecimal"
         android:hint="Mock Latitude"
+        android:inputType="numberDecimal"
         app:layout_constraintBottom_toTopOf="@+id/longitude_input"
         app:layout_constraintStart_toStartOf="@+id/longitude_input" />
 
@@ -72,9 +72,25 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="26dp"
         android:ems="10"
-        android:inputType="numberDecimal"
         android:hint="Mock Longitude"
+        android:inputType="numberDecimal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/lat_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mock Latitude"
+        app:layout_constraintBottom_toTopOf="@+id/latitiude_input"
+        app:layout_constraintStart_toStartOf="@+id/latitiude_input" />
+
+    <TextView
+        android:id="@+id/long_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mock Longitude"
+        app:layout_constraintBottom_toTopOf="@+id/longitude_input"
+        app:layout_constraintStart_toStartOf="@+id/longitude_input" />
 </androidx.constraintlayout.widget.ConstraintLayout>
