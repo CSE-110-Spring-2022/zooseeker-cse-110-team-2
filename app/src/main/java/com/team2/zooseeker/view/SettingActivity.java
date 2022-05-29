@@ -14,6 +14,7 @@ import com.team2.zooseeker.R;
 import com.team2.zooseeker.viewModel.DirectionModeManager;
 import com.team2.zooseeker.model.ExhibitModel;
 import com.team2.zooseeker.viewModel.ExhibitListViewModel;
+import com.team2.zooseeker.viewModel.MockLocationStore;
 
 import java.util.List;
 
@@ -38,6 +39,9 @@ public class SettingActivity extends AppCompatActivity {
         deletePlanButton = findViewById(R.id.deletePlan);
         latitudeInput = findViewById(R.id.latitiude_input);
         longitudeInput = findViewById(R.id.longitude_input);
+
+        latitudeInput.setText(Double.toString(MockLocationStore.getSingleton().getLatitude()));
+        longitudeInput.setText(Double.toString(MockLocationStore.getSingleton().getLongitude()));
     }
 
     public void onDetailedDirectionButton(View view) {
@@ -71,7 +75,6 @@ public class SettingActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d("DEBUG SETTINGS", "687");
-//        latitudeInput.setText(latitudeInput.getEditableText());
-//        longitudeInput.setText(longitudeInput.getEditableText());
+        MockLocationStore.getSingleton().setLocation(Double.parseDouble(latitudeInput.getEditableText().toString()), Double.parseDouble(longitudeInput.getEditableText().toString()));
     }
 }
