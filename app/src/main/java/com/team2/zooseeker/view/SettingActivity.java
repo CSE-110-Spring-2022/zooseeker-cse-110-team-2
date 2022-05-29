@@ -5,8 +5,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.team2.zooseeker.R;
 import com.team2.zooseeker.viewModel.DirectionModeManager;
@@ -22,6 +24,9 @@ public class SettingActivity extends AppCompatActivity {
     private Button summaryButton;
     private Button deletePlanButton;
 
+    private EditText latitudeInput;
+    private EditText longitudeInput;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +36,8 @@ public class SettingActivity extends AppCompatActivity {
         briefDirectionButton = findViewById(R.id.brief_direction_button);
         summaryButton = findViewById(R.id.summary_button);
         deletePlanButton = findViewById(R.id.deletePlan);
+        latitudeInput = findViewById(R.id.latitiude_input);
+        longitudeInput = findViewById(R.id.longitude_input);
     }
 
     public void onDetailedDirectionButton(View view) {
@@ -58,5 +65,13 @@ public class SettingActivity extends AppCompatActivity {
         }
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("DEBUG SETTINGS", "687");
+//        latitudeInput.setText(latitudeInput.getEditableText());
+//        longitudeInput.setText(longitudeInput.getEditableText());
     }
 }
