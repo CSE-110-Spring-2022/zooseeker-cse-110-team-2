@@ -61,6 +61,12 @@ public class DirectionListActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        directionListViewModel.reloadDirections(adapter);
+    }
+
     public void onNextButtonClicked(View view) {
         directionListViewModel.nextExhibit(adapter, previousDisplay, nextDisplay);
         if (String.valueOf(nextButton.getText()).equals("Finish")){
@@ -90,6 +96,7 @@ public class DirectionListActivity extends AppCompatActivity {
     }
 
     public void onSettingButtonClicked(View view) {
+        onPause();
         Intent intent = new Intent(this, SettingActivity.class);
         startActivity(intent);
     }

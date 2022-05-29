@@ -161,6 +161,75 @@ public class RouteModel {
         return directions;
     }
 
+    class SimpleEdgeData {
+        private String streetName;
+        private double weight;
+        private String destination;
+
+        public SimpleEdgeData(IdentifiedWeightedEdge e, String destination) {
+            streetName = edgeInfo.get(e.getId()).street;
+            weight = graph.getEdgeWeight(e);
+            this.destination = destination;
+        }
+
+        public SimpleEdgeData(String streetName, double weight, String destination) {
+            this.streetName = streetName;
+            this.weight = weight;
+            this.destination = destination;
+        }
+
+        @Override
+        public String toString() {
+            return "Continue on " + streetName + " " + (int) weight + " ft towards " + destination;
+        }
+    }
+
+    /**
+     * Generates a list of directions between two vertices
+     * @param start name of the starting vertex
+     * @param end name of the ending vertex
+     * @return String list of directions to get from the start to end vertex
+     */
+    public ArrayList<String> getBriefDirections(String start, String end) {
+        List<SimpleEdgeData> edges = new ArrayList<>();
+        GraphPath<String, IdentifiedWeightedEdge> path = DijkstraShortestPath.findPathBetween(graph, start, end);
+        String startVertex = path.getStartVertex();
+        for (IdentifiedWeightedEdge e : path.getEdgeList()) {
+            if (startVertex.equals(Objects.requireNonNull(vertexInfo.get(graph.getEdgeSource(e))).id)) {
+                edges.add(new SimpleEdgeData(e, vertexInfo.get(graph.getEdgeTarget(e)).name));
+                startVertex = Objects.requireNonNull(vertexInfo.get(graph.getEdgeTarget(e))).id;
+            } else {
+                edges.add(new SimpleEdgeData(e, vertexInfo.get(graph.getEdgeTarget(e)).name));
+                startVertex = Objects.requireNonNull(vertexInfo.get(graph.getEdgeSource(e))).id;
+            }
+        }
+//        System.out.println(edges);
+        ArrayList<SimpleEdgeData> briefEdges = new ArrayList<>();
+        for (int i = 0; i < edges.size(); i++) {
+            if (i == 0) {
+                briefEdges.add(edges.get(i));
+            } else {
+                SimpleEdgeData lastEdge = briefEdges.get(briefEdges.size() - 1);
+                SimpleEdgeData currentEdge = edges.get(i);
+                if (lastEdge.streetName.equals(currentEdge.streetName)) {
+                    briefEdges.remove(briefEdges.size() - 1);
+                    briefEdges.add(new SimpleEdgeData(lastEdge.streetName, lastEdge.weight + currentEdge.weight, currentEdge.destination));
+                } else {
+                    briefEdges.add(currentEdge);
+                }
+            }
+        }
+//        System.out.println(briefEdges);
+        ArrayList<String> directions = new ArrayList<>();
+        for (SimpleEdgeData edge : briefEdges) {
+            directions.add(edge.toString());
+        }
+        return directions;
+
+    }
+
+
+
     /**
      * Formats a single edge into a text-based direction
      * @param e edge to be formatted

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.team2.zooseeker.R;
+import com.team2.zooseeker.viewModel.DirectionModeManager;
 import com.team2.zooseeker.model.ExhibitModel;
 import com.team2.zooseeker.viewModel.ExhibitListViewModel;
 
@@ -33,11 +34,13 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     public void onDetailedDirectionButton(View view) {
-
+        DirectionModeManager.getSingleton().setDetailedMode();
+        finish();
     }
 
     public void onBriefDirectionButton(View view) {
-
+        DirectionModeManager.getSingleton().setBriefMode();
+        finish();
     }
 
     public void onSummaryButton(View view) {

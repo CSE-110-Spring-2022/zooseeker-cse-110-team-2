@@ -117,6 +117,38 @@ public class RouteTest {
     }
 
     @Test
+    public void testBriefDirections() {
+        RouteModel routeModel = null;
+        try {
+            var g = ZooData.loadZooGraphJSON(new FileInputStream("src/main/assets/zoo_graph.json"));
+            var vertexInfo = ZooData.loadVertexInfoJSON(new FileInputStream("src/main/assets/zoo_node_info.json"));
+            var edgeInfo = ZooData.loadEdgeInfoJSON(new FileInputStream("src/main/assets/zoo_edge_info.json"));
+            routeModel = new RouteModel(g, vertexInfo, edgeInfo);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        assertNotNull(routeModel);
+        ArrayList<String> briefDirections = routeModel.getBriefDirections("entrance_exit_gate", "siamang");
+        assertEquals(3, briefDirections.size());
+    }
+
+    @Test
+    public void testBriefDirectionsSimple() {
+        RouteModel routeModel = null;
+        try {
+            var g = ZooData.loadZooGraphJSON(new FileInputStream("src/main/assets/zoo_graph.json"));
+            var vertexInfo = ZooData.loadVertexInfoJSON(new FileInputStream("src/main/assets/zoo_node_info.json"));
+            var edgeInfo = ZooData.loadEdgeInfoJSON(new FileInputStream("src/main/assets/zoo_edge_info.json"));
+            routeModel = new RouteModel(g, vertexInfo, edgeInfo);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        assertNotNull(routeModel);
+        ArrayList<String> briefDirections = routeModel.getBriefDirections("entrance_exit_gate", "intxn_treetops_fern_trail");
+        assertEquals(2, briefDirections.size());
+    }
+
+    @Test
     public void testGenRouteLargeGraph() {
         ArrayList<String> mockList = new ArrayList<>();
         mockList.add("crocodile");
