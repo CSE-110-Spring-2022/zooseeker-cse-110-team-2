@@ -3,18 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-<<<<<<< HEAD
-        <entry key="..\:/Users/dbarv/AndroidStudioProjects/zooseeker-cse-110-team-2/app/src/main/res/layout/activity_direction_list.xml" value="0.24583333333333332" />
-        <entry key="..\:/Users/dbarv/AndroidStudioProjects/zooseeker-cse-110-team-2/app/src/main/res/layout/activity_route_summary.xml" value="0.18541666666666667" />
-        <entry key="..\:/Users/dbarv/AndroidStudioProjects/zooseeker-cse-110-team-2/app/src/main/res/layout/directions_list_item.xml" value="0.11666666666666667" />
-        <entry key="..\:/Users/dbarv/AndroidStudioProjects/zooseeker-cse-110-team-2/app/src/main/res/layout/route_summary_item.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.221875" />
-=======
         <entry key="..\:/Users/micha/Documents/Projects/zooseeker-cse-110-team-2/app/src/main/res/layout/activity_direction_list.xml" value="0.25" />
+        <entry key="..\:/Users/micha/Documents/Projects/zooseeker-cse-110-team-2/app/src/main/res/layout/activity_setting.xml" value="0.2658514492753623" />
         <entry key="app/src/main/res/layout/activity_direction_list.xml" value="0.3563186645507812" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.346954345703125" />
         <entry key="app/src/main/res/layout/activity_setting.xml" value="0.40262962117141987" />
->>>>>>> main
         <entry key="app/src/main/res/layout/direction_list.xml" value="0.4244791666666667" />
         <entry key="app/src/main/res/layout/directions_list.xml" value="0.4811309814453126" />
         <entry key="app/src/main/res/layout/directions_list_item.xml" value="0.3375" />

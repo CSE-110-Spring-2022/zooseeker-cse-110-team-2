@@ -111,10 +111,25 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="36dp"
         android:onClick="onSettingButtonClicked"
-        app:layout_constraintBottom_toTopOf="@+id/direction_items"
+        app:layout_constraintBottom_toBottomOf="@+id/direction_title"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toEndOf="@+id/direction_title"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.125"
         app:srcCompat="@android:drawable/ic_menu_manage" />
+
+    <ImageButton
+        android:id="@+id/reload_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onReloadClicked"
+        app:layout_constraintBottom_toTopOf="@+id/prev_display"
+        app:layout_constraintEnd_toStartOf="@+id/direction_title"
+        app:layout_constraintHorizontal_bias="0.142"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/direction_title"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@android:drawable/stat_notify_sync_noanim" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

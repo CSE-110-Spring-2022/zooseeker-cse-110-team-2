@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 
 import com.team2.zooseeker.R;
 import com.team2.zooseeker.viewModel.DirectionModeManager;
@@ -25,6 +26,8 @@ public class SettingActivity extends AppCompatActivity {
     private Button summaryButton;
     private Button deletePlanButton;
 
+    private Switch gpsSwitch;
+
     private EditText latitudeInput;
     private EditText longitudeInput;
 
@@ -39,9 +42,11 @@ public class SettingActivity extends AppCompatActivity {
         deletePlanButton = findViewById(R.id.deletePlan);
         latitudeInput = findViewById(R.id.latitiude_input);
         longitudeInput = findViewById(R.id.longitude_input);
+        gpsSwitch = findViewById(R.id.gps_switch);
 
         latitudeInput.setText(Double.toString(MockLocationStore.getSingleton().getLatitude()));
         longitudeInput.setText(Double.toString(MockLocationStore.getSingleton().getLongitude()));
+        gpsSwitch.setChecked(MockLocationStore.getSingleton().gpsEnabled());
     }
 
     public void onDetailedDirectionButton(View view) {
@@ -76,5 +81,6 @@ public class SettingActivity extends AppCompatActivity {
         super.onDestroy();
         Log.d("DEBUG SETTINGS", "687");
         MockLocationStore.getSingleton().setLocation(Double.parseDouble(latitudeInput.getEditableText().toString()), Double.parseDouble(longitudeInput.getEditableText().toString()));
+        MockLocationStore.getSingleton().setEnabled(gpsSwitch.isChecked());
     }
 }

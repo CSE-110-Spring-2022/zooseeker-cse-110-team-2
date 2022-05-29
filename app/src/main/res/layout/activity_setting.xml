@@ -9,22 +9,25 @@
     <Button
         android:id="@+id/detailed_direction_button"
         android:layout_width="200dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="51dp"
         android:layout_marginBottom="30dp"
         android:onClick="onDetailedDirectionButton"
+        android:paddingVertical="10dp"
         android:text="Detailed Directions"
         app:layout_constraintBottom_toTopOf="@+id/brief_direction_button"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/brief_direction_button"
         android:layout_width="200dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="28dp"
         android:onClick="onBriefDirectionButton"
+        android:paddingVertical="15dp"
         android:text="Brief Directions"
         app:layout_constraintBottom_toTopOf="@+id/summary_button"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,9 +37,10 @@
     <Button
         android:id="@+id/summary_button"
         android:layout_width="200dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="27dp"
         android:onClick="onSummaryButton"
+        android:paddingVertical="15dp"
         android:text="Summary"
         app:layout_constraintBottom_toTopOf="@+id/deletePlan"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,11 +51,10 @@
         android:id="@+id/deletePlan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="31dp"
-        android:layout_marginBottom="372dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="24dp"
         android:onClick="onDeletePlan"
         android:text="Delete Plan"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/summary_button"
         app:layout_constraintTop_toBottomOf="@+id/summary_button" />
 
@@ -70,12 +73,13 @@
         android:id="@+id/longitude_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="26dp"
+        android:layout_marginBottom="24dp"
         android:ems="10"
         android:hint="Mock Longitude"
         android:inputType="numberDecimal"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/gps_switch"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -93,4 +97,14 @@
         android:text="Mock Longitude"
         app:layout_constraintBottom_toTopOf="@+id/longitude_input"
         app:layout_constraintStart_toStartOf="@+id/longitude_input" />
+
+    <Switch
+        android:id="@+id/gps_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="Enable GPS"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,14 +1,15 @@
 package com.team2.zooseeker.viewModel;
 
-public class MockLocationStore {
+import android.location.Location;
+
+public class MockLocationStore extends Location {
 
     private static MockLocationStore instance;
 
-    private double longitude, latitude;
+    private boolean enabled;
 
     private MockLocationStore() {
-        longitude = 0;
-        latitude = 0;
+        super("");
     }
 
     public synchronized static MockLocationStore getSingleton() {
@@ -20,15 +21,21 @@ public class MockLocationStore {
 
 
     public void setLocation(double lat, double lng) {
-        this.longitude = lng;
-        this.latitude = lat;
+        super.setLatitude(lat);
+        super.setLongitude(lng);
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public double getLongitude() {
-        return longitude;
+        return super.getLongitude();
     }
 
     public double getLatitude() {
-        return latitude;
+        return super.getLatitude();
     }
+
+    public boolean gpsEnabled() { return enabled; }
 }
