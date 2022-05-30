@@ -126,14 +126,27 @@ public class DirectionListViewModel extends AndroidViewModel {
             return;
         }
         reroute = true;
-        currentExhibit += 2;
+        List<PathModel> PathList = pathDao.getAll();
+        List<ExhibitModel> ExhibitList = exhibitsListDao.getAllGroupSelected(PathList.get(currentExhibit + 1).id,true);
+        Log.d("DEBUG", "size of original list : " + PathList.size());
+        for (int i = 0; i < ExhibitList.size(); i++) {
+            ExhibitList.get(i).setSelected(false);
+            exhibitsListDao.update(ExhibitList.get(i));
+        }
+        PathList.remove(currentExhibit + 1);
+        ArrayList<String> exhibitIds = new ArrayList<String>();
+        for (int i = 0; i < PathList.size(); i++)
+            exhibitIds.add(PathList.get(i).id);
+        populatePathDatabase(exhibitIds);
+
         for(int i = 0; i < currentExhibit; i ++){
             PathModel p = pathDao.getAll().get(i);
             p.setVisited(true);
             pathDao.update(p);
         }
-        Log.d("DEBUG", "Number of visited Exhbits" + pathDao.getAllVisited(true).size());
-        Log.d("DEBUG", "This the current current exhibit " + currentExhibit);
+        Log.d("DEBUG", "size of new poplated list : " + exhibitIds.size());
+        Log.d("DEBUG", "Number of visited Exhbits : " + pathDao.getAllVisited(true).size());
+        Log.d("DEBUG", "This the current current exhibit : " + currentExhibit);
         updatePath();
         updateDirections(adapter, prev, next);
     }
@@ -146,7 +159,7 @@ public class DirectionListViewModel extends AndroidViewModel {
         }
         reroute = true;
         currentExhibit--;
-        PathModel p = pathDao.getAll().get(currentExhibit );
+        PathModel p = pathDao.getAll().get(currentExhibit);
         p.setVisited(false);
         pathDao.update(p);
         Log.d("DEBUG", "Number of visited Exhbits" + pathDao.getAllVisited(true).size());
