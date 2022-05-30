@@ -31,7 +31,7 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class EndToEndTest {
+public class OneExhibitTest {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
@@ -44,7 +44,7 @@ public class EndToEndTest {
                     "android.permission.ACCESS_COARSE_LOCATION");
 
     @Test
-    public void endToEndTest() {
+    public void oneExhibitTest() {
         ViewInteraction materialCheckBox = onView(
                 allOf(withId(R.id.exhibitModel), withText("Bali Mynah"),
                         childAtPosition(
@@ -54,26 +54,6 @@ public class EndToEndTest {
                                 0),
                         isDisplayed()));
         materialCheckBox.perform(click());
-
-        ViewInteraction materialCheckBox2 = onView(
-                allOf(withId(R.id.exhibitModel), withText("Blue Capped Motmot"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.exhibit_items),
-                                        1),
-                                0),
-                        isDisplayed()));
-        materialCheckBox2.perform(click());
-
-        ViewInteraction materialCheckBox3 = onView(
-                allOf(withId(R.id.exhibitModel), withText("Capuchin Monkeys"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.exhibit_items),
-                                        2),
-                                0),
-                        isDisplayed()));
-        materialCheckBox3.perform(click());
 
         ViewInteraction materialButton = onView(
                 allOf(withId(R.id.plan_btn), withText("Plan"),
@@ -95,8 +75,20 @@ public class EndToEndTest {
                         isDisplayed()));
         materialButton2.perform(click());
 
+        ViewInteraction textView = onView(
+                allOf(withId(R.id.next_display), withText("To: Entrance and Exit Gate"),
+                        withParent(withParent(withId(android.R.id.content))),
+                        isDisplayed()));
+        textView.check(matches(withText("To: Entrance and Exit Gate")));
+
+        ViewInteraction textView2 = onView(
+                allOf(withId(R.id.direction_item_text), withText("Continue on Aviary Trail 1300 ft towards Parker Aviary"),
+                        withParent(withParent(withId(R.id.direction_items))),
+                        isDisplayed()));
+        textView2.check(matches(withText("Continue on Aviary Trail 1300 ft towards Parker Aviary")));
+
         ViewInteraction materialButton3 = onView(
-                allOf(withId(R.id.next_button), withText("NEXT"),
+                allOf(withId(R.id.next_button), withText("Finish"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
@@ -105,33 +97,7 @@ public class EndToEndTest {
                         isDisplayed()));
         materialButton3.perform(click());
 
-        ViewInteraction materialButton4 = onView(
-                allOf(withId(R.id.next_button), withText("NEXT"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
-                        isDisplayed()));
-        materialButton4.perform(click());
-
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.direction_item_text), withText("Continue on Aviary Trail 1300 ft towards Parker Aviary"),
-                        withParent(withParent(withId(R.id.direction_items))),
-                        isDisplayed()));
-        textView.check(matches(withText("Continue on Aviary Trail 1300 ft towards Parker Aviary")));
-
-        ViewInteraction materialButton5 = onView(
-                allOf(withId(R.id.next_button), withText("Finish"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
-                        isDisplayed()));
-        materialButton5.perform(click());
-
-        ViewInteraction materialCheckBox4 = onView(
+        ViewInteraction materialCheckBox2 = onView(
                 allOf(withId(R.id.exhibitModel), withText("Bali Mynah"),
                         childAtPosition(
                                 childAtPosition(
@@ -139,27 +105,7 @@ public class EndToEndTest {
                                         0),
                                 0),
                         isDisplayed()));
-        materialCheckBox4.perform(click());
-
-        ViewInteraction materialCheckBox5 = onView(
-                allOf(withId(R.id.exhibitModel), withText("Blue Capped Motmot"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.exhibit_items),
-                                        1),
-                                0),
-                        isDisplayed()));
-        materialCheckBox5.perform(click());
-
-        ViewInteraction materialCheckBox6 = onView(
-                allOf(withId(R.id.exhibitModel), withText("Capuchin Monkeys"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.exhibit_items),
-                                        2),
-                                0),
-                        isDisplayed()));
-        materialCheckBox6.perform(click());
+        materialCheckBox2.perform(click());
     }
 
     private static Matcher<View> childAtPosition(
