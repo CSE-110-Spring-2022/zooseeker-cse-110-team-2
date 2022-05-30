@@ -16,6 +16,7 @@ import com.team2.zooseeker.R;
 import com.team2.zooseeker.model.PermissionChecker;
 import com.team2.zooseeker.viewModel.DirectionListAdapter;
 import com.team2.zooseeker.viewModel.DirectionListViewModel;
+import com.team2.zooseeker.viewModel.MockLocationStore;
 
 public class DirectionListActivity extends AppCompatActivity {
 
@@ -25,6 +26,7 @@ public class DirectionListActivity extends AppCompatActivity {
     private Button nextButton;
     private Button previousButton;
     private ImageButton settingButton;
+    private ImageButton reloadButton;
     private TextView previousDisplay;
     private TextView nextDisplay;
 
@@ -47,6 +49,7 @@ public class DirectionListActivity extends AppCompatActivity {
         nextButton.setText("NEXT");
 
         settingButton = findViewById(R.id.setting_button);
+        reloadButton = findViewById(R.id.reload_button);
         previousDisplay = findViewById(R.id.prev_display);
         nextDisplay = findViewById(R.id.next_display);
 
@@ -54,6 +57,8 @@ public class DirectionListActivity extends AppCompatActivity {
         previousButton.setText("BACK");
         directionListViewModel = new ViewModelProvider(this).get(DirectionListViewModel.class);
         directionListViewModel.populateList(adapter, previousDisplay, nextDisplay);
+
+        MockLocationStore.getSingleton().setEnabled(true);
 
         PermissionChecker perms = new PermissionChecker(this);
         if (!perms.ensurePermissions()) {
@@ -64,7 +69,7 @@ public class DirectionListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        directionListViewModel.reloadDirections(adapter);
+        directionListViewModel.reloadDirections(adapter, previousDisplay, nextDisplay);
     }
 
     public void onNextButtonClicked(View view) {
@@ -99,5 +104,12 @@ public class DirectionListActivity extends AppCompatActivity {
         onPause();
         Intent intent = new Intent(this, SettingActivity.class);
         startActivity(intent);
+    }
+
+    public void onReloadClicked(View view) {
+        if (!PermissionChecker.hasPermissions(this)) {
+            MockLocationStore.getSingleton().setEnabled(false);
+        }
+        directionListViewModel.reloadAutoUpdate(this, adapter, previousDisplay, nextDisplay);
     }
 }

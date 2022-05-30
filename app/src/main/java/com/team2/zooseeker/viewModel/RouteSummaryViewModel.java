@@ -57,7 +57,7 @@ public class RouteSummaryViewModel extends AndroidViewModel {
             if (i == 0) {
                 summaryTexts.add(currentPathModel.name);
             } else {
-                dist = dist + routeModel.getDistanceBetween(exhibits.get(i-1).id, currentPathModel.id);
+                dist = dist + routeModel.getDistanceBetween(RouteModel.getId(exhibits.get(i-1)), currentPathModel.id);
                 summaryTexts.add(formatPathModel(currentPathModel, dist));
             }
         }

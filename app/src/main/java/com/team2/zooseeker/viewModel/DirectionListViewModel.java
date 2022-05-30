@@ -6,16 +6,15 @@ import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.team2.zooseeker.R;
 import com.team2.zooseeker.model.ReplanModel;
 import com.team2.zooseeker.model.PathDao;
 import com.team2.zooseeker.model.PathDatabase;
@@ -23,7 +22,6 @@ import com.team2.zooseeker.model.PathModel;
 import com.team2.zooseeker.model.RouteModel;
 
 import org.jgrapht.Graph;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,7 +34,6 @@ import com.team2.zooseeker.model.ExhibitsListDao;
 import com.team2.zooseeker.model.ExhibitsListDatabase;
 import com.team2.zooseeker.model.IdentifiedWeightedEdge;
 import com.team2.zooseeker.model.ZooData;
-import com.team2.zooseeker.view.DirectionListActivity;
 
 public class DirectionListViewModel extends AndroidViewModel {
 
@@ -47,7 +44,6 @@ public class DirectionListViewModel extends AndroidViewModel {
     private List<String> pathToNext;
     private int currentExhibit = 0;
     private boolean reroute = true;
-    private TextView prev, next;
 
     public DirectionListViewModel(@NonNull Application application) {
         super(application);
@@ -85,8 +81,6 @@ public class DirectionListViewModel extends AndroidViewModel {
     }
 
     public void updateDirections(DirectionListAdapter adapter, TextView prev, TextView next) {
-        this.prev = prev;
-        this.next = next;
         ArrayList<String> directions;
         if (DirectionModeManager.getSingleton().getIsInDetailedMode()) {
             directions = routeModel.getDirections(pathToNext.get(0), pathToNext.get(pathToNext.size() - 1));
@@ -100,7 +94,7 @@ public class DirectionListViewModel extends AndroidViewModel {
         updatePrevNext(prev, next);
     }
 
-    public void reloadDirections(DirectionListAdapter adapter) {
+    public void reloadDirections(DirectionListAdapter adapter, TextView prev, TextView next) {
         updateDirections(adapter, prev, next);
     }
 
@@ -155,7 +149,7 @@ public class DirectionListViewModel extends AndroidViewModel {
      * Updates the current path based on pathDao and currentExhibit
      */
     public void updatePath() {
-        pathToNext = routeModel.getPath(pathDao.getAll().get(currentExhibit).id, pathDao.getAll().get(currentExhibit + 1).id);
+        pathToNext = routeModel.getPath(RouteModel.getId(pathDao.getAll().get(currentExhibit)), pathDao.getAll().get(currentExhibit + 1).id);
     }
 
     public void populatePathDatabase(ArrayList<String> exhibitIds) {
@@ -174,44 +168,55 @@ public class DirectionListViewModel extends AndroidViewModel {
      */
     @SuppressLint("MissingPermission")
     public void autoUpdateRoute(Activity activity, DirectionListAdapter adapter, TextView prev, TextView next) {
-
-        ReplanModel replan = new ReplanModel(activity, "zoo_node_info.json");
-
         // Set up location listener
         String provider = LocationManager.GPS_PROVIDER;
         LocationManager locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = location -> {
-            Log.d("DEBUG REPLAN", String.format("Location changed: %s", location));
-            if (replan.offTrack(location, pathToNext)) {
-                ZooData.VertexInfo currentNode = replan.getNearestLandmark(location);
-                Log.d("DEBUG REPLAN", String.format("Nearest landmark is now %s", currentNode.name));
-
-                // Generate route from current position for comparison
-                List<PathModel> fullPath = pathDao.getAll();
-                ArrayList<String> newRoute = genRemainingRoute(currentNode);
-
-                Log.d("DEBUG REPLAN", String.format("Current next exhibit is %s, nearest next exhibit is %s",
-                        fullPath.get(currentExhibit + 1).id, newRoute.get(1)));
-
-                if (!newRoute.get(1).equals(fullPath.get(currentExhibit + 1).id)) {
-                    attemptReroute(activity, currentNode, adapter, prev, next);
-                }
-                updatePath(currentNode.id, getNextExhibit().id);
-                updateDirections(adapter, prev, next);
+            if (MockLocationStore.getSingleton().gpsEnabled()) {
+                performAutoUpdate(activity, adapter, prev, next, location);
             }
-
         };
         locationManager.requestLocationUpdates(provider, 0, 0f, locationListener);
+    }
+
+    private void performAutoUpdate(Activity activity, DirectionListAdapter adapter, TextView prev, TextView next, Location location) {
+        ReplanModel replan = new ReplanModel(activity, "zoo_node_info.json");
+        Log.d("DEBUG REPLAN", String.format("Location changed: %s", location));
+        if (replan.offTrack(location, pathToNext)) {
+            ZooData.VertexInfo currentNode = replan.getNearestLandmark(location);
+            Log.d("DEBUG REPLAN", String.format("Nearest landmark is now %s", currentNode.name));
+
+            // Generate route from current position for comparison
+            List<PathModel> fullPath = pathDao.getAll();
+            ArrayList<String> newRoute = genRemainingRoute(currentNode);
+
+            Log.d("DEBUG REPLAN", String.format("Current next exhibit is %s, nearest next exhibit is %s",
+                    RouteModel.getId(fullPath.get(currentExhibit + 1)), newRoute.get(1)));
+
+            if (!newRoute.get(1).equals(RouteModel.getId(fullPath.get(currentExhibit + 1)))) {
+                attemptReroute(activity, currentNode, adapter, prev, next);
+            }
+            updatePath(RouteModel.getId(currentNode), RouteModel.getId(getNextExhibit()));
+            updateDirections(adapter, prev, next);
+        }
+    }
+
+    public void reloadAutoUpdate(Activity activity, DirectionListAdapter adapter, TextView prev, TextView next) {
+        if (MockLocationStore.getSingleton().gpsEnabled()) {
+            autoUpdateRoute(activity, adapter, prev, next);
+        } else {
+            performAutoUpdate(activity, adapter, prev, next, MockLocationStore.getSingleton());
+        }
     }
 
     public ArrayList<String> genRemainingRoute(ZooData.VertexInfo currentNode) {
         ArrayList<String> routeRemaining = new ArrayList<>();
         List<PathModel> fullPath = pathDao.getAll();
         for (int i = currentExhibit + 1; i < fullPath.size() - 1; i++) {
-            routeRemaining.add(fullPath.get(i).id);
+            routeRemaining.add(RouteModel.getId(fullPath.get(i)));
         }
         routeModel.setExhibits(routeRemaining);
-        return routeModel.genSubRoute(currentNode.id, "entrance_exit_gate");
+        return routeModel.genSubRoute(RouteModel.getId(currentNode), "entrance_exit_gate");
     }
 
     public void attemptReroute(Activity activity, ZooData.VertexInfo currentNode, DirectionListAdapter adapter, TextView prevDisplay, TextView nextDisplay) {
@@ -240,7 +245,7 @@ public class DirectionListViewModel extends AndroidViewModel {
 
         ArrayList<String> newPathIds = new ArrayList<>();
         for (int i = 0; i <= currentExhibit; i++) {
-            newPathIds.add(currentRoute.get(i).id);
+            newPathIds.add(RouteModel.getId(currentRoute.get(i)));
         }
         for (int i = 1; i < remainingRoute.size(); i++) {
             newPathIds.add(remainingRoute.get(i));

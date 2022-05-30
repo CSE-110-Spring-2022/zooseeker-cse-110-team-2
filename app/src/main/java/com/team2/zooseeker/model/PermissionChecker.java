@@ -1,6 +1,7 @@
 package com.team2.zooseeker.model;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
@@ -43,5 +44,22 @@ public class PermissionChecker {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Used to check permissions after launching
+     * @return true if permissions exist, false otherwise
+     */
+    public static boolean hasPermissions(Activity activity) {
+        String[] requiredPermissions = new String[]{
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+        };
+
+        boolean hasNoLocationPerms = Arrays.stream(requiredPermissions)
+                .map(perm -> ContextCompat.checkSelfPermission(activity, perm))
+                .allMatch(status -> status == PackageManager.PERMISSION_DENIED);
+
+        return !hasNoLocationPerms;
     }
 }

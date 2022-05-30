@@ -279,4 +279,19 @@ public class RouteModel {
         return DijkstraShortestPath.findPathBetween(graph, source, sink).getWeight();
     }
 
+    public static String getId(ZooData.VertexInfo node) {
+        if (node.group_id != null) {
+            return node.group_id;
+        } else {
+            return node.id;
+        }
+    }
+
+    public static String getId(PathModel node) {
+        if (node.parent_id != null) {
+            return node.parent_id;
+        } else {
+            return node.id;
+        }
+    }
 }
