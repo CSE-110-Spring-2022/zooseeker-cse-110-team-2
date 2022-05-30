@@ -3,8 +3,10 @@ package com.team2.zooseeker.view;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
@@ -13,9 +15,10 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
-import androidx.test.rule.ActivityTestRule;
-import androidx.test.runner.AndroidJUnit4;
+import androidx.test.rule.GrantPermissionRule;
 
 import com.team2.zooseeker.R;
 
@@ -28,52 +31,55 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class SearchUITest {
+public class OneExhibitTest {
 
     @Rule
-    public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
+            new ActivityScenarioRule<>(MainActivity.class);
+
+    @Rule
+    public GrantPermissionRule mGrantPermissionRule =
+            GrantPermissionRule.grant(
+                    "android.permission.ACCESS_FINE_LOCATION",
+                    "android.permission.ACCESS_COARSE_LOCATION");
 
     @Test
-    public void searchUITest() {
+    public void oneExhibitTest() {
         ViewInteraction materialCheckBox = onView(
-                allOf(withId(R.id.exhibit), withText("Elephant Odyssey"),
+                allOf(withId(R.id.exhibitModel), withText("Bali Mynah"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.exhibit_items),
-                                        2),
+                                        0),
                                 0),
                         isDisplayed()));
         materialCheckBox.perform(click());
 
-        ViewInteraction materialCheckBox2 = onView(
-                allOf(withId(R.id.exhibit), withText("Arctic Foxes"),
+        ViewInteraction materialButton = onView(
+                allOf(withId(R.id.plan_btn), withText("Plan"),
                         childAtPosition(
                                 childAtPosition(
-                                        withId(R.id.exhibit_items),
-                                        1),
-                                0),
+                                        withId(android.R.id.content),
+                                        0),
+                                2),
                         isDisplayed()));
-        materialCheckBox2.perform(click());
+        materialButton.perform(click());
 
-        ViewInteraction materialCheckBox3 = onView(
-                allOf(withId(R.id.exhibit), withText("Arctic Foxes"),
+        ViewInteraction materialButton2 = onView(
+                allOf(withId(R.id.next_button), withText("NEXT"),
                         childAtPosition(
                                 childAtPosition(
-                                        withId(R.id.exhibit_items),
-                                        1),
-                                0),
+                                        withId(android.R.id.content),
+                                        0),
+                                2),
                         isDisplayed()));
-        materialCheckBox3.perform(click());
+        materialButton2.perform(click());
 
-        ViewInteraction materialCheckBox4 = onView(
-                allOf(withId(R.id.exhibit), withText("Elephant Odyssey"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.exhibit_items),
-                                        2),
-                                0),
+        ViewInteraction textView = onView(
+                allOf(withId(R.id.next_display), withText("To: Entrance and Exit Gate"),
+                        withParent(withParent(withId(android.R.id.content))),
                         isDisplayed()));
-        materialCheckBox4.perform(click());
+        textView.check(matches(withText("To: Entrance and Exit Gate")));
     }
 
     private static Matcher<View> childAtPosition(
