@@ -51,7 +51,8 @@ public class DirectionListViewModel extends AndroidViewModel {
         ExhibitsListDatabase db = ExhibitsListDatabase.getSingleton(context);
         exhibitsListDao = db.exhibitsListDao();
         pathDao = PathDatabase.getSingleton(context).pathDao();
-        currentExhibit = pathDao.getAllVisited(true).size();
+        this.currentExhibit = pathDao.getAllVisited(true).size();
+        Log.d("DEBUG", "This the current current exhibit " + currentExhibit);
 
         try {
              vertexInfo = ZooData
@@ -100,6 +101,7 @@ public class DirectionListViewModel extends AndroidViewModel {
     }
 
     public void nextExhibit(DirectionListAdapter adapter, TextView prev, TextView next) {
+//        currentExhibit = pathDao.getAllVisited(true).size();
         if (currentExhibit == pathDao.getAll().size() - 2) {
             Log.d("DEBUG", "max size");
             return;
@@ -107,13 +109,18 @@ public class DirectionListViewModel extends AndroidViewModel {
         reroute = true;
         currentExhibit++;
         for(int i = 0; i < currentExhibit; i ++){
-            pathDao.getAll().get(i).visited = true;
+            PathModel p = pathDao.getAll().get(i);
+            p.setVisited(true);
+            pathDao.update(p);
         }
+        Log.d("DEBUG", "Number of visited Exhbits " + pathDao.getAllVisited(true).size());
+        Log.d("DEBUG", "This the current current exhibit " + currentExhibit);
         updatePath();
         updateDirections(adapter, prev, next);
     }
 
     public void skipExhibit(DirectionListAdapter adapter, TextView prev, TextView next) {
+//        currentExhibit = pathDao.getAllVisited(true).size();
         if (currentExhibit == pathDao.getAll().size() - 2) {
             Log.d("DEBUG", "max size");
             return;
@@ -121,20 +128,29 @@ public class DirectionListViewModel extends AndroidViewModel {
         reroute = true;
         currentExhibit += 2;
         for(int i = 0; i < currentExhibit; i ++){
-            pathDao.getAll().get(i).visited = true;
+            PathModel p = pathDao.getAll().get(i);
+            p.setVisited(true);
+            pathDao.update(p);
         }
+        Log.d("DEBUG", "Number of visited Exhbits" + pathDao.getAllVisited(true).size());
+        Log.d("DEBUG", "This the current current exhibit " + currentExhibit);
         updatePath();
         updateDirections(adapter, prev, next);
     }
 
     public boolean prevExhibit(DirectionListAdapter adapter, TextView prev, TextView next) {
+//        currentExhibit = pathDao.getAllVisited(true).size();
         if (currentExhibit == 0) {
             Log.d("DEBUG", "min size");
             return false;
         }
         reroute = true;
         currentExhibit--;
-        pathDao.getAll().get(currentExhibit).visited = false;
+        PathModel p = pathDao.getAll().get(currentExhibit );
+        p.setVisited(false);
+        pathDao.update(p);
+        Log.d("DEBUG", "Number of visited Exhbits" + pathDao.getAllVisited(true).size());
+        Log.d("DEBUG", "This the current current exhibit " + currentExhibit);
         updatePath();
         updateDirections(adapter, prev, next);
         return true;

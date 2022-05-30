@@ -16,7 +16,7 @@ public class PathModel {
     public double lng;
     public int position;
     public String parent_id;
-    public boolean visited = false;
+    public boolean visited;
 
     public PathModel(ZooData.VertexInfo v, int pos) {
         this.id = v.id;
@@ -26,11 +26,15 @@ public class PathModel {
         this.lng = v.lng;
         this.parent_id = v.group_id;
         this.position = pos;
-
+        this.visited = false;
     }
 
     public PathModel() {
 
+    }
+
+    public void setVisited(boolean v){
+        this.visited = v;
     }
 
     @Override

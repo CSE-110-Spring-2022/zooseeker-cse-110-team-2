@@ -3,6 +3,7 @@ package com.team2.zooseeker.model;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -22,5 +23,8 @@ public interface PathDao {
 
     @Query("DELETE FROM `paths_database`")
     void deleteAll();
+
+    @Update
+    int update(PathModel p);
 
 }
