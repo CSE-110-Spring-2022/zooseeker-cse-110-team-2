@@ -51,6 +51,7 @@ public class DirectionListViewModel extends AndroidViewModel {
         ExhibitsListDatabase db = ExhibitsListDatabase.getSingleton(context);
         exhibitsListDao = db.exhibitsListDao();
         pathDao = PathDatabase.getSingleton(context).pathDao();
+        currentExhibit = pathDao.getAllVisited(true).size();
 
         try {
              vertexInfo = ZooData
@@ -105,6 +106,9 @@ public class DirectionListViewModel extends AndroidViewModel {
         }
         reroute = true;
         currentExhibit++;
+        for(int i = 0; i < currentExhibit; i ++){
+            pathDao.getAll().get(i).visited = true;
+        }
         updatePath();
         updateDirections(adapter, prev, next);
     }
@@ -116,6 +120,9 @@ public class DirectionListViewModel extends AndroidViewModel {
         }
         reroute = true;
         currentExhibit += 2;
+        for(int i = 0; i < currentExhibit; i ++){
+            pathDao.getAll().get(i).visited = true;
+        }
         updatePath();
         updateDirections(adapter, prev, next);
     }
@@ -127,6 +134,7 @@ public class DirectionListViewModel extends AndroidViewModel {
         }
         reroute = true;
         currentExhibit--;
+        pathDao.getAll().get(currentExhibit).visited = false;
         updatePath();
         updateDirections(adapter, prev, next);
         return true;

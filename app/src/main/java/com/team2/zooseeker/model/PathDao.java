@@ -17,6 +17,9 @@ public interface PathDao {
     @Query("SELECT * FROM `paths_database` ORDER BY `position`")
     List<PathModel> getAll();
 
+    @Query("SELECT * FROM `paths_database`  WHERE `visited`=:v ORDER BY `position`")
+    List<PathModel> getAllVisited(boolean v);
+
     @Query("DELETE FROM `paths_database`")
     void deleteAll();
 
