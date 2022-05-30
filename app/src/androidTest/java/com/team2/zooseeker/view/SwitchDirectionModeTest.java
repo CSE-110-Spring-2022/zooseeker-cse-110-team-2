@@ -32,7 +32,7 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class SummaryTest {
+public class SwitchDirectionModeTest {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
@@ -45,7 +45,7 @@ public class SummaryTest {
                     "android.permission.ACCESS_COARSE_LOCATION");
 
     @Test
-    public void summaryTest() {
+    public void mainActivityTest() {
         ViewInteraction materialCheckBox = onView(
                 allOf(withId(R.id.exhibitModel), withText("Bali Mynah"),
                         childAtPosition(
@@ -107,24 +107,46 @@ public class SummaryTest {
         appCompatImageButton.perform(click());
 
         ViewInteraction materialButton2 = onView(
-                allOf(withId(R.id.summary_button), withText("Summary"),
+                allOf(withId(R.id.brief_direction_button), withText("Brief Directions"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                2),
+                                1),
                         isDisplayed()));
         materialButton2.perform(click());
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.route_summary_item), withText("Entrance and Exit Gate, 27500.0 feet"),
-                        withParent(withParent(withId(R.id.route_summary_recyler_view))),
+                allOf(withId(R.id.direction_item_text), withText("Continue on Monkey Trail 4600 ft towards Capuchin Monkeys"),
+                        withParent(withParent(withId(R.id.direction_items))),
                         isDisplayed()));
-        textView.check(matches(withText("Entrance and Exit Gate, 27500.0 feet")));
+        textView.check(matches(withText("Continue on Monkey Trail 4600 ft towards Capuchin Monkeys")));
 
-        pressBack();
+        ViewInteraction appCompatImageButton2 = onView(
+                allOf(withId(R.id.setting_button),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                7),
+                        isDisplayed()));
+        appCompatImageButton2.perform(click());
 
-        pressBack();
+        ViewInteraction materialButton3 = onView(
+                allOf(withId(R.id.detailed_direction_button), withText("Detailed Directions"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                0),
+                        isDisplayed()));
+        materialButton3.perform(click());
+
+        ViewInteraction textView2 = onView(
+                allOf(withId(R.id.direction_item_text), withText("Continue on Monkey Trail 3100 ft towards Capuchin Monkeys"),
+                        withParent(withParent(withId(R.id.direction_items))),
+                        isDisplayed()));
+        textView2.check(matches(withText("Continue on Monkey Trail 3100 ft towards Capuchin Monkeys")));
 
         pressBack();
 

@@ -80,6 +80,32 @@ public class OneExhibitTest {
                         withParent(withParent(withId(android.R.id.content))),
                         isDisplayed()));
         textView.check(matches(withText("To: Entrance and Exit Gate")));
+
+        ViewInteraction textView2 = onView(
+                allOf(withId(R.id.direction_item_text), withText("Continue on Aviary Trail 1300 ft towards Parker Aviary"),
+                        withParent(withParent(withId(R.id.direction_items))),
+                        isDisplayed()));
+        textView2.check(matches(withText("Continue on Aviary Trail 1300 ft towards Parker Aviary")));
+
+        ViewInteraction materialButton3 = onView(
+                allOf(withId(R.id.next_button), withText("Finish"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                2),
+                        isDisplayed()));
+        materialButton3.perform(click());
+
+        ViewInteraction materialCheckBox2 = onView(
+                allOf(withId(R.id.exhibitModel), withText("Bali Mynah"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.exhibit_items),
+                                        0),
+                                0),
+                        isDisplayed()));
+        materialCheckBox2.perform(click());
     }
 
     private static Matcher<View> childAtPosition(

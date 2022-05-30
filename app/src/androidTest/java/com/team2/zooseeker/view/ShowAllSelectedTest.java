@@ -2,7 +2,6 @@ package com.team2.zooseeker.view;
 
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -19,7 +18,6 @@ import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
-import androidx.test.rule.GrantPermissionRule;
 
 import com.team2.zooseeker.R;
 
@@ -32,20 +30,14 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class SummaryTest {
+public class ShowAllSelectedTest {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
 
-    @Rule
-    public GrantPermissionRule mGrantPermissionRule =
-            GrantPermissionRule.grant(
-                    "android.permission.ACCESS_FINE_LOCATION",
-                    "android.permission.ACCESS_COARSE_LOCATION");
-
     @Test
-    public void summaryTest() {
+    public void showAllSelectedTest() {
         ViewInteraction materialCheckBox = onView(
                 allOf(withId(R.id.exhibitModel), withText("Bali Mynah"),
                         childAtPosition(
@@ -77,78 +69,52 @@ public class SummaryTest {
         materialCheckBox3.perform(click());
 
         ViewInteraction materialCheckBox4 = onView(
-                allOf(withId(R.id.exhibitModel), withText("Crocodiles"),
+                allOf(withId(R.id.exhibitModel), withText("Fern Canyon"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.exhibit_items),
-                                        3),
+                                        5),
                                 0),
                         isDisplayed()));
         materialCheckBox4.perform(click());
 
-        ViewInteraction materialButton = onView(
-                allOf(withId(R.id.plan_btn), withText("Plan"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
-                        isDisplayed()));
-        materialButton.perform(click());
-
-        ViewInteraction appCompatImageButton = onView(
-                allOf(withId(R.id.setting_button),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                7),
-                        isDisplayed()));
-        appCompatImageButton.perform(click());
-
-        ViewInteraction materialButton2 = onView(
-                allOf(withId(R.id.summary_button), withText("Summary"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
-                        isDisplayed()));
-        materialButton2.perform(click());
-
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.route_summary_item), withText("Entrance and Exit Gate, 27500.0 feet"),
-                        withParent(withParent(withId(R.id.route_summary_recyler_view))),
-                        isDisplayed()));
-        textView.check(matches(withText("Entrance and Exit Gate, 27500.0 feet")));
-
-        pressBack();
-
-        pressBack();
-
-        pressBack();
-
         ViewInteraction materialCheckBox5 = onView(
-                allOf(withId(R.id.exhibitModel), withText("Bali Mynah"),
+                allOf(withId(R.id.Show_selected), withText("Show All Selected Exhibits"),
                         childAtPosition(
                                 childAtPosition(
-                                        withId(R.id.exhibit_items),
+                                        withId(android.R.id.content),
                                         0),
-                                0),
+                                5),
                         isDisplayed()));
         materialCheckBox5.perform(click());
 
+        ViewInteraction checkBox = onView(
+                allOf(withId(R.id.exhibitModel), withText("Fern Canyon"),
+                        withParent(withParent(withId(R.id.exhibit_items))),
+                        isDisplayed()));
+        checkBox.check(matches(isDisplayed()));
+
         ViewInteraction materialCheckBox6 = onView(
-                allOf(withId(R.id.exhibitModel), withText("Blue Capped Motmot"),
+                allOf(withId(R.id.Show_selected), withText("Show All Selected Exhibits"),
                         childAtPosition(
                                 childAtPosition(
-                                        withId(R.id.exhibit_items),
-                                        1),
-                                0),
+                                        withId(android.R.id.content),
+                                        0),
+                                5),
                         isDisplayed()));
         materialCheckBox6.perform(click());
 
         ViewInteraction materialCheckBox7 = onView(
+                allOf(withId(R.id.exhibitModel), withText("Fern Canyon"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.exhibit_items),
+                                        5),
+                                0),
+                        isDisplayed()));
+        materialCheckBox7.perform(click());
+
+        ViewInteraction materialCheckBox8 = onView(
                 allOf(withId(R.id.exhibitModel), withText("Capuchin Monkeys"),
                         childAtPosition(
                                 childAtPosition(
@@ -156,17 +122,27 @@ public class SummaryTest {
                                         2),
                                 0),
                         isDisplayed()));
-        materialCheckBox7.perform(click());
+        materialCheckBox8.perform(click());
 
-        ViewInteraction materialCheckBox8 = onView(
-                allOf(withId(R.id.exhibitModel), withText("Crocodiles"),
+        ViewInteraction materialCheckBox9 = onView(
+                allOf(withId(R.id.exhibitModel), withText("Blue Capped Motmot"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.exhibit_items),
-                                        3),
+                                        1),
                                 0),
                         isDisplayed()));
-        materialCheckBox8.perform(click());
+        materialCheckBox9.perform(click());
+
+        ViewInteraction materialCheckBox10 = onView(
+                allOf(withId(R.id.exhibitModel), withText("Bali Mynah"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.exhibit_items),
+                                        0),
+                                0),
+                        isDisplayed()));
+        materialCheckBox10.perform(click());
     }
 
     private static Matcher<View> childAtPosition(

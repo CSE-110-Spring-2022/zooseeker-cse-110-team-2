@@ -4,12 +4,18 @@ package com.team2.zooseeker.view;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.pressImeActionButton;
+import static androidx.test.espresso.action.ViewActions.replaceText;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.is;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +38,7 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class SummaryTest {
+public class ReplanTest {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
@@ -45,7 +51,7 @@ public class SummaryTest {
                     "android.permission.ACCESS_COARSE_LOCATION");
 
     @Test
-    public void summaryTest() {
+    public void replanTest() {
         ViewInteraction materialCheckBox = onView(
                 allOf(withId(R.id.exhibitModel), withText("Bali Mynah"),
                         childAtPosition(
@@ -106,25 +112,112 @@ public class SummaryTest {
                         isDisplayed()));
         appCompatImageButton.perform(click());
 
-        ViewInteraction materialButton2 = onView(
-                allOf(withId(R.id.summary_button), withText("Summary"),
+        ViewInteraction switch_ = onView(
+                allOf(withId(R.id.gps_switch), withText("Enable GPS"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                2),
+                                8),
                         isDisplayed()));
-        materialButton2.perform(click());
+        switch_.perform(click());
+
+        ViewInteraction appCompatEditText = onView(
+                allOf(withId(R.id.latitiude_input), withText("0.0"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                4),
+                        isDisplayed()));
+        appCompatEditText.perform(replaceText("32.745311"));
+
+        ViewInteraction appCompatEditText2 = onView(
+                allOf(withId(R.id.latitiude_input), withText("32.745311"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                4),
+                        isDisplayed()));
+        appCompatEditText2.perform(closeSoftKeyboard());
+
+        ViewInteraction appCompatEditText3 = onView(
+                allOf(withId(R.id.latitiude_input), withText("32.745311"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                4),
+                        isDisplayed()));
+        appCompatEditText3.perform(pressImeActionButton());
+
+        ViewInteraction appCompatEditText4 = onView(
+                allOf(withId(R.id.longitude_input), withText("0.0"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                5),
+                        isDisplayed()));
+        appCompatEditText4.perform(click());
+
+        ViewInteraction appCompatEditText5 = onView(
+                allOf(withId(R.id.longitude_input), withText("0.0"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                5),
+                        isDisplayed()));
+        appCompatEditText5.perform(replaceText("-117.16627"));
+
+        ViewInteraction appCompatEditText6 = onView(
+                allOf(withId(R.id.longitude_input), withText("-117.16627"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                5),
+                        isDisplayed()));
+        appCompatEditText6.perform(closeSoftKeyboard());
+
+        ViewInteraction appCompatEditText7 = onView(
+                allOf(withId(R.id.longitude_input), withText("-117.16627"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                5),
+                        isDisplayed()));
+        appCompatEditText7.perform(pressImeActionButton());
+
+        pressBack();
+
+        ViewInteraction appCompatImageButton2 = onView(
+                allOf(withId(R.id.reload_button),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                8),
+                        isDisplayed()));
+        appCompatImageButton2.perform(click());
+
+        ViewInteraction materialButton2 = onView(
+                allOf(withId(android.R.id.button2), withText("No"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.ScrollView")),
+                                        0),
+                                2)));
+        materialButton2.perform(scrollTo(), click());
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.route_summary_item), withText("Entrance and Exit Gate, 27500.0 feet"),
-                        withParent(withParent(withId(R.id.route_summary_recyler_view))),
+                allOf(withId(R.id.direction_item_text), withText("Continue on Hippo Trail 1100 ft towards Crocodiles"),
+                        withParent(withParent(withId(R.id.direction_items))),
                         isDisplayed()));
-        textView.check(matches(withText("Entrance and Exit Gate, 27500.0 feet")));
-
-        pressBack();
-
-        pressBack();
+        textView.check(matches(withText("Continue on Hippo Trail 1100 ft towards Crocodiles")));
 
         pressBack();
 

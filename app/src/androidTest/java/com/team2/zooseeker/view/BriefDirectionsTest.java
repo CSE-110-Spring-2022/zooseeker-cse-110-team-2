@@ -32,7 +32,7 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class SummaryTest {
+public class BriefDirectionsTest {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
@@ -45,7 +45,7 @@ public class SummaryTest {
                     "android.permission.ACCESS_COARSE_LOCATION");
 
     @Test
-    public void summaryTest() {
+    public void briefDirectionsTest() {
         ViewInteraction materialCheckBox = onView(
                 allOf(withId(R.id.exhibitModel), withText("Bali Mynah"),
                         childAtPosition(
@@ -107,24 +107,20 @@ public class SummaryTest {
         appCompatImageButton.perform(click());
 
         ViewInteraction materialButton2 = onView(
-                allOf(withId(R.id.summary_button), withText("Summary"),
+                allOf(withId(R.id.brief_direction_button), withText("Brief Directions"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                2),
+                                1),
                         isDisplayed()));
         materialButton2.perform(click());
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.route_summary_item), withText("Entrance and Exit Gate, 27500.0 feet"),
-                        withParent(withParent(withId(R.id.route_summary_recyler_view))),
+                allOf(withId(R.id.direction_item_text), withText("Continue on Monkey Trail 4600 ft towards Capuchin Monkeys"),
+                        withParent(withParent(withId(R.id.direction_items))),
                         isDisplayed()));
-        textView.check(matches(withText("Entrance and Exit Gate, 27500.0 feet")));
-
-        pressBack();
-
-        pressBack();
+        textView.check(matches(withText("Continue on Monkey Trail 4600 ft towards Capuchin Monkeys")));
 
         pressBack();
 
