@@ -31,7 +31,7 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class EndToEndTest {
+public class DeletePlanTest {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
@@ -44,7 +44,7 @@ public class EndToEndTest {
                     "android.permission.ACCESS_COARSE_LOCATION");
 
     @Test
-    public void endToEndTest() {
+    public void deletePlanTest() {
         ViewInteraction materialCheckBox = onView(
                 allOf(withId(R.id.exhibitModel), withText("Bali Mynah"),
                         childAtPosition(
@@ -75,6 +75,16 @@ public class EndToEndTest {
                         isDisplayed()));
         materialCheckBox3.perform(click());
 
+        ViewInteraction materialCheckBox4 = onView(
+                allOf(withId(R.id.exhibitModel), withText("Crocodiles"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.exhibit_items),
+                                        3),
+                                0),
+                        isDisplayed()));
+        materialCheckBox4.perform(click());
+
         ViewInteraction materialButton = onView(
                 allOf(withId(R.id.plan_btn), withText("Plan"),
                         childAtPosition(
@@ -85,81 +95,37 @@ public class EndToEndTest {
                         isDisplayed()));
         materialButton.perform(click());
 
-        ViewInteraction materialButton2 = onView(
-                allOf(withId(R.id.next_button), withText("NEXT"),
+        ViewInteraction appCompatImageButton = onView(
+                allOf(withId(R.id.setting_button),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                2),
+                                7),
+                        isDisplayed()));
+        appCompatImageButton.perform(click());
+
+        ViewInteraction button = onView(
+                allOf(withId(R.id.deletePlan), withText("DELETE PLAN"),
+                        withParent(withParent(withId(android.R.id.content))),
+                        isDisplayed()));
+        button.check(matches(isDisplayed()));
+
+        ViewInteraction materialButton2 = onView(
+                allOf(withId(R.id.deletePlan), withText("Delete Plan"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                3),
                         isDisplayed()));
         materialButton2.perform(click());
 
-        ViewInteraction materialButton3 = onView(
-                allOf(withId(R.id.next_button), withText("NEXT"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
-                        isDisplayed()));
-        materialButton3.perform(click());
-
-        ViewInteraction materialButton4 = onView(
-                allOf(withId(R.id.next_button), withText("NEXT"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
-                        isDisplayed()));
-        materialButton4.perform(click());
-
         ViewInteraction textView = onView(
-                allOf(withId(R.id.direction_item_text), withText("Continue on Aviary Trail 1300 ft towards Parker Aviary"),
-                        withParent(withParent(withId(R.id.direction_items))),
+                allOf(withId(R.id.counter), withText("0"),
+                        withParent(withParent(withId(android.R.id.content))),
                         isDisplayed()));
-        textView.check(matches(withText("Continue on Aviary Trail 1300 ft towards Parker Aviary")));
-
-        ViewInteraction materialButton5 = onView(
-                allOf(withId(R.id.next_button), withText("Finish"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
-                        isDisplayed()));
-        materialButton5.perform(click());
-
-        ViewInteraction materialCheckBox4 = onView(
-                allOf(withId(R.id.exhibitModel), withText("Bali Mynah"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.exhibit_items),
-                                        0),
-                                0),
-                        isDisplayed()));
-        materialCheckBox4.perform(click());
-
-        ViewInteraction materialCheckBox5 = onView(
-                allOf(withId(R.id.exhibitModel), withText("Blue Capped Motmot"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.exhibit_items),
-                                        1),
-                                0),
-                        isDisplayed()));
-        materialCheckBox5.perform(click());
-
-        ViewInteraction materialCheckBox6 = onView(
-                allOf(withId(R.id.exhibitModel), withText("Capuchin Monkeys"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.exhibit_items),
-                                        2),
-                                0),
-                        isDisplayed()));
-        materialCheckBox6.perform(click());
+        textView.check(matches(withText("0")));
     }
 
     private static Matcher<View> childAtPosition(
