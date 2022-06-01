@@ -104,9 +104,9 @@ public class DirectionListViewModel extends AndroidViewModel {
 //        Log.d("directions", pathToNext.get(currentExhibit + 1));
 //        Log.d("directions", pathToNext.get(currentExhibit ));
         if (DirectionModeManager.getSingleton().getIsInDetailedMode()) {
-            directions = routeModel.getDirections(pathToNext.get(currentExhibit + 1), pathToNext.get(currentExhibit));
+            directions = routeModel.getDirections(getNextExhibit().id, getPrevExhibit().id);
         } else {
-            directions = routeModel.getBriefDirections(pathToNext.get(currentExhibit + 1), pathToNext.get(currentExhibit));
+            directions = routeModel.getBriefDirections(getNextExhibit().id, getPrevExhibit().id);
         }
         for (String d: directions) {
             Log.d("directions", d);
