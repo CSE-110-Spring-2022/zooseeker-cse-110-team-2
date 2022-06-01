@@ -1,6 +1,7 @@
 package com.team2.zooseeker.model;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -26,4 +27,5 @@ public interface PathDao {
 
     @Update
     int update(PathModel p);
+
 }
