@@ -85,7 +85,12 @@ public class DirectionListActivity extends AppCompatActivity {
 
     public void onPreviousButtonClicked(View view){
         boolean result = directionListViewModel.prevExhibit(adapter, previousDisplay, nextDisplay);
-        if (directionListViewModel.exhibitsRemaining()) nextButton.setText("Next");
+        if (!directionListViewModel.exhibitsRemaining()){
+            nextButton.setText("Finish");
+        } else {
+            nextButton.setText("NEXT");
+        }
+
         if (!result) {
             finish();
         }
