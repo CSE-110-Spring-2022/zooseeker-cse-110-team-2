@@ -36,7 +36,8 @@ public class PathDatabaseTest {
     @Before
     public void createDB() {
         Context c = ApplicationProvider.getApplicationContext();
-        pathDb = PathDatabase.getSingleton(c);
+//        pathDb = PathDatabase.getSingleton(c);
+        pathDb = Room.inMemoryDatabaseBuilder(c, PathDatabase.class).allowMainThreadQueries().build();
         pathDao = pathDb.pathDao();
 
         try {

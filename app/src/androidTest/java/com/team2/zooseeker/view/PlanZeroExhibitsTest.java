@@ -3,12 +3,15 @@ package com.team2.zooseeker.view;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.is;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,13 +21,13 @@ import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
-import androidx.test.rule.GrantPermissionRule;
 
 import com.team2.zooseeker.R;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,12 +39,6 @@ public class PlanZeroExhibitsTest {
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
-
-    @Rule
-    public GrantPermissionRule mGrantPermissionRule =
-            GrantPermissionRule.grant(
-                    "android.permission.ACCESS_FINE_LOCATION",
-                    "android.permission.ACCESS_COARSE_LOCATION");
 
     @Test
     public void planZeroExhibitsTest() {
@@ -56,10 +53,19 @@ public class PlanZeroExhibitsTest {
         materialButton.perform(click());
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.direction_item_text), withText("Please Select Exhibit to Visit"),
-                        withParent(withParent(withId(R.id.direction_items))),
+                allOf(withId(android.R.id.message), withText("Please select an exhibit to plan a route."),
+                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.ScrollView.class))),
                         isDisplayed()));
-        textView.check(matches(withText("Please Select Exhibit to Visit")));
+        textView.check(matches(withText("Please select an exhibit to plan a route.")));
+
+        ViewInteraction materialButton2 = onView(
+                allOf(withId(android.R.id.button1), withText("Done"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.ScrollView")),
+                                        0),
+                                3)));
+        materialButton2.perform(scrollTo(), click());
     }
 
     private static Matcher<View> childAtPosition(

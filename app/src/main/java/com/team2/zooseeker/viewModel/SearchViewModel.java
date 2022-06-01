@@ -53,5 +53,9 @@ public class SearchViewModel extends AndroidViewModel {
         });
     }
 
+    public int getSize() {
+        return exhibitsListDao.getNumSelected(true);
+    }
+
 
 }

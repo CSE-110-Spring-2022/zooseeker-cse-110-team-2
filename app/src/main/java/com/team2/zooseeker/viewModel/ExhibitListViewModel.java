@@ -20,11 +20,14 @@ public class ExhibitListViewModel extends AndroidViewModel {
     private LiveData<List<ExhibitModel>> exhibits;
     private final ExhibitsListDao exhibitsListDao;
 
+    int counter;
+
     public ExhibitListViewModel(@NonNull Application application){
         super(application);
         Context context = getApplication().getApplicationContext();
         ExhibitsListDatabase db = ExhibitsListDatabase.getSingleton(context);
         exhibitsListDao = db.exhibitsListDao();
+        counter = exhibitsListDao.getNumSelected(true);
     }
 
     public LiveData<List<ExhibitModel>> getExhibitsList(boolean selected){
@@ -51,5 +54,15 @@ public class ExhibitListViewModel extends AndroidViewModel {
     public void toggleSelected(ExhibitModel exhibitModel){
         exhibitModel.selected = !exhibitModel.selected;
         exhibitsListDao.update(exhibitModel);
+        if (exhibitModel.selected) {
+            counter++;
+        } else {
+            counter--;
+        }
+
+    }
+
+    public int getCounter() {
+        return counter;
     }
 }

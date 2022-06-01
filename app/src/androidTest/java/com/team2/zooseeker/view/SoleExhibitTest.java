@@ -31,7 +31,7 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class OneExhibitTest {
+public class SoleExhibitTest {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
@@ -80,12 +80,6 @@ public class OneExhibitTest {
                         withParent(withParent(withId(android.R.id.content))),
                         isDisplayed()));
         textView.check(matches(withText("To: Entrance and Exit Gate")));
-
-        ViewInteraction textView2 = onView(
-                allOf(withId(R.id.direction_item_text), withText("Continue on Aviary Trail 1300 ft towards Parker Aviary"),
-                        withParent(withParent(withId(R.id.direction_items))),
-                        isDisplayed()));
-        textView2.check(matches(withText("Continue on Aviary Trail 1300 ft towards Parker Aviary")));
 
         ViewInteraction materialButton3 = onView(
                 allOf(withId(R.id.next_button), withText("Finish"),
