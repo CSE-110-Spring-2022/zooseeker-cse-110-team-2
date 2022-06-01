@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private CheckBox showSelected;
     public TextView counter;
     public ExhibitListAdapter adapter;
+    public AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,13 @@ public class MainActivity extends AppCompatActivity {
         counter.setText(String.valueOf(SearchModel.getCount()));
         adapter.setCounter(counter);
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        dialog = builder.setMessage("Please select an exhibit to plan a route.").setCancelable(true).setPositiveButton("Done", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+            }
+        }).create();
+
         showSelected = findViewById(R.id.Show_selected);
         showSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -77,7 +87,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void planBtnOnClickListener(View view) {
-        Intent intent = new Intent(this, DirectionListActivity.class);
-        startActivity(intent);
+        int count = SearchModel.getCount();
+
+        if(count > 0){
+            Intent intent = new Intent(this, DirectionListActivity.class);
+            startActivity(intent);
+        } else {
+
+            dialog.show();
+
+        }
+
     }
 }
