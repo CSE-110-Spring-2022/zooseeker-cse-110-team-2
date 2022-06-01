@@ -14,6 +14,10 @@ import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.team2.zooseeker.model.ExhibitModel;
+import com.team2.zooseeker.model.ExhibitsListDao;
+import com.team2.zooseeker.model.ExhibitsListDatabase;
+import com.team2.zooseeker.model.ZooData;
 import com.team2.zooseeker.view.MainActivity;
 
 import org.junit.Before;
@@ -25,14 +29,8 @@ import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Map;
 
-import com.team2.zooseeker.model.ExhibitModel;
-import com.team2.zooseeker.model.ExhibitsListDao;
-import com.team2.zooseeker.model.ExhibitsListDatabase;
-import com.team2.zooseeker.model.ZooData;
-
 @RunWith(AndroidJUnit4.class)
-public class DisplayExhibitsTest {
-
+public class ShowSelectedExhbitsTest {
     public ExhibitsListDao testDao;
     public ExhibitsListDatabase testDB;
 
@@ -60,7 +58,7 @@ public class DisplayExhibitsTest {
     }
 
     @Test
-    public void testDisplaySize()  {
+    public void testShowNoSelected()  {
         ActivityScenario<MainActivity> scenario
                 = ActivityScenario.launch(MainActivity.class);
         scenario.moveToState(Lifecycle.State.CREATED);
@@ -78,6 +76,8 @@ public class DisplayExhibitsTest {
                 }
 
                 assertEquals(count, activity.recyclerView.getAdapter().getItemCount());
+
+                assertEquals(0,activity.viewModel.getExhibitsListDao().getShowSelectedList(true).size());
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -122,10 +122,13 @@ public class DisplayExhibitsTest {
                 //When clicking performs, database should have changed
                 ExhibitModel afterClick = testDao.get(id);
                 assertEquals(!exhibitModel.selected, afterClick.selected);
+                assertEquals(1,activity.viewModel.getExhibitsListDao().getShowSelectedList(true).size());
+
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
         });
     }
+
 }

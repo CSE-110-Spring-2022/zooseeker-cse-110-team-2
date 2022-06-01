@@ -17,21 +17,34 @@ import java.util.Collections;
 import java.util.function.Consumer;
 
 public class DirectionListAdapter extends RecyclerView.Adapter<DirectionListAdapter.ViewHolder> {
-    private ArrayList<String> directions = new ArrayList<>();
+    public ArrayList<String> directions = new ArrayList<>();
     private int numToDisplay = 1;
 
-    public void incrementNumToDisplay() {
+    public int incrementNumToDisplay() {
         if (numToDisplay < directions.size()) {
             numToDisplay++;
-        } else {
-            numToDisplay = 1;
         }
         Log.d("DEBUG", Integer.toString(numToDisplay));
         notifyDataSetChanged();
+        return numToDisplay;
+
+    }
+
+    public boolean decrementNumToDisplay() {
+        if (numToDisplay > 1) {
+            numToDisplay--;
+            Log.d("DEBUG", Integer.toString(numToDisplay));
+            notifyDataSetChanged();
+            return true;
+        }
+
+        return false;
+
     }
 
     public void setDirections(ArrayList<String> directions) {
         this.directions.clear();
+        this.numToDisplay = 1;
         this.directions = directions;
         Log.d("DEBUG ROUTE ADAPTER", directions.toString());
         notifyDataSetChanged();

@@ -1,9 +1,6 @@
-package cse110;
-
-import static android.content.ContentValues.TAG;
+package com.team2.zooseeker.model;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.VisibleForTesting;
 import androidx.room.Database;
@@ -16,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Exhibit.class}, version = 1)
+@Database(entities = {ExhibitModel.class}, version = 1)
 public abstract class ExhibitsListDatabase extends RoomDatabase {
     private static ExhibitsListDatabase singleton = null;
 
@@ -26,7 +23,6 @@ public abstract class ExhibitsListDatabase extends RoomDatabase {
         if(singleton == null){
             singleton = ExhibitsListDatabase.makeDatabase(context);
         }
-
         return singleton;
     }
 
@@ -41,8 +37,9 @@ public abstract class ExhibitsListDatabase extends RoomDatabase {
                             Map<String, ZooData.VertexInfo> exhibits = null;
                             try {
                                 exhibits = ZooData
-                                        .loadVertexInfoJSON(context, "sample_node_info.json");
-                                List<Exhibit> exhibitsList = Exhibit.convert(exhibits);
+//                                        .loadVertexInfoJSON(context, "sample_node_info.json");
+                                        .loadVertexInfoJSON(context, "zoo_node_info.json");
+                                List<ExhibitModel> exhibitsList = ExhibitModel.convert(exhibits);
                                 getSingleton(context).exhibitsListDao().insertAll(exhibitsList);
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -58,8 +55,6 @@ public abstract class ExhibitsListDatabase extends RoomDatabase {
         if(singleton != null){
             singleton.close();
         }
-
         singleton = database;
     }
-
 }

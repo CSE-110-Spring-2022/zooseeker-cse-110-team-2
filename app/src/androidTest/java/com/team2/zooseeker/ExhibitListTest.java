@@ -2,14 +2,9 @@ package com.team2.zooseeker;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import android.content.Context;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 
 import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,21 +22,17 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 import java.util.List;
 
-import cse110.Exhibit;
-import cse110.ExhibitsListDao;
-import cse110.ExhibitsListDatabase;
-import cse110.ZooData;
+import com.team2.zooseeker.model.ExhibitModel;
+import com.team2.zooseeker.model.ExhibitsListDao;
+import com.team2.zooseeker.model.ExhibitsListDatabase;
+import com.team2.zooseeker.model.ZooData;
 
 @RunWith(AndroidJUnit4.class)
 public class ExhibitListTest {
 
-
     private ExhibitsListDatabase db;
     private ExhibitsListDao dao;
-
     private final String tag = "DEBUG STRING";
-
-
 
     @Before
     public void resetDatabase() {
@@ -51,7 +42,7 @@ public class ExhibitListTest {
 
         dao = db.exhibitsListDao();
         try {
-            dao.insertAll(Exhibit.convert(ZooData.loadVertexInfoJSON(c, "sample_node_info.json")));
+            dao.insertAll(ExhibitModel.convert(ZooData.loadVertexInfoJSON(c, "sample_node_info.json")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -63,12 +54,12 @@ public class ExhibitListTest {
         scenario.moveToState(Lifecycle.State.CREATED);
         scenario.moveToState(Lifecycle.State.STARTED);
         scenario.moveToState(Lifecycle.State.RESUMED);
-        scenario.onActivity( ((MainActivity activity) -> {
-            List<Exhibit> exhibits = dao.getAll();
+        scenario.onActivity(((MainActivity activity) -> {
+            List<ExhibitModel> exhibitModels = dao.getAll();
             RecyclerView.ViewHolder firstVH = activity.recyclerView.findViewHolderForAdapterPosition(0);
             assertNotNull(firstVH);
             long id = firstVH.getItemId();
-            CheckBox exhibitChecked = firstVH.itemView.findViewById(R.id.exhibit);
+            CheckBox exhibitChecked = firstVH.itemView.findViewById(R.id.exhibitModel);
             boolean checked = exhibitChecked.isChecked();
             exhibitChecked.performClick();
             assertEquals(!checked, dao.get(id).selected);

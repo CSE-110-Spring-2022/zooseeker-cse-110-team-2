@@ -1,6 +1,7 @@
 package com.team2.zooseeker.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,30 +10,28 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.team2.zooseeker.R;
-import com.team2.zooseeker.model.RouteModel;
+import com.team2.zooseeker.model.ExhibitModel;
 import com.team2.zooseeker.model.SearchModel;
 import com.team2.zooseeker.viewModel.ExhibitListViewModel;
 import com.team2.zooseeker.viewModel.SearchViewModel;
 
-import org.w3c.dom.Text;
+import com.team2.zooseeker.viewModel.ExhibitListAdapter;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-
-import cse110.Exhibit;
-import cse110.ExhibitListAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
     public RecyclerView recyclerView;
     public ExhibitListViewModel viewModel;
     private Button planButton;
-    private TextView counter;
-    ExhibitListAdapter adapter;
+    private CheckBox showSelected;
+    public TextView counter;
+    public ExhibitListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +40,12 @@ public class MainActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this)
                 .get(ExhibitListViewModel.class);
-
         adapter = new ExhibitListAdapter();
         adapter.setHasStableIds(true);
         adapter.setOnCheckBoxClickedListener(viewModel::toggleSelected);
-        viewModel.getExhibitsList().observe(this, adapter::setExhibits);
+        viewModel.getExhibitsList(findViewById(R.id.Show_selected).isSelected()).observe(this, adapter::setExhibits);
 
+        // RecyclerView setup connecting with adapter to display list of exhibits
         recyclerView = findViewById(R.id.exhibit_items);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
@@ -59,6 +58,22 @@ public class MainActivity extends AppCompatActivity {
         TextView counter = findViewById(R.id.counter);
         counter.setText(String.valueOf(SearchModel.getCount()));
         adapter.setCounter(counter);
+
+        showSelected = findViewById(R.id.Show_selected);
+        showSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+                    List<ExhibitModel> exhibitsList;
+                    if(isChecked){
+                        exhibitsList = viewModel.getExhibitsListDao().getShowSelectedList(true);
+                    }
+                    else{
+                        exhibitsList = viewModel.getExhibitsListDao().getExhibits("exhibit");
+                    }
+                    adapter.setExhibits(exhibitsList);
+                }
+            }
+        );
     }
 
     public void planBtnOnClickListener(View view) {

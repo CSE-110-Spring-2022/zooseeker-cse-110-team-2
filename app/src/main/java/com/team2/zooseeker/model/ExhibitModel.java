@@ -1,11 +1,7 @@
-package cse110;
-
-import android.content.Context;
+package com.team2.zooseeker.model;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
@@ -15,7 +11,8 @@ import java.util.Map;
 import java.util.Set;
 
 @Entity(tableName = "exhibits_database")
-public class Exhibit {
+public class ExhibitModel {
+
     @PrimaryKey(autoGenerate = true)
     public long id;
 
@@ -26,25 +23,25 @@ public class Exhibit {
     public String kind;
     public String tags;
 
-    public Exhibit(){
+    public ExhibitModel(){
         name = null;
         dataId = null;
     }
 
-    public Exhibit(boolean selected, String name){
+    public ExhibitModel(boolean selected, String name){
         this.selected = false;
         this.kind = "exhibit";
         this.tags = "[]";
     }
 
-    public Exhibit(boolean selected, String name, String kind, List<String> tags){
+    public ExhibitModel(boolean selected, String name, String kind, List<String> tags){
         this.selected = selected;
         this.name = name;
         this.kind = kind;
         this.tags = tags.toString();
     }
 
-    public Exhibit(ZooData.VertexInfo vertexInfo){
+    public ExhibitModel(ZooData.VertexInfo vertexInfo){
         this.selected = false;
         this.name = vertexInfo.name;
         this.dataId = vertexInfo.id;
@@ -55,29 +52,32 @@ public class Exhibit {
         else if(vertexInfo.kind.equals(ZooData.VertexInfo.Kind.GATE)) {
             this.kind = "gate";
         }
+        else if (vertexInfo.kind.equals(ZooData.VertexInfo.Kind.EXHIBIT_GROUP)) {
+            this.kind = "exhibit_group";
+        }
         else{
             this.kind = "intersection";
         }
         this.tags = vertexInfo.tags.toString();
     }
 
-    public static List<Exhibit> convert(Map<String, ZooData.VertexInfo> map){
-        List<Exhibit> list = new ArrayList<>();
+    public static List<ExhibitModel> convert(Map<String, ZooData.VertexInfo> map){
+        List<ExhibitModel> list = new ArrayList<>();
 
         Set keys = map.keySet();
         Iterator key = keys.iterator();
 
         while(key.hasNext()){
             String current = key.next().toString();
-            Exhibit newExhibit = new Exhibit(map.get(current));
-            list.add(newExhibit);
+            ExhibitModel newExhibitModel = new ExhibitModel(map.get(current));
+            list.add(newExhibitModel);
         }
         return list;
     }
 
-    public static ArrayList<String> getExhibitNames(List<Exhibit> exhibits) {
+    public static ArrayList<String> getExhibitNames(List<ExhibitModel> exhibitModels) {
         ArrayList<String> exhibitNames = new ArrayList<>();
-        for (Exhibit e : exhibits) {
+        for (ExhibitModel e : exhibitModels) {
             exhibitNames.add(e.dataId);
         }
         return exhibitNames;

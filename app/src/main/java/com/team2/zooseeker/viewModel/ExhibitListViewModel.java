@@ -2,27 +2,22 @@ package com.team2.zooseeker.viewModel;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
+import android.view.View;
+import android.widget.CheckBox;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import cse110.Exhibit;
-import cse110.ExhibitsListDao;
-import cse110.ExhibitsListDatabase;
-import cse110.ZooData;
+import com.team2.zooseeker.model.ExhibitModel;
+import com.team2.zooseeker.model.ExhibitsListDao;
+import com.team2.zooseeker.model.ExhibitsListDatabase;
 
 public class ExhibitListViewModel extends AndroidViewModel {
 
-    private LiveData<List<Exhibit>> exhibits;
+    private LiveData<List<ExhibitModel>> exhibits;
     private final ExhibitsListDao exhibitsListDao;
 
     public ExhibitListViewModel(@NonNull Application application){
@@ -30,25 +25,31 @@ public class ExhibitListViewModel extends AndroidViewModel {
         Context context = getApplication().getApplicationContext();
         ExhibitsListDatabase db = ExhibitsListDatabase.getSingleton(context);
         exhibitsListDao = db.exhibitsListDao();
-
     }
 
-    public LiveData<List<Exhibit>> getExhibitsList(){
+    public LiveData<List<ExhibitModel>> getExhibitsList(boolean selected){
         if(exhibits == null){
-            loadUsers();
+            loadUsers(selected);
         }
-
         return exhibits;
     }
 
-    private void loadUsers(){
-        exhibits = exhibitsListDao.getAllExhibits("exhibit");
+    private void loadUsers(boolean selected){
+        if(selected){
+            exhibits = exhibitsListDao.getShowSelected(true);
+        }
+        else{
+            exhibits = exhibitsListDao.getAllExhibits("exhibit");
+        }
     }
 
-    public void toggleSelected(Exhibit exhibit){
-        exhibit.selected = !exhibit.selected;
-        exhibitsListDao.update(exhibit);
+    public ExhibitsListDao getExhibitsListDao(){
+        return this.exhibitsListDao;
     }
 
 
+    public void toggleSelected(ExhibitModel exhibitModel){
+        exhibitModel.selected = !exhibitModel.selected;
+        exhibitsListDao.update(exhibitModel);
+    }
 }

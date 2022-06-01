@@ -1,61 +1,49 @@
 package com.team2.zooseeker.model;
 
-import android.content.Context;
-
-import androidx.lifecycle.AndroidViewModel;
-
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.concurrent.Executors;
-
-import cse110.Exhibit;
-import cse110.ExhibitsListDao;
-import cse110.ExhibitsListDatabase;
-import cse110.ZooData;
 
 public class SearchModel {
-    public static List<Exhibit> allExhbits;
+    public static List<ExhibitModel> allExhbits;
 
-    public SearchModel(List<Exhibit> data) {
+    public SearchModel(List<ExhibitModel> data) {
         allExhbits = data;
     }
 
-    public List<Exhibit> search(String searchQuery, int size){
-        List<Exhibit> allExhibitsCopy = new ArrayList<Exhibit>(allExhbits);
+    public List<ExhibitModel> search(String searchQuery, int size){
+        List<ExhibitModel> allExhibitsCopy = new ArrayList<ExhibitModel>(allExhbits);
         if (searchQuery.equals("")){
             return allExhibitsCopy;
         }
-        ArrayList<Exhibit> result = new ArrayList<Exhibit>();
+        ArrayList<ExhibitModel> result = new ArrayList<ExhibitModel>();
         String searchQueryLower = searchQuery.toLowerCase();
 
-        for(Exhibit data: allExhibitsCopy){
+        for(ExhibitModel data: allExhibitsCopy){
             String currentName = data.name.toLowerCase();
             String tags = data.tags.toLowerCase();
-            if (currentName.length() >= size && (searchQueryLower.substring(0, size).equals(currentName.substring(0, size)) || tags.indexOf(searchQueryLower.substring(0, size)) != -1)){
+            if (currentName.length() >= size && (searchQueryLower.substring(0, size)
+                    .equals(currentName.substring(0, size))
+                    || tags.indexOf(searchQueryLower.substring(0, size)) != -1)){
                 result.add(data);
             }
         }
         return result;
     }
 
-    public static void setExhibitSelected(Exhibit exhibit){
-        for (Exhibit current: allExhbits){
-            if(exhibit.name.equals(current.name)){
-                current.selected = exhibit.selected;
+    public static void setExhibitSelected(ExhibitModel exhibitModel){
+        for (ExhibitModel current: allExhbits){
+            if(exhibitModel.name.equals(current.name)){
+                current.selected = exhibitModel.selected;
                 return;
             }
         }
     }
 
     public static int getCount(){
-        List<Exhibit> allExhibits = SearchModel.allExhbits;
+        List<ExhibitModel> allExhibitModels = SearchModel.allExhbits;
         int count = 0;
-        for(Exhibit exhibit: allExhibits){
-            if (exhibit.selected){
+        for(ExhibitModel exhibitModel : allExhibitModels){
+            if (exhibitModel.selected){
                 count++;
             }
         }
