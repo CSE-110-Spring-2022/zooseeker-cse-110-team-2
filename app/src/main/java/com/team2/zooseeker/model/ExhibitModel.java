@@ -20,6 +20,7 @@ public class ExhibitModel {
     public boolean selected;
     public String name;
     public String dataId;
+    public String groupId;
     public String kind;
     public String tags;
 
@@ -33,6 +34,8 @@ public class ExhibitModel {
         this.kind = "exhibit";
         this.tags = "[]";
     }
+
+    public void setSelected(boolean selected) {this.selected = selected;}
 
     public ExhibitModel(boolean selected, String name, String kind, List<String> tags){
         this.selected = selected;
@@ -59,6 +62,8 @@ public class ExhibitModel {
             this.kind = "intersection";
         }
         this.tags = vertexInfo.tags.toString();
+        if(vertexInfo.group_id == null) this.groupId = vertexInfo.id;
+        else this.groupId = vertexInfo.group_id;
     }
 
     public static List<ExhibitModel> convert(Map<String, ZooData.VertexInfo> map){

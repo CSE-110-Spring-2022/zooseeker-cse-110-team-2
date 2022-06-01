@@ -26,5 +26,4 @@ public interface PathDao {
 
     @Update
     int update(PathModel p);
-
 }

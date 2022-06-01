@@ -90,16 +90,22 @@ public class DirectionListActivity extends AppCompatActivity {
         } else {
             nextButton.setText("NEXT");
         }
+
         if (!result) {
             finish();
         }
     }
 
     public void onSkipButtonClicked(View view) {
-        directionListViewModel.skipExhibit(adapter, previousDisplay, nextDisplay);
         if (String.valueOf(nextButton.getText()).equals("Finish")){
             finish();
         }
+        if (directionListViewModel.getNumExhibits() <= 3) {
+            finish();
+            directionListViewModel.removeNextExhibit();
+            return;
+        }
+        directionListViewModel.skipExhibit(adapter, previousDisplay, nextDisplay);
         if (!directionListViewModel.exhibitsRemaining()){
             nextButton.setText("Finish");
         }

@@ -22,6 +22,9 @@ public interface ExhibitsListDao {
     @Query("SELECT * FROM `exhibits_database` WHERE `id`=:id")
     ExhibitModel get(long id);
 
+    @Query("SELECT * FROM `exhibits_database` WHERE `groupId`=:groupId AND `selected`=:selected")
+    List<ExhibitModel> getAllGroupSelected(String groupId, boolean selected);
+
     @Query("SELECT * FROM `exhibits_database` WHERE `id`=:id")
     LiveData<ExhibitModel> getLive(long id);
 
@@ -33,7 +36,6 @@ public interface ExhibitsListDao {
 
     @Query("SELECT * FROM `exhibits_database` WHERE `kind`=:kind ORDER BY `name`")
     List<ExhibitModel> getExhibits(String kind);
-
 
     @Query("SELECT * FROM `exhibits_database` WHERE `selected`=:selected")
     List<ExhibitModel> getAllSelected(boolean selected);
