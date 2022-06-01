@@ -39,10 +39,6 @@ public class PathDatabaseTest {
         pathDb = PathDatabase.getSingleton(c);
         pathDao = pathDb.pathDao();
 
-        while(pathDao.getAll().size() > 0){
-            pathDao.delete(pathDao.getAll().get(0));
-        }
-
         try {
             exhibits = ZooData.loadVertexInfoJSON(new FileInputStream("src/main/assets/sample_node_info.json"));
         } catch (FileNotFoundException e) {

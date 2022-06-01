@@ -62,12 +62,6 @@ public class RetainRouteTest {
             Set keys = map.keySet();
             Iterator key = keys.iterator();
 
-            while (key.hasNext()) {
-                String current = key.next().toString();
-                PathModel p = new PathModel(map.get(current), 0);
-                p.setVisited(false);
-                pathDao.insert(p);
-            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -87,30 +81,6 @@ public class RetainRouteTest {
         }
 
         assertEquals(count, pathDao.getAllVisited(true).size());
-    }
-
-    /**
-     * This test will see how exhibits have been marked as visited after hitting next.
-     */
-    @Test
-    public void testNumberOfVisitedAfterNext() {
-        PathModel p = pathDao.getAll().get(0);
-        p.setVisited(true);
-        pathDao.update(p);
-
-        assertEquals(1, pathDao.getAllVisited(true).size());
-    }
-
-    /**
-     * This test will see how exhibits have been marked as visited after hitting next.
-     */
-    @Test
-    public void testNumberOfVisitedAfterBack() {
-
-        pathDao.getAll().get(0).setVisited(false);
-        pathDao.update(pathDao.getAll().get(0));
-
-        assertEquals(0, pathDao.getAllVisited(true).size());
     }
 
 }

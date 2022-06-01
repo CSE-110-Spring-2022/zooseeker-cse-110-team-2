@@ -28,6 +28,4 @@ public interface PathDao {
     @Update
     int update(PathModel p);
 
-    @Delete
-    int delete(PathModel p);
 }
