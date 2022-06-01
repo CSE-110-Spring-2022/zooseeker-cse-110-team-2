@@ -96,6 +96,29 @@ public class DirectionListViewModel extends AndroidViewModel {
         updatePrevNext(prev, next);
     }
 
+    public void updateDirectionsBack(DirectionListAdapter adapter, TextView prev, TextView next) {
+        ArrayList<String> directions;
+//        for (String p: pathToNext) {
+//            Log.d("path", p);
+//        }
+//        Log.d("directions", pathToNext.get(currentExhibit + 1));
+//        Log.d("directions", pathToNext.get(currentExhibit ));
+        if (DirectionModeManager.getSingleton().getIsInDetailedMode()) {
+            directions = routeModel.getDirections(getNextExhibit().id, getPrevExhibit().id);
+        } else {
+            directions = routeModel.getBriefDirections(getNextExhibit().id, getPrevExhibit().id);
+        }
+        for (String d: directions) {
+            Log.d("directions", d);
+        }
+        adapter.setDirections(directions);
+        for (int i = 0; i < directions.size() - 1; i++) {
+            adapter.incrementNumToDisplay();
+        }
+
+        updatePrevNextBackButton(prev, next);
+    }
+
     public void reloadDirections(DirectionListAdapter adapter, TextView prev, TextView next) {
         updateDirections(adapter, prev, next);
     }
@@ -140,19 +163,20 @@ public class DirectionListViewModel extends AndroidViewModel {
 
     public boolean prevExhibit(DirectionListAdapter adapter, TextView prev, TextView next) {
 //        currentExhibit = pathDao.getAllVisited(true).size();
-        if (currentExhibit == 0) {
+        if (currentExhibit < 0) {
             Log.d("DEBUG", "min size");
             return false;
         }
+        Log.d("currentExhibit", String.valueOf(currentExhibit));
         reroute = true;
-        currentExhibit--;
-        PathModel p = pathDao.getAll().get(currentExhibit );
+        PathModel p = pathDao.getAll().get(currentExhibit);
         p.setVisited(false);
         pathDao.update(p);
         Log.d("DEBUG", "Number of visited Exhbits" + pathDao.getAllVisited(true).size());
         Log.d("DEBUG", "This the current current exhibit " + currentExhibit);
         updatePath();
-        updateDirections(adapter, prev, next);
+        updateDirectionsBack(adapter, prev, next);
+        currentExhibit--;
         return true;
     }
 
@@ -290,6 +314,13 @@ public class DirectionListViewModel extends AndroidViewModel {
     public void updatePrevNext(TextView prevDisplay, TextView nextDisplay) {
         String prev = getPrevExhibit().name;
         String next = getNextExhibit().name;
+        prevDisplay.setText(String.format("From: %s", prev));
+        nextDisplay.setText(String.format("To: %s", next));
+    }
+
+    public void updatePrevNextBackButton(TextView prevDisplay, TextView nextDisplay) {
+        String prev = getNextExhibit().name;
+        String next = getPrevExhibit().name;
         prevDisplay.setText(String.format("From: %s", prev));
         nextDisplay.setText(String.format("To: %s", next));
     }
