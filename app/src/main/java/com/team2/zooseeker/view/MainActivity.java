@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
         planButton = findViewById(R.id.plan_btn);
         TextView counter = findViewById(R.id.counter);
-        counter.setText(String.valueOf(SearchModel.getCount()));
+        counter.setText(String.valueOf(viewModel.getCounter()));
         adapter.setCounter(counter);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void planBtnOnClickListener(View view) {
-        int count = SearchModel.getCount();
+        int count = viewModel.getCounter();
 
         if(count > 0){
             Intent intent = new Intent(this, DirectionListActivity.class);
